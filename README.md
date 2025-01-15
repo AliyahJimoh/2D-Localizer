@@ -1,4 +1,4 @@
-# Mobile Robot 2-D Localizer 
+# 2-D Localization for Mobile Robots 
 
 Developer Names: Aliyah Jimoh
 
