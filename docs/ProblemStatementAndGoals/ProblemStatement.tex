@@ -31,7 +31,7 @@
 \section{Problem Statement}
 Mobile robots can be used to travel certain terrain or complete difficult tasks that could jeopardize the safety of the operators. Using sensors to let the robot know where it is, make it actively react or change its trajectory can help ensure the safety of the robot itself.
 \subsection{Problem}
-With environments that are closed space or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or having errors making it difficult for retrieving. This project would like to propose a 2-D localization simulator capable of showing the robot's location with along with the robot being able to percept itself.  
+With environments that are enclosed or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or having errors making it difficult for retrieving it. This project would like to propose a 2-D localization simulator that shows the robot's location along with the robot being capable of self perception.
 
 \subsection{Inputs and Outputs}
 
@@ -44,13 +44,13 @@ With environments that are closed space or indoors, it would be hard to get a GP
 
 \subsubsection{Outputs}
 \begin{itemize}
-    \item Estimated location of robot through sensors with noise (uncertainty)
-    \item Estimated location through the robot  
+    \item Estimated locations of robot through sensors with noise
+    \item Estimated locations through the robot  
 \end{itemize}
 
 \subsection{Stakeholders}
 \begin{itemize}
-    \item Dr. Matthew Giamou
+    \item Dr. Matthew Giamou (ARCO Lab)
     \item Roboticists who would want to set up tests for enclosed environments like caves, work cells, etc.
 \end{itemize}
 
@@ -58,18 +58,21 @@ With environments that are closed space or indoors, it would be hard to get a GP
 This simulation can be accessed through any operating system which includes Windows 11 and higher, MacOS, and Linux operating systems.
 
 \section{Goals}
+\begin{enumerate}
+    \item The simulation will operate through the sensors' interactions.
+    \item The localizer will make the the robot percept its location.
+    \item The simulation will have a visual representation of how the robot interacts with the sensors along with showing how it is located.
+\end{enumerate} 
 
 \section{Stretch Goals}
+\begin{enumerate}           
+    \item The localizer will be developed to show a table of the robot's trajectory compared to the sensors' feedback.
+    \item It will then be set up to output an animation on how the robot interacts in the specified room.
+    \item The simulation will be set up to help users input their algorithms and coordinates if it were to be calculated by other means.
+\end{enumerate}
 
 \section{Challenge Level and Extras}
-
-\wss{State your expected challenge level (advanced, general or basic).  The
-challenge can come through the required domain knowledge, the implementation or
-something else.  Usually the greater the novelty of a project the greater its
-challenge level.  You should include your rationale for the selected level.
-Approval of the level will be part of the discussion with the instructor for
-approving the project.  The challenge level, with the approval (or request) of
-the instructor, can be modified over the course of the term.}
+This project is expected to to have a general challenge level which can be seen from the implementation and the topic. The tasks required for this simulation like setting up the robot's movement, seeing the trajectory, coordinating the sensors' measurements, and finding a way to animate the whole output would definitely add difficulty to this project, however, this is not a niche topic meaning that there can be papers or libraries available to draw inspiration from.
 
 \newpage{}
 
