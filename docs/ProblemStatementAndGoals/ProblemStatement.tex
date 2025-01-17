@@ -23,42 +23,39 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 17 January 2024 & Aliyah Jimoh & Initial Draft\\
-% Date2 & Name(s) & Description of changes\\
-% ... & ... & ...\\
+
 \bottomrule
 \end{tabularx}
 \end{table}
 
 \section{Problem Statement}
-Mobile robots can be used to travel certain terrain or complete difficult tasks that could jeopardize the safety of the operators. Using sensors to let the robot know where it is, make it actively react or change its trajectory can help ensure the safty of the robot itself.
+Mobile robots can be used to travel certain terrain or complete difficult tasks that could jeopardize the safety of the operators. Using sensors to let the robot know where it is, make it actively react or change its trajectory can help ensure the safety of the robot itself.
 \subsection{Problem}
-With environments that are closed space or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and and algorithm in the actual site without having any way to truely replicate it can add the risk of the robot malfunctioning or having errors making ehic could make it difficult for retriving. This project aims to develop a 2-D localization simulator capable of showing the robot's trajectory while also keeping track of their coordinates through the sensors' placements in the simulation. 
-% Pls Edit Below
-This project will also draw inpiration from a library called GTSAM which has set up different examples based on SLAM.
+With environments that are closed space or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or having errors making it difficult for retrieving. This project would like to propose a 2-D localization simulator capable of showing the robot's location with along with the robot being able to percept itself.  
 
 \subsection{Inputs and Outputs}
 
-% \wss{Characterize the problem in terms of ``high level'' inputs and outputs.  
-% Use abstraction so that you can avoid details.}
 \subsubsection{Inputs}
 \begin{itemize}
     \item Room size  
-    \item "April Tag" and sensor coordinates
-    \item Wheel odometry for the robot
+    \item Coordinates of sensors
     \item Predicted Trajectory of robot
 \end{itemize}
 
 \subsubsection{Outputs}
 \begin{itemize}
-    \item Estimated location of robot through sensors
-    \item Estimated location through "April Tags"  
+    \item Estimated location of robot through sensors with noise (uncertainty)
+    \item Estimated location through the robot  
 \end{itemize}
 
 \subsection{Stakeholders}
+\begin{itemize}
+    \item Dr. Matthew Giamou
+    \item Roboticists who would want to set up tests for enclosed environments like caves, work cells, etc.
+\end{itemize}
 
 \subsection{Environment}
-
-\wss{Hardware and software environment}
+This simulation can be accessed through any operating system which includes Windows 11 and higher, MacOS, and Linux operating systems.
 
 \section{Goals}
 
@@ -74,15 +71,6 @@ Approval of the level will be part of the discussion with the instructor for
 approving the project.  The challenge level, with the approval (or request) of
 the instructor, can be modified over the course of the term.}
 
-\wss{Teams may wish to include extras as either potential bonus grades, or to
-make up for a less advanced challenge level.  Potential extras include usability
-testing, code walkthroughs, user documentation, formal proof, GenderMag
-personas, Design Thinking, etc.  Normally the maximum number of extras will be
-two.  Approval of the extras will be part of the discussion with the instructor
-for approving the project.  The extras, with the approval (or request) of the
-instructor, can be modified over the course of the term.}
-
 \newpage{}
-
 
 \end{document}
