@@ -23,6 +23,7 @@
 \textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
 \midrule
 17 January 2024 & Aliyah Jimoh & Initial Draft\\
+21 January 2024 & Aliyah Jimoh & Modifying draft according to issues\\
 
 \bottomrule
 \end{tabularx}
@@ -31,15 +32,15 @@
 \section{Problem Statement}
 Mobile robots can be used to travel certain terrain or complete difficult tasks that could jeopardize the safety of the operators. The use of sensors enables the robot to know where it is, make proactive reactions or change its trajectory which can help ensure the safety of the robot itself.
 \subsection{Problem}
-With environments that are enclosed or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or producing errors making it difficult for retrieving it. This project would like to propose a 2-D localization simulator that shows the robot's location along with the robot being capable of self perception.
+With environments that are enclosed or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or producing errors making it difficult for retrieving it. This project would like to propose a 2-D localization simulator that shows the robot's location along with the robot being capable of self perception.
 
 \subsection{Inputs and Outputs}
 
 \subsubsection{Inputs}
-The inputs of this project include the map of the environment, the coordinates of each sensor used, and the predicted trajectory of the robot.
+The inputs of this project include a 2-D map of the environment, the coordinates of each sensor relative to the environment, and the predicted trajectory of the robot.
 
 \subsubsection{Outputs}
-The outputs expected would be the estimated locations of the the robot through the sensors and the robot's perception.
+The outputs expected would be the estimated locations of the robot through the sensors and the robot's perception.
 
 \subsection{Stakeholders}
 An immediate stakeholder for this project would be Dr. Matthew Giamou of the Autonomous Robotics and Convex Optimization (ARCO) Lab due to this being part of a graduate research project that aims to optimize sensor placement for mobile robots. The secondary stakeholders would be academic and industrial roboticists who would want to set up tests for enclosed environments like caves, work cells, etc.
@@ -50,7 +51,7 @@ This simulation can be accessed through any operating system which includes Wind
 \section{Goals}
 \begin{enumerate}
     \item The simulation will operate through the sensors' interactions.
-    \item The localizer will make the the robot percept its location.
+    \item The localizer will make the robot percept its location.
     \item The simulation will have a visual representation of how the robot interacts with the sensors along with showing how it is located.
 \end{enumerate} 
 
@@ -62,7 +63,7 @@ This simulation can be accessed through any operating system which includes Wind
 \end{enumerate}
 
 \section{Challenge Level and Extras}
-This project is expected to to have a general challenge level which can be seen from the implementation and the topic. The tasks required for this simulation like setting up the robot's movement, seeing the trajectory, coordinating the sensors' measurements, and finding a way to animate the whole output would definitely add difficulty to this project, however, this is not a niche topic meaning that there can be papers or libraries available to draw inspiration from.
+This project is expected to have a general challenge level which can be seen from the implementation and the topic. The tasks required for this simulation like setting up the robot's movement, seeing the trajectory, coordinating the sensors' measurements, and finding a way to animate the whole output would definitely add difficulty to this project, however, this is not a niche topic meaning that there can be papers or libraries available to draw inspiration from.
 
 \newpage{}
 
