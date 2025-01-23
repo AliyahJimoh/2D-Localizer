@@ -30,41 +30,40 @@
 \end{table}
 
 \section{Problem Statement}
-Mobile robots can be used to travel certain terrain or complete difficult tasks that could jeopardize the safety of the operators. The use of sensors enables the robot to know where it is, make proactive reactions or change its trajectory which can help ensure the safety of the robot itself.
+Mobile robots can be used to complete difficult tasks or traverse challenging environments with industrial hazards. Sensors can be placed on the robot along with its surroundings which can enable the robot to know where it is, make proactive decisions or change its trajectory.
 
 \subsection{Problem}
-With environments that are enclosed or indoors, it would be hard to get a GPS signal to locate the robot or see if the task has been completed. Testing the robot's trajectory and algorithm in the actual site without having any way to truly replicate it could risk the robot malfunctioning or producing errors making it difficult for retrieving it. This project would like to propose a 2-D localization simulator that shows the robot's location along with the robot being capable of self perception.
+Environments that are enclosed or indoors would not have access to a GPS signal to locate the robot or see if its work has been completed. Testing the robot's trajectory and algorithm in the actual site without having any way to truly track its movements could complicate the retrieval process if something were to malfunction or if an obstacle is unaccounted for that stops the robot from returning. This project proposes a 2-D localization solution that uses sensors to accurately display the robot's location as it autonomously carries out their assigned tasks while also having the robot locate itself.
 
 \subsection{Inputs and Outputs}
 
 \subsubsection{Inputs}
-The inputs of this project include a 2-D map of the environment, the coordinates of each sensor relative to the environment, and the predicted trajectory of the robot.
+The inputs of this project include a 2-D map of the environment, the coordinates of each range sensor and fiducial marker relative to the environment, and the noisy measurements made from the sensors on the robot.
 
 \subsubsection{Outputs}
-The outputs expected would be the estimated locations of the robot through the sensors and the robot's perception.
+The outputs expected are estimates of the robot's poses computed with sensor measurements through the range sensors in the environment and the sensors on the robot.
 
 \subsection{Stakeholders}
-An immediate stakeholder for this project would be Dr. Matthew Giamou of the Autonomous Robotics and Convex Optimization (ARCO) Lab due to this being part of a graduate research project that aims to optimize sensor placement for mobile robots. The secondary stakeholders would be academic and industrial roboticists who would want to set up tests for enclosed environments like caves, work cells, etc.
+An immediate stakeholder for this project is Dr. Matthew Giamou of the Autonomous Robotics and Convex Optimization (ARCO) Lab due to this being part of a graduate research project that aims to optimize sensor placement for mobile robots. The secondary stakeholders would be academic and industrial roboticists who would want to set up tests for enclosed environments like caves, industrial cells, etc.
 
 \subsection{Environment}
-This simulation can be accessed through any operating system which includes Windows 11 and higher, MacOS, and Linux operating systems.
+This localizer can be accessed through Linux operating systems.
 
 \section{Goals}
 \begin{enumerate}
-    \item The simulation will operate through the sensors' interactions.
-    \item The localizer will make the robot percept its location.
-    \item The simulation will have a visual representation of how the robot interacts with the sensors along with showing how it is located.
+    \item The localizer will support models of noisy range sensors and cameras that can perceive fiducial markers with known and fixed poses in the environment.
+    \item The localizer will return an estimate of the robot localization.
+    \item The estimated poses will be visually represented on the inputted map.
 \end{enumerate} 
 
 \section{Stretch Goals}
 \begin{enumerate}           
-    \item The localizer will be developed to show a table of the robot's trajectory compared to the sensors' feedback.
-    \item The simulation will then be set up to output an animation on how the robot interacts in the specified room.
-    \item The simulation will be set up to help users input their algorithms and coordinates if it were to be calculated by other means.
+    \item The localizer will display the robot's poses from the sensors' feedback.
+    \item The simulation will display an animation of the robot's trajectory through the environment with the sensors placed.
 \end{enumerate}
 
 \section{Challenge Level and Extras}
-This project is expected to have a general challenge level which can be seen from the implementation and the topic. The tasks required for this simulation like setting up the robot's movement, seeing the trajectory, coordinating the sensors' measurements, and finding a way to animate the whole output would definitely add difficulty to this project, however, this is not a niche topic meaning that there can be papers or libraries available to draw inspiration from.
+This project is expected to have an advanced research level which can be seen from the implementation and the topic. Setting up the robot's movement, displaying the trajectory, coordinating the sensors' measurements, and finding a way to animate the output would definitely add difficulty to this project, however, this is not a niche topic meaning that there are papers or libraries available to draw inspiration from.
 
 \newpage{}
 
