@@ -128,8 +128,8 @@
 
 \begin{document}
 
-\title{Software Requirements Specification for \progname: subtitle describing software} 
-\author{\authname}
+\title{Software Requirements Specification for 2D Localizer} 
+\author{Aliyah Jimoh}
 \date{\today}
 	
 \maketitle
@@ -147,7 +147,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
+2025/02/05 & 1.0 & Initial Draft\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
@@ -184,7 +184,6 @@ description of the unit and the SI name.
     \si{\second} & time & second\\
     \si{\celsius} & temperature & centigrade\\
     \si{\joule} & energy & joule\\
-    \si{\watt} & power & watt (W = \si{\joule\per\second})\\
     \bottomrule
   \end{tabular}
   %	\caption{Provide a caption}
@@ -246,8 +245,8 @@ which heat is transferred in
   PS & Physical System Description\\
   R & Requirement\\
   SRS & Software Requirements Specification\\
-  \progname{} & \plt{put an expanded version of your program name here (as appropriate)}\\
   TM & Theoretical Model\\
+  2D Localizer & 2D Localization for Mobile Robots\\
   \bottomrule
 \end{tabular}\\
 
@@ -455,7 +454,7 @@ characteristics and lists the system constraints.  \plt{This text can likely be
 \item 
 \end{itemize}
 \item \progname{} Responsibilities:
-\begin{itemize}
+\begin{itemize} 
 \item Detect data type mismatch, such as a string of characters instead of a
   floating point number
 \item 
@@ -518,7 +517,9 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 
-\item 
+\item \textbf{Pose:} Position and orientation of the robot.
+\item \textbf{Localization}: Determining where an object is with respect to its environment.
+\item \textbf{Fiducial Markers}: Markers placed around the environment for the robot to determine its location.
 
 \end{itemize}
 
@@ -566,23 +567,12 @@ includes the following elements:
 
 \subsubsection{Goal Statements}
 
-\plt{The goal statements refine the ``Problem Description''
-  (Section~\ref{Sec_pd}).  A goal is a functional objective the system under
-  consideration should achieve. Goals provide criteria for sufficient
-  completeness of a requirements specification and for requirements
-  pertinence. Goals will be refined in Section “Instanced Models”
-  (Section~\ref{sec_instance}). Large and complex goals should be decomposed
-  into smaller sub-goals.  The goals are written abstractly, with a minimal
-  amount of technical language.  They should be understandable by non-domain
-  experts.}
-
-\noindent Given the \plt{inputs}, the goal statements are:
+\noindent Given the imported 2D map, coordinates of all sensors and fiducial markers in the environment, and the noisy measurements of the sensors, the goal statements are:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_meaningfulLabel}:] \plt{One
-    sentence description of the goal.  There may be more than one.  Each Goal
-    should have a meaningful label.}
+\item[GS\refstepcounter{goalnum}1 \label{GS1}:] Calculate the estimated pose (position and orientation) and error of the robot throughout its trajectory from both sensors (environment and robot).
+\item[GS\refstepcounter{goalnum}2 \label{GS2}:] Display a visual representation of the robot traversing the 2-D map with the sensors placed.
 
 \end{itemize}
 
@@ -653,17 +643,6 @@ understand.}
 
 \subsubsection{Assumptions} \label{sec_assumpt}
 
-\plt{The assumptions are a refinement of the scope.  The scope is general, where
-  the assumptions are specific.  All assumptions should be listed, even those
-  that domain experts know so well that they are rarely (if ever) written down.}
-\plt{The document should not take for granted that the reader knows which
-  assumptions have been made. In the case of unusual assumptions, it is
-  recommended that the documentation either include, or point to, an explanation
-  and justification for the assumption.} 
-\plt{If it helps with the organization and understandability, the assumptions
-can be presented as sub sections.  The following sub-sections are options:
-background theory assumptions, helper theory assumptions, generic theory
-assumptions, problem specific assumptions, and rationale assumptions}
 
 This section simplifies the original problem and helps in developing the
 theoretical model by filling in the missing information for the physical system.
@@ -673,12 +652,11 @@ change [LC], in which the respective assumption is used.
 
 \begin{itemize}
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_meaningfulLabel}:]
-  \plt{Short description of each assumption.  Each assumption
-    should have a meaningful label.  Use cross-references to identify the
-    appropriate traceability to TM, GD, DD etc., using commands like dref, ddref
-    etc.  Each assumption should be atomic - that is, there should not be an
-    explicit (or implicit) ``and'' in the text of an assumption.}
+\item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and fiducial markers
+\item[A\refstepcounter{assumpnum}2 \label{A_controlled}:]Localizer is used in a controlled environment (i.e., indoors)
+\item[A\refstepcounter{assumpnum}1 \label{A_indep}:]Each sensor has independent measurements
+\item[A\refstepcounter{assumpnum}1 \label{A_noise}:]Sensor noise is zero-mean Gaussian
+
 
 \end{itemize}
 
@@ -1145,7 +1123,7 @@ typical values.}
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel1}:] \plt{Give
     the likely changes, with a reference to the related assumption (aref), as appropriate.}
 
 \end{itemize}
@@ -1154,7 +1132,7 @@ typical values.}
 
 \noindent \begin{itemize}
 
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel2}:] \plt{Give
     the unlikely changes.  The design can assume that the changes listed will
     not occur.}
 
@@ -1373,8 +1351,6 @@ Their values are defined in this section for easy maintenance.}
 
 The information in this section will be used to evaluate the team members on the
 graduate attribute of Lifelong Learning.  
-
-\input{../Reflection.tex}
 
 \input{../SRS_Reflection.tex}
 
