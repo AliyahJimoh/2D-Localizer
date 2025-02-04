@@ -1,5 +1,3 @@
-% THIS DOCUMENT IS TAILORED TO REQUIREMENTS FOR SCIENTIFIC COMPUTING.  IT SHOULDN'T
-% BE USED FOR NON-SCIENTIFIC COMPUTING PROJECTS
 \documentclass[12pt]{article}
 
 \usepackage{amsmath, mathtools}
@@ -163,7 +161,7 @@ should have a reflection appendix.}
 
 \section{Reference Material}
 
-This section records information for easy reference. Ethan's paper on localization
+This section records information for easy reference.
 
 \subsection{Table of Units}
 
@@ -180,45 +178,75 @@ description of the unit and the SI name.
     \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
     \midrule 
     \si{\metre} & length & metre\\
-    \si{\kilogram} & mass	& kilogram\\
     \si{\second} & time & second\\
-    \si{\celsius} & temperature & centigrade\\
-    \si{\joule} & energy & joule\\
+    \si{^\circ} & angle & degrees\\
     \bottomrule
   \end{tabular}
   %	\caption{Provide a caption}
 %\end{table}
 
-\plt{Only include the units that your SRS actually uses.}
+% \plt{Only include the units that your SRS actually uses.}
 
-\plt{Derived units, like newtons, pascal, etc, should show their derivation
-    (the units they are derived from) if their constituent units are in the
-    table of units (that is, if the units they are derived from are used in the
-    document).  For instance, the derivation of pascals as
-    $\si{\pascal}=\si{\newton\per\square\meter}$ is shown if newtons and m are
-    both in the table.  The derivations of newtons would not be shown if kg and
-    s are not both in the table.}
+% \plt{Derived units, like newtons, pascal, etc, should show their derivation
+%     (the units they are derived from) if their constituent units are in the
+%     table of units (that is, if the units they are derived from are used in the
+%     document).  For instance, the derivation of pascals as
+%     $\si{\pascal}=\si{\newton\per\square\meter}$ is shown if newtons and m are
+%     both in the table.  The derivations of newtons would not be shown if kg and
+%     s are not both in the table.}
 
-\plt{The symbol for units named after people use capital letters, but the name
-  of the unit itself uses lower case.  For instance, pascals use the symbol Pa,
-  watts use the symbol W, teslas use the symbol T, newtons use the symbol N,
-  etc.  The one exception to this is degree Celsius.  Details on writing metric
-  units can be found on the 
-  \href{https://www.nist.gov/pml/weights-and-measures/writing-metric-units}
-  {NIST} web-page.}
+% \plt{The symbol for units named after people use capital letters, but the name
+%   of the unit itself uses lower case.  For instance, pascals use the symbol Pa,
+%   watts use the symbol W, teslas use the symbol T, newtons use the symbol N,
+%   etc.  The one exception to this is degree Celsius.  Details on writing metric
+%   units can be found on the 
+%   \href{https://www.nist.gov/pml/weights-and-measures/writing-metric-units}
+%   {NIST} web-page.}
 
 \subsection{Table of Symbols}
 
 The table that follows summarizes the symbols used in this document along with
-their units.  The choice of symbols was made to be consistent with the heat
-transfer literature and with existing documentation for solar water heating
-systems.  The symbols are listed in alphabetical order.
+their units. The symbols are listed in alphabetical order.
 
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
+$i$ & \si[per-mode=symbol] {-} & Index for robot's poses
+\\
+$j$ & \si[per-mode=symbol] {-} & Index for number of beacons
+\\ 
+$\eta_j$ & \si[per-mode=symbol] {-} & Sensor noise 
+\\
+$n$ & \si[per-mode=symbol] {-} & Index for number of FMs
+\\ 
+$S$ & \si[per-mode=symbol] {-} & Set of beacon coordinates
+\\
+$g_j(x_i)$ & \si[per-mode=symbol] {\metre} & Noisy range measurement of the robot's ith taken from jth beacon
+\\ 
+$A$ & \si[per-mode=symbol] {\square\metre} & Area of the 2D environment
+\\
+$F$ & \si[per-mode=symbol] {-} & Coordinates of FMs
+\\ 
+$\sigma^2_j$ & \si[per-mode=symbol] {\square\metre} & Noise variance for jth beacon
+\\
+$\tilde{d_j}$ & \si[per-mode=symbol] {\metre} & Measured distance with noise
+\\ 
+$C(x_i)$ & \si[per-mode=symbol] {\metre} & Cost Function
+\\
+$I$ & \si[per-mode=symbol] {\metre^-2} & Total Fisher Information Matrix
+\\ 
+$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+\\
+$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
+which heat is transferred in
+\\ 
+$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+\\
+$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
+which heat is transferred in
+\\ 
 $A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
 \\
 $A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
@@ -234,25 +262,25 @@ which heat is transferred in
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l  l} 
   \toprule		
-  \textbf{symbol} & \textbf{description}\\
+  \textbf{Abbreviation/Acronym} & \textbf{Full Term}\\
   \midrule 
-  2D & 2 Dimensional \\
-  2D Localizer & 2D Localization for Mobile Robots\\
+  2D & Two-Dimensional \\
   A & Assumption\\
+  CRLB & Cram\'er-Rao Lower Bound\\
   DD & Data Definition\\
+  FIM & Fisher Information Matrix \\
   FM & Fiducial Marker \\
   GD & General Definition\\
   GS & Goal Statement\\
   IM & Instance Model\\
   LC & Likely Change\\
+  Localizer & 2D Localization Solution\\
   PS & Physical System Description\\
   R & Requirement\\
   SRS & Software Requirements Specification\\
   TM & Theoretical Model\\
   \bottomrule
 \end{tabular}\\
-
-\plt{Add any other abbreviations or acronyms that you add}
 
 \subsection{Mathematical Notation}
 
