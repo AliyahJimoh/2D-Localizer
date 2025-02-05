@@ -17,6 +17,7 @@
 \usepackage{pdflscape}
 \usepackage{afterpage}
 
+
 \usepackage[round]{natbib}
 
 %\usepackage{refcheck}
@@ -35,7 +36,7 @@
 
 % For easy change of table widths
 \newcommand{\colZwidth}{1.0\textwidth}
-\newcommand{\colAwidth}{0.13\textwidth}
+\newcommand{\colAwidth}{0.15\textwidth}
 \newcommand{\colBwidth}{0.82\textwidth}
 \newcommand{\colCwidth}{0.1\textwidth}
 \newcommand{\colDwidth}{0.05\textwidth}
@@ -392,35 +393,20 @@ easier to correctly understand the requirements:
 
 \subsubsection{Physical System Description}\label{sec_phySystDescrip}
 
-\plt{The purpose of this section is to clearly and unambiguously state the
-  physical system that is to be modelled. Effective problem solving requires a
-  logical and organized approach. The statements on the physical system to be
-  studied should cover enough information to solve the problem. The physical
-  description involves element identification, where elements are defined as
-  independent and separable items of the physical system. Some example elements
-  include acceleration due to gravity, the mass of an object, and the size and
-  shape of an object. Each element should be identified and labelled, with their
-  interesting properties specified clearly. The physical description can also
-  include interactions of the elements, such as the following: i) the
-  interactions between the elements and their physical environment; ii) the
-  interactions between elements; and, iii) the initial or boundary conditions.}
-
-\plt{The elements of the physical system do not have to correspond to an actual
-physical entity.  They can be conceptual.  This is particularly important when
-the documentation is for a numerical method. }
-
-The physical system of \progname{}, as shown in Figure~?,
-includes the following elements:
+The physical system of the localizer includes the following elements:
 
 \begin{itemize}
 
-\item[PS1:] 
+\item[PS1:] The mobile robot
 
-\item[PS2:] ...
+\item[PS2:] The beacons placed in the environment
+
+\item[PS3:] The camera sensors on the mobile robot
+
+\item[PS4:] The fiducial markers in the environment
 
 \end{itemize}
 
-\plt{A figure here makes sense for most SRS documents}
 
 % \begin{figure}[h!]
 % \begin{center}
@@ -438,8 +424,8 @@ includes the following elements:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}1 \label{GS1}:] Calculate the estimated pose (position and orientation) and error of the robot throughout its trajectory from both sensors (environment and robot).
-\item[GS\refstepcounter{goalnum}2 \label{GS2}:] Display a visual representation of the robot traversing the 2-D map with the sensors placed.
+\item[GS\refstepcounter{goalnum}1\label{GS1}:] Calculate the estimated pose and error of the robot throughout its trajectory from both sensors (environment and robot).
+\item[GS\refstepcounter{goalnum}2\label{GS2}:] Display a visual representation of the robot traversing the 2-D map with the sensors placed.
 
 \end{itemize}
 
@@ -529,282 +515,179 @@ change [LC], in which the respective assumption is used.
 
 \subsubsection{Theoretical Models}\label{sec_theoretical}
 
-\plt{Theoretical models are sets of abstract mathematical equations or axioms
-  for solving the problem described in Section ``Physical System Description''
-  (Section~\ref{sec_phySystDescrip}). Examples of theoretical models are
-  physical laws, constitutive equations, relevant conversion factors, etc.}
-
-\plt{Optionally the theory section could be divided into subsections to provide
-more structure and improve understandability and reusability.  Potential
-subsections include the following: Context theories, background theories, helper
-theories, generic theories, problem specific theories, final theories and
-rationale theories.}
-
-This section focuses on the general equations and laws that \progname{} is based
-on.  \plt{Modify the examples below for your problem, and add additional models
-  as appropriate.}
+This section focuses on the general equations and laws that 2D Localizer is based
+on.
 
 ~\newline
 %TM 1
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:NRM}
-% #3 label
-{Noisy Range Measurement}
-% #4 equation
-{
-  $g_j(x) = \lVert \mathbf{x_i} - \mathbf{a_j}\rVert + \eta_j$ 
-}
-% #5 description
-{
-
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_NRM}\\
+\hline
+Label &\bf Noisy Range Measurement \\
+\hline
+Equation& \begin{displaymath}
+  g_j(x) = \lVert \mathbf{x_i} - \mathbf{a_j}\rVert + \eta_j
+\end{displaymath} \\
+\hline
+Description &
 The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where $\mathbf{x_i}$ is the position of the robot (\si\metre), $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and $\eta_j$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
-}
-% #6 Notes
-{
-This measurement does not calculate the orientation.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
-
-~\newline
+\\
+\hline
+Source & Citation here \\
+\hline
+Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+\hline
+Preconditions & \\
+\hline
+Derivation & \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 % TM2
+~\newline
+
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:MLE}
-% #3 label
-{Maximum Likelihood Estimation}
-% #4 equation
-{
-  $\widehat{x} = \arg\min p(\tilde{D}\vert x)$
-}
-% #5 description
-{
-  This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given. 
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CF}\\
+\hline
+Label &\bf Cost Function \\
+\hline
+Equation& \begin{displaymath}
+C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \left(\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert \right)^2
+\end{displaymath} \\ 
+\hline
+Description &
+The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+\\
+\hline
+Source & \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm} \\
+\hline
+Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+\hline
+Preconditions & \\
+\hline
+Derivation & \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 %TM3
 ~\newline
 
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:CF}
-% #3 label
-{Cost Function}
-% #4 equation
-{
-  $C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \left(\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert \right)^2$
-}
-% #5 description
-{
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
+\hline
+Label &\bf Fisher Information Matrix \\
+\hline
+Equation& \begin{displaymath}
+  \mathbf{I_j} \cong \frac{1}{\sigma_j^2} \left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert} \right)\left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert}\right)^T
+\end{displaymath}\\
+\hline
+Description &
+This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
+\\
+\hline
+Source & Citation here \\
+\hline
+Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+\hline
+Preconditions & \\
+\hline
+Derivation & \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 %TM4
 ~\newline
 
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:FIM}
-% #3 label
-{Fisher Information Matrix}
-% #4 equation
-{
-  $\mathbf{I_j} \cong \frac{1}{\sigma_j^2} \left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert} \right)\left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert}\right)^T$
-}
-% #5 description
-{
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CRLB}\\
+\hline
+Label &\bf Cram\'{e}r-Rao Lower Bound \\
+\hline
+Equation& \begin{displaymath}
+  Var( \hat{\theta}) \geq \frac{1}{I(\theta)}
+\end{displaymath}\\
+\hline
+Description &
+This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
+\\
+\hline
+Source & Citation here \\
+\hline
+Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+\hline
+Preconditions & \dref{ROCT}\\
+\hline
+Derivation & \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 %TM5
 ~\newline
 
 \noindent
-\deftheory
-% #2 refname of theory
-{TM:CRLB}
-% #3 label
-{Cram\'{e}r-Rao Lower Bound}
-% #4 equation
-{
-  $Var( \hat{\theta}) \geq \frac{1}{I(\theta)}$
-}
-% #5 description
-{
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
-
-%TM6
-~\newline
-
-\noindent
-\deftheory
-% #2 refname of theory
-{TM:SE2}
-% #3 label
-{SE(2) Transformation}
-% #4 equation
-{
-  $T_{robot} =  
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_SE}\\
+\hline
+Label &\bf SE(2) Transformation \\
+\hline
+Equation& \begin{displaymath}
+  T_{robot} =  
     \begin{bmatrix}
       R(\theta) & t \\
       0 & 1\\
     \end{bmatrix}
-     $
-}
-% #5 description
-{
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
-}
-% #6 Notes
-{
-None.
-}
-% #7 Source
-{
-  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
-}
-% #8 Referenced by
-{
-  \dref{ROCT}
-}
-% #9 Preconditions
-{
-None
-}
-% #1 derivation - not applicable by default
-{}
-
-\plt{``Ref.\ By'' is used repeatedly with the different types of information.
-  This stands for Referenced By.  It means that the models, definitions and
-  assumptions listed reference the current model, definition or assumption.
-  This information is given for traceability.  Ref. By provides a pointer in the
-  opposite direction to what we commonly do.  You still need to have a reference
-  in the other direction pointing to the current model, definition or
-  assumption.  As an example, if TM1 is referenced by GD2, that means that GD2 will
-  explicitly include a reference to TM1.}
+\end{displaymath}\\
+\hline
+Description &
+This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
+\\
+\hline
+Source & Citation here \\
+\hline
+Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+\hline
+Preconditions & \\
+\hline
+Derivation & \\
+\hline
+\end{tabular}
+\end{minipage}\\
 
 ~\newline
 
@@ -831,15 +714,17 @@ instance models.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{NL}\\
+Number& GD\refstepcounter{defnum}\thedefnum\label{GD_PDF}\\
 \hline
-Label &\bf Newton's law of cooling \\
+Label &\bf Probability Density Function \\
 \hline
 % Units&$MLt^{-3}T^0$\\
 % \hline
-SI Units&\si{\watt\per\square\metre}\\
+SI Units&\si{\per\metre}\\
 \hline
-Equation&$ q(t) = h \Delta T(t)$  \\
+Equation&\begin{displaymath}
+  p_j \left( \tilde{d_j}\vert x \right) = \mathcal{N}\left( \lVert x - a_j \rVert, \sigma_j^2 \right)
+\end{displaymath}  \\
 \hline
 Description &
 Newton's law of cooling describes convective cooling from a surface.  The law is
@@ -890,20 +775,21 @@ models. The dimension of each quantity is also given.  \plt{Modify the examples
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{Joint_Like}\\
+Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{DD_distance}\\
 \hline
-Label& \bf Joint Likelihood Function\\
+Label& \bf Actual Range Measurement\\
 \hline
-Symbol &$p_j( \tilde{D}\vert x)$\\
-\hline
+Symbol &$\tilde{d_j}$\\
 % Units& $Mt^{-3}$\\
-% \hline
-  SI Units & \si{\watt\per\square\metre}\\
+\hline
+  SI Units & \si{\metre}\\
   \hline
-  Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
+  Equation& \begin{displaymath}
+    \tilde{d_j} = \lVert \mathbf{x_i} - \mathbf{a_j}\rVert + \eta_j
+  \end{displaymath}\\
   \hline
   Description & 
-                $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
+  $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
                 The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
                 assuming that Newton's Law 
                 of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
@@ -916,44 +802,7 @@ Symbol &$p_j( \tilde{D}\vert x)$\\
   \hline
   Sources& Citation here \\
   \hline
-  Ref.\ By & \hyperref[TM:MLE]{TM:MLE}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{Likelihood}\\
-\hline
-Label& \bf Likelihood Function\\
-\hline
-Symbol &$p_j( \tilde{d_j}\vert x)$\\
-\hline
-% Units& $Mt^{-3}$\\
-% \hline
-  SI Units & \si{\watt\per\square\metre}\\
-  \hline
-  Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
-  \hline
-  Description & 
-                $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
-                The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
-                assuming that Newton's Law 
-                of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
-                the coil, which has area $A_C$ (\si{\square\metre}) and heat 
-                transfer coefficient $h_C$
-                (\si{\watt\per\square\metre\per\celsius}).  This equation
-                assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
-                of the coil (\aref{A_tlcoil}).
-  \\
-  \hline
-  Sources& Citation here \\
-  \hline
-  Ref.\ By & \hyperref[TM:MLE]{TM:MLE}\\
+  Ref.\ By & \tref{T_MLE}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1025,17 +874,17 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
+  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_like}\\
   \hline
-  Label& \bf Energy balance on water to find $T_W$\\
+  Label& \bf Full Likelihood Function \\
   \hline
-  Input&$m_W$, $C_W$, $h_C$, $A_C$, $h_P$, $A_P$, $t_\text{final}$, $T_C$, 
-  $T_\text{init}$, $T_P(t)$ from \iref{epcm}\\
-  & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
+  Input&$\tilde{D}$, $N$\\
   \hline
-  Output&$T_W(t)$, $0\leq t \leq t_\text{final}$, such that\\
-  &$\frac{dT_W}{dt} = \frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]$,\\
-  &$T_W(0) = T_P(0) = T_\text{init}$ (\aref{A_InitTemp}) and $T_P(t)$ from \iref{epcm} \\
+  Output& $p ( \tilde{D} \vert x ) $\\
+  \hline
+  Equation&\begin{displaymath}
+    p \left( \tilde{D} \vert x \right) = \prod_{j=1}^{N} p\left( \tilde{d_j}\vert x \right)
+  \end{displaymath}\\
   \hline
   Description&$T_W$ is the water temperature (\si{\celsius}).\\
   &$T_P$ is the PCM temperature (\si{\celsius}).\\
@@ -1054,7 +903,78 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \end{tabular}
 \end{minipage}\\
 
-%~\newline
+~\newline
+
+%IM 2
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_like}\\
+  \hline
+  Label& \bf Maximum Likelihood Estimation \\
+  \hline
+  Input&$p( \tilde{D} \vert x )$\\
+  \hline
+  Output& $\widehat{x} $\\
+  \hline
+  Equation&\begin{displaymath}
+    \widehat{x} = \arg\min p(\tilde{D}\vert x)
+  \end{displaymath}\\
+  \hline
+  Description&$T_W$ is the water temperature (\si{\celsius}).\\
+  &$T_P$ is the PCM temperature (\si{\celsius}).\\
+  &$T_C$ is the coil temperature (\si{\celsius}).\\
+  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+  & This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.\\
+  \hline
+  Sources& Citation here \\
+  \hline
+  Ref.\ By & \iref{epcm}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+%IM 3
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_FFIM}\\
+  \hline
+  Label& \bf Maximum Likelihood Estimation \\
+  \hline
+  Input&$p( \tilde{D} \vert x )$\\
+  \hline
+  Output& $\widehat{x} $\\
+  \hline
+  Equation&\begin{displaymath}
+    \widehat{x} = \arg\min p(\tilde{D}\vert x)
+  \end{displaymath}\\
+  \hline
+  Description&$T_W$ is the water temperature (\si{\celsius}).\\
+  &$T_P$ is the PCM temperature (\si{\celsius}).\\
+  &$T_C$ is the coil temperature (\si{\celsius}).\\
+  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
+  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
+  & The above equation applies as long as the water is in liquid form,
+  $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
+  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
+  \\
+  \hline
+  Sources& Citation here \\
+  \hline
+  Ref.\ By & \iref{epcm}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
 
 \subsubsection*{Derivation of ...}
 
@@ -1139,12 +1059,11 @@ A correct solution must exhibit \plt{fill in the details}.  \plt{These
 
 \section{Requirements}
 
-\plt{The requirements refine the goal statement.  They will make heavy use of
-  references to the instance models.}
-
 This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
+
+\pagebreak
 
 \subsection{Functional Requirements}
 
@@ -1278,29 +1197,25 @@ the assumptions.
 \begin{landscape}
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 \hline
-	& \aref{A_OnlyThermalEnergy}& \aref{A_hcoeff}& \aref{A_mixed}& \aref{A_tpcm}& \aref{A_const_density}& \aref{A_const_C}& \aref{A_Newt_coil}& \aref{A_tcoil}& \aref{A_tlcoil}& \aref{A_Newt_pcm}& \aref{A_charge}& \aref{A_InitTemp}& \aref{A_OpRangePCM}& \aref{A_OpRange}& \aref{A_htank}& \aref{A_int_heat}& \aref{A_vpcm}& \aref{A_PCM_state}& \aref{A_Pressure} \\
+	& \aref{A_sensors}& \aref{A_controlled}& \aref{A_indep}& \aref{A_noise} \\
 \hline
-\tref{T_COE}        & X& & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_LHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\dref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
-\ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
-\ddref{D_HOF}       & & & & & & & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\iref{ewat}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
-\iref{epcm}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
-\iref{I_HWAT}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
-\iref{I_HPCM}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
-\lcref{LC_tpcm}     & & & & X& & & & & & & & & & & & & & & \\ \hline
-\lcref{LC_tcoil}    & & & & & & & & X& & & & & & & & & & & \\ \hline
-\lcref{LC_tlcoil}   & & & & & & & & & X& & & & & & & & & & \\ \hline
-\lcref{LC_charge}   & & & & & & & & & & & X& & & & & & & & \\ \hline
-\lcref{LC_InitTemp} & & & & & & & & & & & & X& & & & & & & \\ \hline
-\lcref{LC_htank}    & & & & & & & & & & & & & & & X& & & & \\
+\tref{T_NRM}        & X& & &  \\ \hline
+\tref{T_CF}        & & & &  \\ \hline
+\tref{T_FIM}        & & & &  \\ \hline
+\tref{T_CRLB}        & & & &  \\ \hline
+\tref{T_SE}        & & & &  \\ \hline
+\dref{GD_PDF}           & & X& &  \\ \hline
+\ddref{DD_distance}    & & & & \\ \hline
+\iref{IM_like}         & & & & \\ \hline
+\iref{IM_FFIM}         & & & & \\ \hline
+\lcref{LC_tpcm}     & & & &\\ \hline
+\lcref{LC_tcoil}    & & & &  \\ \hline
+\lcref{LC_tlcoil}   & & & &\\ \hline
+\lcref{LC_charge}   & & & &  \\ \hline
+\lcref{LC_InitTemp} & & & & \\ \hline
+\lcref{LC_htank}    & & & & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
