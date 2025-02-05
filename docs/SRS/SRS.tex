@@ -173,7 +173,7 @@ description of the unit and the SI name.
 
 \renewcommand{\arraystretch}{1.2}
 %\begin{table}[ht]
-  \noindent \begin{tabular}{l l l} 
+\begin{longtable*}{l l l} 
     \toprule		
     \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
     \midrule 
@@ -181,7 +181,7 @@ description of the unit and the SI name.
     \si{\second} & time & second\\
     \si{^\circ} & angle & degrees\\
     \bottomrule
-  \end{tabular}
+  \end{longtable*}
   %	\caption{Provide a caption}
 %\end{table}
 
@@ -206,7 +206,9 @@ description of the unit and the SI name.
 \subsection{Table of Symbols}
 
 The table that follows summarizes the symbols used in this document along with
-their units. The symbols are listed in alphabetical order.
+their units. The symbols are listed in alphabetical order. 
+
+\plt{Remeber to organize them in order}
 
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
@@ -237,32 +239,30 @@ $C(x_i)$ & \si[per-mode=symbol] {\metre} & Cost Function
 \\
 $I$ & \si[per-mode=symbol] {\metre^-2} & Total Fisher Information Matrix
 \\ 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$\theta$ & \si[per-mode=symbol] {deg} & Robot angle
 \\
-$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
+$T_{robot}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
 which heat is transferred in
 \\ 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$\tilde{D}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
 \\
-$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
+$d_j$ & \si[per-mode=symbol] {\square\metre} & surface area over 
 which heat is transferred in
 \\ 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$T_{env}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
 \\
 $A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
 which heat is transferred in
 \\ 
 \bottomrule
 \end{longtable*}
-\plt{Use your problems actual symbols.  The si package is a good idea to use for
-  units.}
 
 \subsection{Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l  l} 
+\begin{longtable*}{l  l} 
   \toprule		
-  \textbf{Abbreviation/Acronym} & \textbf{Full Term}\\
+  \textbf{Abbreviation/Acronym} & \textbf{Definition}\\
   \midrule 
   2D & Two-Dimensional \\
   A & Assumption\\
@@ -280,152 +280,57 @@ which heat is transferred in
   SRS & Software Requirements Specification\\
   TM & Theoretical Model\\
   \bottomrule
-\end{tabular}\\
+\end{longtable*}
 
 \subsection{Mathematical Notation}
+Throughout this document, there will be typographic conventions as 
+well as mathematical operators that are used to distinguish different variables and operations.
+~\newline
 
-\plt{This section is optional, but should be included for projects that make use
-  of notation to convey mathematical information.  For instance, if typographic
-  conventions (like bold face font) are used to distinguish matrices, this
-  should be stated here.  If symbols are used to show mathematical operations,
-  these should be summarized here.  In some cases the easiest way to summarize
-  the notation is to point to a text or other source that explains the
-  notation.}
-
-\plt{This section was added to the template because some students use very
-  domain specific notation.  This notation will not be readily understandable to
-  people outside of your domain.  It should be explained.}
+\renewcommand{\arraystretch}{1.2}
+\begin{longtable*}{l  l  l} 
+  \toprule		
+  \textbf{Variable} & \textbf{Definition} & \textbf{Description}\\
+  \midrule 
+  $\textbf{A}$ & Matrix & Bold capital letter  \\
+  $\textbf{a}$ & Vector & Bold lowercase letter  \\
+  $a$ & Scalar & Lowercase letter \\
+  $\cong$ & Congruent to & Equal sign with tilde\\
+  $\prod$ & Product & -\\
+  $\lVert~~~\rVert$ & Euclidean Norm & Line Brackets\\
+  \bottomrule
+\end{longtable*}
 
 \newpage
 
 \pagenumbering{arabic}
 
-\plt{This SRS template is based on \citet{SmithAndLai2005, SmithEtAl2007,
-  SmithAndKoothoor2016}.  It will get you started.  You should not modify the
-  section headings, without first discussing the change with the course
-  instructor.  Modification means you are not following the template, which
-  loses some of the advantage of a template, especially standardization.
-  Although the bits shown below do not include type information, you may need to
-  add this information for your problem.  If you are unsure, please can ask the
-  instructor.}
-
-\plt{Feel free to change the appearance of the report by modifying the LaTeX
-  commands.}
-
-\plt{This template document assumes that a single program is being documented.
-  If you are documenting a family of models, you should start with a commonality
-  analysis.  A separate template is provided for this.  For program
-  families you should look at \cite{Smith2006, SmithMcCutchanAndCarette2017}.
-  Single family member programs are often programs based on a single physical
-  model.  General purpose tools are usually documented as a family.  Families of
-  physical models also come up.}
-
-\plt{The SRS is not generally written, or read, sequentially.  The SRS is a
-  reference document.  It is generally read in an ad hoc order, as the need
-  arises.  For writing an SRS, and for reading one for the first time, the
-  suggested order of sections is:
-\begin{itemize}
-\item Goal Statement
-\item Instance Models
-\item Requirements
-\item Introduction
-\item Specific System Description
-\end{itemize}
-}
-
-\plt{Guiding principles for the SRS document:
-\begin{itemize}
-\item Do not repeat the same information at the same abstraction level.  If
-  information is repeated, the repetition should be at a different abstraction
-  level.  For instance, there will be overlap between the scope section and the
-  assumptions, but the scope section will not go into as much detail as the
-  assumptions section.
-\end{itemize}
-}
-
-\plt{The template description comments should be disabled before submitting this
-  document for grading.}
-
-\plt{You can borrow any wording from the text given in the template.  It is part
-  of the template, and not considered an instance of academic integrity.  Of
-  course, you need to cite the source of the template.}
-
-\plt{When the documentation is done, it should be possible to trace back to the
-  source of every piece of information.  Some information will come from
-  external sources, like terminology.  Other information will be derived, like
-  General Definitions.}
-
-\plt{An SRS document should have the following qualities: unambiguous,
-  consistent, complete, validatable, abstract and traceable.}
-
-\plt{The overall goal of the SRS is that someone that meets the Characteristics
-  of the Intended Reader (Section~\ref{sec_IntendedReader}) can learn,
-  understand and verify the captured domain knowledge.  They should not have to
-  trust the authors of the SRS on any statements.  They should be able to
-  independently verify/derive every statement made.}
-
 \section{Introduction}
 
-\plt{The introduction section is written to introduce the problem.  It starts
-  general and focuses on the problem domain. The general advice is to start with
-a paragraph or two that describes the problem, followed by a ``roadmap''
-paragraph.  A roadmap orients the reader by telling them what sub-sections to
-expect in the Introduction section.}
+Mobile robots have been used to traverse areas with various hazards, help collect data whether through its sensors or obtaining samples, and overall complete challenging tasks. Due to their autonomy, there is no need to constantly monitor them as they have their own means with interacting with the environment. However, it could raise some concern when there is no reliable method to track their movements, especially if they are placed in a vastly large area or places that may be difficult to access once they are operational. Risks such as having difficulty retrieving them if there is a malfunction keeping them from returning or possible collisions in the area or with other robots are reasons one would want to find a way to locate them as they carry out their tasks. The program being documented, 2D Localizer, proposes to solve this problem by developing a 2D localization solution that can implement various sensors to accurately localize the robots as they traverse the map provided.
+
+The following section provides an overview of the Software Requirement Specification (SRS) for 2D Localizer. This section explains the purpose of this document, the scope of the requirements, the characteristics of the intended reader, and the organization of the document.
 
 \subsection{Purpose of Document}
 
-\plt{This section summarizes the purpose of the SRS document.  It does not focus
-  on the problem itself.  The problem is described in the ``Problem
-  Description'' section (Section~\ref{Sec_pd}).  The purpose is for the document
-  in the context of the project itself, not in the context of this course.
-  Although the ``purpose'' of the document is to get a grade, you should not
-  mention this.  Instead, ``fake it'' as if this is a real project.  The purpose
-  section will be similar between projects.  The purpose of the document is the
-  purpose of the SRS, including communication, planning for the design stage,
-  etc.}
+The main purpose of this document is to describe the requirements needed to run the localizer. Information such as the constraints, assumptions and theoretical models used will be provided to help readers get a better understanding of the purpose and computations of 2D Localizer. Therefore, it can be used as a reference guide on how to plan and set up the requirements needed by the user to get the desired and accurate results.
 
 \subsection{Scope of Requirements} 
 
-\plt{Modelling the real world requires simplification.  The full complexity of
-  the actual physics, chemistry, biology is too much for existing models, and
-  for existing computational solution techniques.  Rather than say what is in
-  the scope, it is usually easier to say what is not.  You can think of it as
-  the scope is initially everything, and then it is constrained to create the
-  actual scope.  For instance, the problem can be restricted to 2 dimensions, or
-  it can ignore the effect of temperature (or pressure) on the material
-  properties, etc.}  
+The scope of the requirements includes the robot analyzed being in a controlled environment to help with potential lighting problems for vision sensors used. The sensors used on the robot and environment are specified for modelling purposes. Some models can include a sum through sensors having independent measurements. The noise from the sensors will be considered zero-mean Gaussian for simplicity in calculations.
 
-\plt{The scope section is related to the assumptions section
-  (Section~\ref{sec_assumpt}).  However, the scope and the assumptions are not
-  at the same level of abstraction.  The scope is at a high level.  The focus is
-  on the ``big picture'' assumptions.  The assumptions section lists, and
-  describes, all of the assumptions.}
+\subsection{Characteristics of Intended Reader}\label{sec_IntendedReader}
 
-\plt{The scope section is relevant for later determining typical values of inputs. The scope should make it clear what inputs are reasonable to expect. This is a distinction between scope and context (context is a later section).  Scope affects the inputs while context affects how the software will be used.}
-
-\subsection{Characteristics of Intended Reader} \label{sec_IntendedReader}
-
-\plt{This section summarizes the skills and knowledge of the readers of the
-  SRS.  It does NOT have the same purpose as the ``User Characteristics''
-  section (Section~\ref{SecUserCharacteristics}).  The intended readers are the
-  people that will read, review and maintain the SRS.  They are the people that
-  will conceivably design the software that is intended to meet the
-  requirements.  The user, on the other hand, is the person that uses the
-  software that is built.  They may never read this SRS document.  Of course,
-  the same person could be a ``user'' and an ``intended reader.''}
-
-\plt{The intended reader characteristics should be written as unambiguously and
-  as specifically as possible.  Rather than say, the user should have an
-  understanding of physics, say what kind of physics and at what level.  For
-  instance, is high school physics adequate, or should the reader have had a
-  graduate course on advanced quantum mechanics?}
+Reviewers of this documentation should have taken a graduate course on linear algebra, estimation theory or matrix computation. They should also have some knowledge in undergraduate statistics and probability.
 
 \subsection{Organization of Document}
 
-\plt{This section provides a roadmap of the SRS document.  It will help the
-  reader orient themselves.  It will provide direction that will help them
-  select which sections they want to read, and in what order.  This section will
-  be similar between project.}
+The organization of this document follows the template for an SRS for scientific computing software proposed by~\cite{SmithAndLai2005},~\cite{SmithEtAl2007}, and~\cite{SmithAndKoothoor2016}. The presentation follows the standard pattern of presenting goals, theories, definitions, and assumptions. For readers that would like a more bottom up approach, they can start reading the data definitions and trace back to find any additional information they require.
+
+The goal statements are refined to the theoretical models and the theoretical models to the instance models. The data definitions are used to support the definitions of the different models.
+
+%In case I change my mind
+% The next section, General System Description, explains the general information that is needed to understand 2D Localizer before going deeper into the document. The Specific System Description provides a refined view of the problem such as clearly defining models and assumptions. The Requirements section 
 
 \section{General System Description}
 
@@ -525,21 +430,13 @@ automotive hazard analyses.}
 This section first presents the problem description, which gives a high-level
 view of the problem to be solved.  This is followed by the solution characteristics
 specification, which presents the assumptions, theories, definitions and finally
-the instance models.  \plt{Add any project specific details that are relevant
-  for the section overview.}
+the instance models.
 
-\subsection{Problem Description} \label{Sec_pd}
+\subsection{Problem Description}\label{Sec_pd}
 
-\progname{} is intended to solve ... \plt{What problem does your program solve?
-The description here should be in the problem space, not the solution space.}
+2D Localizer is intended to help keep track of mobile robots while carrying out their tasks.
 
 \subsubsection{Terminology and  Definitions}
-
-\plt{This section is expressed in words, not with equations.  It provide the
-  meaning of the different words and phrases used in the domain of the problem.
-The terminology is used to introduce concepts from the world outside of the
-mathematical model  The terminology provides a real world connection to give the
-mathematical model meaning.}
 
 This subsection provides a list of terms that are used in the subsequent
 sections and their meaning, with the purpose of reducing ambiguity and making it
@@ -553,7 +450,7 @@ easier to correctly understand the requirements:
 
 \end{itemize}
 
-\subsubsection{Physical System Description} \label{sec_phySystDescrip}
+\subsubsection{Physical System Description}\label{sec_phySystDescrip}
 
 \plt{The purpose of this section is to clearly and unambiguously state the
   physical system that is to be modelled. Effective problem solving requires a
@@ -671,7 +568,7 @@ understand.}
 
 \plt{This section is optional.}
 
-\subsubsection{Assumptions} \label{sec_assumpt}
+\subsubsection{Assumptions}\label{sec_assumpt}
 
 
 This section simplifies the original problem and helps in developing the
@@ -707,6 +604,182 @@ This section focuses on the general equations and laws that \progname{} is based
 on.  \plt{Modify the examples below for your problem, and add additional models
   as appropriate.}
 
+~\newline
+%TM 1
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:NRM}
+% #3 label
+{Noisy Range Measurement}
+% #4 equation
+{
+  $g_j(x) = \lVert \mathbf{x_i} - \mathbf{a_j}\rVert + \eta_j$ 
+}
+% #5 description
+{
+  The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
+}
+% #8 Referenced by
+{
+  \dref{ROCT}
+}
+% #9 Preconditions
+{
+None
+}
+% #1 derivation - not applicable by default
+{}
+
+~\newline
+
+% TM2
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:MLE}
+% #3 label
+{Maximum Likelihood Estimation}
+% #4 equation
+{
+  $\widehat{x} = \arg\min p(\tilde{D}\vert x)$
+}
+% #5 description
+{
+  The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
+}
+% #8 Referenced by
+{
+  \dref{ROCT}
+}
+% #9 Preconditions
+{
+None
+}
+% #1 derivation - not applicable by default
+{}
+
+%TM3
+~\newline
+
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:CF}
+% #3 label
+{Cost Function}
+% #4 equation
+{
+  $C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} (\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert)^2$
+}
+% #5 description
+{
+  The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
+}
+% #8 Referenced by
+{
+  \dref{ROCT}
+}
+% #9 Preconditions
+{
+None
+}
+% #1 derivation - not applicable by default
+{}
+
+%TM4
+~\newline
+
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:COE}
+% #3 label
+{Conservation of thermal energy}
+% #4 equation
+{
+  $-{\bf \nabla \cdot q} + g$ = $\rho C \frac{\partial T}{\partial t}$
+}
+% #5 description
+{
+  The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
+}
+% #8 Referenced by
+{
+  \dref{ROCT}
+}
+% #9 Preconditions
+{
+None
+}
+% #1 derivation - not applicable by default
+{}
+
+%TM5
 ~\newline
 
 \noindent
