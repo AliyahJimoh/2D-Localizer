@@ -277,6 +277,7 @@ which heat is transferred in
   Localizer & 2D Localization Solution\\
   PS & Physical System Description\\
   R & Requirement\\
+  SE(2) & Special Euclidean Group in 2D \\
   SRS & Software Requirements Specification\\
   TM & Theoretical Model\\
   \bottomrule
@@ -336,16 +337,7 @@ The goal statements are refined to the theoretical models and the theoretical mo
 
 This section provides general information about the system.  It identifies the
 interfaces between the system and its environment, describes the user
-characteristics and lists the system constraints.  \plt{This text can likely be
-  borrowed verbatim.}
-
-\plt{The purpose of this section is to provide general information about the
-  system so the specific requirements in the next section will be easier to
-  understand. The general system description section is designed to be
-  changeable independent of changes to the functional requirements documented in
-  the specific system description. The general system description provides a
-  context for a family of related models.  The general description can stay the
-  same, while specific details are changed between family members.}
+characteristics and lists the system constraints.
 
 \subsection{System Context}
 
@@ -447,6 +439,7 @@ easier to correctly understand the requirements:
 \item \textbf{Pose:} Position and orientation of the robot.
 \item \textbf{Localization}: Determining where an object is with respect to its environment.
 \item \textbf{Fiducial Markers}: Markers placed around the environment for the robot to determine its location.
+\item \textbf{Beacon}: A range sensor
 
 \end{itemize}
 
@@ -618,19 +611,12 @@ on.  \plt{Modify the examples below for your problem, and add additional models
 }
 % #5 description
 {
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+
+The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where $\mathbf{x_i}$ is the position of the robot (\si\metre), $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and $\eta_j$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
 }
 % #6 Notes
 {
-None.
+This measurement does not calculate the orientation.
 }
 % #7 Source
 {
@@ -662,15 +648,7 @@ None
 }
 % #5 description
 {
-  The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+  This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given. 
 }
 % #6 Notes
 {
@@ -702,7 +680,7 @@ None
 {Cost Function}
 % #4 equation
 {
-  $C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} (\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert)^2$
+  $C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \left(\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert \right)^2$
 }
 % #5 description
 {
@@ -741,12 +719,12 @@ None
 \noindent
 \deftheory
 % #2 refname of theory
-{TM:COE}
+{TM:FIM}
 % #3 label
-{Conservation of thermal energy}
+{Fisher Information Matrix}
 % #4 equation
 {
-  $-{\bf \nabla \cdot q} + g$ = $\rho C \frac{\partial T}{\partial t}$
+  $\mathbf{I_j} \cong \frac{1}{\sigma_j^2} \left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert} \right)\left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert}\right)^T$
 }
 % #5 description
 {
@@ -785,12 +763,61 @@ None
 \noindent
 \deftheory
 % #2 refname of theory
-{TM:COE}
+{TM:CRLB}
 % #3 label
-{Conservation of thermal energy}
+{Cram\'{e}r-Rao Lower Bound}
 % #4 equation
 {
-  $-{\bf \nabla \cdot q} + g$ = $\rho C \frac{\partial T}{\partial t}$
+  $Var( \hat{\theta}) \geq \frac{1}{I(\theta)}$
+}
+% #5 description
+{
+  The above equation gives the conservation of energy for transient heat transfer in a material
+  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
+  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
+  $g$ is the volumetric heat generation
+  (\si{\watt\per\cubic\metre}), $T$ is the temperature
+  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
+  the gradient operator.  For this equation to apply, other forms
+  of energy, such as mechanical energy, are assumed to be negligible in the
+  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+}
+% #6 Notes
+{
+None.
+}
+% #7 Source
+{
+  \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}
+}
+% #8 Referenced by
+{
+  \dref{ROCT}
+}
+% #9 Preconditions
+{
+None
+}
+% #1 derivation - not applicable by default
+{}
+
+%TM6
+~\newline
+
+\noindent
+\deftheory
+% #2 refname of theory
+{TM:SE2}
+% #3 label
+{SE(2) Transformation}
+% #4 equation
+{
+  $T_{robot} =  
+    \begin{bmatrix}
+      R(\theta) & t \\
+      0 & 1\\
+    \end{bmatrix}
+     $
 }
 % #5 description
 {
@@ -916,11 +943,11 @@ models. The dimension of each quantity is also given.  \plt{Modify the examples
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{FluxCoil}\\
+Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{Joint_Like}\\
 \hline
-Label& \bf Heat flux out of coil\\
+Label& \bf Joint Likelihood Function\\
 \hline
-Symbol &$q_C$\\
+Symbol &$p_j( \tilde{D}\vert x)$\\
 \hline
 % Units& $Mt^{-3}$\\
 % \hline
@@ -942,7 +969,44 @@ Symbol &$q_C$\\
   \hline
   Sources& Citation here \\
   \hline
-  Ref.\ By & \iref{ewat}\\
+  Ref.\ By & \hyperref[TM:MLE]{TM:MLE}\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+\hline
+\rowcolor[gray]{0.9}
+Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{Likelihood}\\
+\hline
+Label& \bf Likelihood Function\\
+\hline
+Symbol &$p_j( \tilde{d_j}\vert x)$\\
+\hline
+% Units& $Mt^{-3}$\\
+% \hline
+  SI Units & \si{\watt\per\square\metre}\\
+  \hline
+  Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
+  \hline
+  Description & 
+                $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
+                The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
+                assuming that Newton's Law 
+                of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
+                the coil, which has area $A_C$ (\si{\square\metre}) and heat 
+                transfer coefficient $h_C$
+                (\si{\watt\per\square\metre\per\celsius}).  This equation
+                assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
+                of the coil (\aref{A_tlcoil}).
+  \\
+  \hline
+  Sources& Citation here \\
+  \hline
+  Ref.\ By & \hyperref[TM:MLE]{TM:MLE}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -1110,7 +1174,7 @@ A correct solution must exhibit \plt{fill in the details}.  \plt{These
   in tabular form.  A sample table is shown in Table~\ref{TblOutputVar}}
 
 \begin{table}[!h]
-\caption{Output Variables} \label{TblOutputVar}
+\caption{Output Variables}\label{TblOutputVar}
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{longtable*}{l l} 
   \toprule
