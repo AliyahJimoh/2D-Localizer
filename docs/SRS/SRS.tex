@@ -431,68 +431,10 @@ The physical system of the localizer includes the following elements:
 
 \subsection{Solution Characteristics Specification}
 
-\plt{This section specifies the information in the solution domain of the system
-  to be developed. This section is intended to express what is required in
-  such a way that analysts and stakeholders get a clear picture, and the
-  latter will accept it. The purpose of this section is to reduce the problem
-  into one expressed in mathematical terms. Mathematical expertise is used to
-  extract the essentials from the underlying physical description of the
-  problem, and to collect and substantiate all physical data pertinent to the
-  problem.}
-
-\plt{This section presents the solution characteristics by successively refining
-  models.  It starts with the abstract/general Theoretical Models (TMs) and
-  refines them to the concrete/specific Instance Models (IMs).  If necessary
-  there are intermediate refinements to General Definitions (GDs).  All of these
-  refinements can potentially use Assumptions (A) and Data Definitions (DD).
-  TMs are refined to create new models, that are called GMs or IMs. DDs are not
-  refined; they are just used. GDs and IMs are derived, or refined, from other
-  models. DDs are not derived; they are just given. TMs are also just given, but
-  they are refined, not used.  If a potential DD includes a derivation, then
-  that means it is refining other models, which would make it a GD or an IM.}
-
-\plt{The above makes a distinction between ``refined'' and ``used.'' A model is
-  refined to another model if it is changed by the refinement. When we change a
-  general 3D equation to a 2D equation, we are making a refinement, by applying
-  the assumption that the third dimension does not matter. If we use a
-  definition, like the definition of density, we aren't refining, or changing
-  that definition, we are just using it.}
-
-\plt{The same information can be a TM in one problem and a DD in another.  It is
-  about how the information is used.  In one problem the definition of
-  acceleration can be a TM, in another it would be a DD.}
-
-\plt{There is repetition between the information given in the different chunks
-  (TM, GDs etc) with other information in the document.  For instance, the
-  meaning of the symbols, the units etc are repeated.  This is so that the
-  chunks can stand on their own when being read by a reviewer/user.  It also
-  facilitates reuse of the models in a different context.}
-
-\noindent \plt{The relationships between the parts of the document are show in
-  the following figure.  In this diagram ``may ref'' has the same role as
-  ``uses'' above.  The figure adds ``Likely Changes,'' which are able to
-  reference (use) Assumptions.}
-
-\begin{figure}[H]
-  \includegraphics[scale=0.9]{RelationsBetweenTM_GD_IM_DD_A.pdf}
-\end{figure}
-
-The instance models that govern \progname{} are presented in
+The instance models that govern 2D Localizer are presented in
 Subsection~\ref{sec_instance}.  The information to understand the meaning of the
 instance models and their derivation is also presented, so that the instance
 models can be verified.
-
-\subsubsection{Types}
-
-\plt{This section is optional. Defining types can make the document easier to
-understand.}
-
-\subsubsection{Scope Decisions}
-
-\plt{This section is optional.}
-\subsubsection{Modelling Decisions}
-
-\plt{This section is optional.}
 
 \subsubsection{Assumptions}\label{sec_assumpt}
 
@@ -535,16 +477,19 @@ Equation& \begin{displaymath}
 \end{displaymath} \\
 \hline
 Description &
-The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where $\mathbf{x_i}$ is the position of the robot (\si\metre), $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and $\eta_j$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
+The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where \\
+& $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
+& $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and \\
+& $\eta_j$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
 \\
 \hline
-Source & Citation here \\
+Source & \citet{Sequeira2024}\\
 \hline
-Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+Ref.\ By & \ddref{DD_distance}\\
 \hline
-Preconditions & \\
+Preconditions & \aref{A_noise}\\
 \hline
-Derivation & \\
+Derivation & None\\
 \hline
 \end{tabular}
 \end{minipage}\\
@@ -567,24 +512,20 @@ C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \left(\tilde{d_j} - \lVert \mathbf{x_
 \end{displaymath} \\ 
 \hline
 Description &
-The above equation gives the conservation of energy for transient heat transfer in a material
-  of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-  (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-  $g$ is the volumetric heat generation
-  (\si{\watt\per\cubic\metre}), $T$ is the temperature
-  (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-  the gradient operator.  For this equation to apply, other forms
-  of energy, such as mechanical energy, are assumed to be negligible in the
-  system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.
+The above equation gives the error between the measured and predicted ranges, also known as the cost function.\\
+& $\tilde{d_j}$ is the real measurement with noise from the sensors (\ddref{DD_distance})\\
+& $\sigma_j^2$ is the sensor variance used in the noise factor \\
+& $\lVert \mathbf{x_i} - \mathbf{a_j}\rVert$ is the predicted range the robot is from the jth beacon
+
 \\
 \hline
-Source & \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm} \\
+Source & - \\
 \hline
-Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+Ref.\ By & None\\
 \hline
-Preconditions & \\
+Preconditions & \aref{A_noise} \\
 \hline
-Derivation & \\
+Derivation & None\\
 \hline
 \end{tabular}
 \end{minipage}\\
@@ -603,18 +544,19 @@ Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
 Label &\bf Fisher Information Matrix \\
 \hline
 Equation& \begin{displaymath}
-  \mathbf{I_j} \cong \frac{1}{\sigma_j^2} \left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert} \right)\left(\frac{\widehat{x}-a_j}{\lVert \widehat{x}-a_j \rVert}\right)^T
+  \mathbf{I} \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\widehat{x}-a_j\right) \left( \widehat{x}-a_j\right)^T}{\lVert \widehat{x}-a_j \rVert^2}
 \end{displaymath}\\
 \hline
 Description &
-This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
-\\
+This equation gives the Fisher Information Matrix which shows how much information the data provides about the robot's position \\
+& $\sigma_j^2$ is the sensor variance used in the noise factor\\
+& $\widehat{x}$ is the estimated position in \iref{IM_MLE}\\
 \hline
 Source & Citation here \\
 \hline
-Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+Ref.\ By & \tref{T_CRLB}\\
 \hline
-Preconditions & \\
+Preconditions & \aref{A_noise}, \iref{IM_MLE}\\
 \hline
 Derivation & \\
 \hline
@@ -644,9 +586,9 @@ This equation gives the MLE which estimates the best position $\widehat{x}$ (\si
 \hline
 Source & Citation here \\
 \hline
-Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+Ref.\ By & None\\
 \hline
-Preconditions & \dref{ROCT}\\
+Preconditions & \tref{T_FIM}\\
 \hline
 Derivation & \\
 \hline
@@ -846,7 +788,7 @@ models. \plt{Modify the examples below for your problem, and add additional
 \end{tabular}
 \end{minipage}\\
 
-\subsubsection{Instance Models} \label{sec_instance}    
+\subsubsection{Instance Models}\label{sec_instance}    
 
 \plt{The motivation for this section is to reduce the problem defined in
   ``Physical System Description'' (Section~\ref{sec_phySystDescrip}) to one
@@ -912,7 +854,7 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
   \hline
   \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_like}\\
+  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_MLE}\\
   \hline
   Label& \bf Maximum Likelihood Estimation \\
   \hline
@@ -940,41 +882,6 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
 
 ~\newline
 
-%IM 3
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_FFIM}\\
-  \hline
-  Label& \bf Maximum Likelihood Estimation \\
-  \hline
-  Input&$p( \tilde{D} \vert x )$\\
-  \hline
-  Output& $\widehat{x} $\\
-  \hline
-  Equation&\begin{displaymath}
-    \widehat{x} = \arg\min p(\tilde{D}\vert x)
-  \end{displaymath}\\
-  \hline
-  Description&$T_W$ is the water temperature (\si{\celsius}).\\
-  &$T_P$ is the PCM temperature (\si{\celsius}).\\
-  &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
-  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
-  & The above equation applies as long as the water is in liquid form,
-  $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
-  \\
-  \hline
-  Sources& Citation here \\
-  \hline
-  Ref.\ By & \iref{epcm}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
 
 \subsubsection*{Derivation of ...}
 
@@ -1063,94 +970,51 @@ This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
 
-\pagebreak
+% \pagebreak
 
 \subsection{Functional Requirements}
 
 \noindent \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] \plt{Requirements
-    for the inputs that are supplied by the user.  This information has to be
-    explicit.}
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Inputs}:] Provide the inputs for 2D Localizer which include the 2D map, the coordinates of all sensors and markers located in the environment, and the measurements taken from the sensors.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputInputs}:] \plt{It isn't
-    always required, but often echoing the inputs as part of the output is a
-    good idea.}
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_OutputInputs}:] 2D Localizer will acquire $\widehat{x}$ from the inputs in \rref{R_Inputs}.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:] \plt{Calculation
-    related requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] 2D Localizer will calculate the estimated posed from the measurements provided for \iref{IM_MLE}.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:]
-  \plt{Verification related requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] 2D Localizer will verify that inputs provided are within their constraints.
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] \plt{Output related
-    requirements.}
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Output}:] 2D Localizer will show a visual animated graph that tracks the mobile robots work while also displaying the sensors' coordinates.
 
 \end{itemize}
 
-\plt{Every IM should map to at least one requirement, but not every requirement
-  has to map to a corresponding IM.}
-
 \subsection{Nonfunctional Requirements}
 
-\plt{List your nonfunctional requirements.  You may consider using a fit
-  criterion to make them verifiable.}
-\plt{The goal is for the nonfunctional requirements to be unambiguous, abstract
-  and verifiable.  This isn't easy to show succinctly, so a good strategy may be
-to give a ``high level'' view of the requirement, but allow for the details to
-be covered in the Verification and Validation document.}
-\plt{An absolute requirement on a quality of the system is rarely needed.  For
-  instance, an accuracy of 0.0101 \% is likely fine, even if the requirement is
-  for 0.01 \% accuracy.  Therefore, the emphasis will often be more on
-  describing now well the quality is achieved, through experimentation, and
-  possibly theory, rather than meeting some bar that was defined a priori.}
-\plt{You do not need an entry for correctness in your NFRs.  The purpose of the
-  SRS is to record the requirements that need to be satisfied for correctness.
-  Any statement of correctness would just be redundant. Rather than discuss
-  correctness, you can characterize how far away from the correct (true)
-  solution you are allowed to be.  This is discussed under accuracy.}
+This problem priorities the accuracy of the estimations along with its performance when it comes to keeping up with the robot's movements. That being said, the nonfunctional requirements are:
 
 \noindent \begin{itemize}
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Accuracy}:]
-  \textbf{Accuracy} \plt{Characterize the accuracy by giving the context/use for
-    the software.  Maybe something like, ``The accuracy of the computed
-    solutions should meet the level needed for $<$engineering or scientific
-    application$>$.  The level of accuracy achieved by \progname{} shall be
-    described following the procedure given in Section~X of the Verification and
-    Validation Plan.''  A link to the VnV plan would be a nice extra.}
+  \textbf{Accuracy}: The accuracy of the computed estimations should meet the threshold when comparing to the predicted measurements. 
 
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Usability}:] \textbf{Usability}
-  \plt{Characterize the usability by giving the context/use for the software.
-    You should likely reference the user characteristics section.  The level of
-    usability achieved by the software shall be described following the
-    procedure given in Section~X of the Verification and Validation Plan.  A
-    link to the VnV plan would be a nice extra.}
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Understandibility}:] \textbf{Understandability}: The software should be simple to understand and implement.
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Maintainability}:]
-  \textbf{Maintainability} \plt{The effort required to make any of the likely
-    changes listed for \progname{} should be less than FRACTION of the original
-    development time.  FRACTION is then a symbolic constant that can be defined
-    at the end of the report.}
+  \textbf{Maintainability}: The software should be simple modify some components when needed.
 
-\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Portability}:]
-  \textbf{Portability} \plt{This NFR is easier to write than the others.  The
-    systems that \progname{} should run on should be listed here.  When possible
-    the specific versions of the potential operating environments should be
-    given.  To make the NFR verifiable a statement could be made that the tests
-    from a given section of the VnV plan can be successfully run on all of the
-    possible operating environments.}
-
-\item Other NFRs that might be discussed include verifiability,
-  understandability and reusability.
-
+\item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Reusability}:]
+  \textbf{Usability}: The software should be easy to run and have minimal troubleshooting.
 \end{itemize}
 
 \subsection{Rationale}
 
-\plt{Provide a rationale for the decisions made in the documentation.  Rationale
-should be provided for scope decisions, modelling decisions, assumptions and
-typical values.}
+This program has rationale for the assumptions mentioned in~\ref{sec_assumpt}:
+\begin{itemize}
+  \item \aref{A_sensors}: Assuming the type of sensors assisted in setting up the type of output variables that is needed for each set of estimates.
+  \item \aref{A_controlled}: Referring to \aref{A_sensors}, vision sensors will be used on the robot and lighting could affect the way they detect FMs. Another main reason for this assumption is so that the coordinates of each beacon and FM can be structured around the area the user provides.
+  \item \aref{A_indep}: In order to find the sum and products of variables that need data from each beacon and FM places (\tref{T_FIM}, \iref{IM_like}), having each sensor collect independent data from different positions would help with the overall accuracy the program want to achieve.
+  \item \aref{A_noise}: Having a Gaussian noise assumption simplifies computations in the program especially when some sensors used in robotics follow a Gaussian distribution.
+\end{itemize}
 
 \section{Likely Changes}    
 
@@ -1209,7 +1073,7 @@ the assumptions.
 \dref{GD_PDF}           & & X& &  \\ \hline
 \ddref{DD_distance}    & & & & \\ \hline
 \iref{IM_like}         & & & & \\ \hline
-\iref{IM_FFIM}         & & & & \\ \hline
+\iref{IM_MLE}         & & & & \\ \hline
 \lcref{LC_tpcm}     & & & &\\ \hline
 \lcref{LC_tcoil}    & & & &  \\ \hline
 \lcref{LC_tlcoil}   & & & &\\ \hline
@@ -1328,8 +1192,8 @@ Their values are defined in this section for easy maintenance.}
 
 \newpage
 
-\bibliographystyle {plainnat}
-\bibliography {../../refs/References}
+\bibliographystyle{plainnat}
+\bibliography{mybib}
 
 \newpage
 
