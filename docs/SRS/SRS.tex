@@ -176,9 +176,8 @@ description of the unit and the SI name.
     \toprule		
     \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
     \midrule 
-    \si{\metre} & length & metre\\
-    \si{\second} & time & second\\
-    \si{^\circ} & angle & degrees\\
+    \si{\metre} & length & metre\\\
+    \si{\radian} & angle & radians\\
     \bottomrule
   \end{longtable*}
   %	\caption{Provide a caption}
@@ -220,9 +219,9 @@ $j$ & \si[per-mode=symbol] {-} & Index for number of beacons
 \\ 
 $\eta_j$ & \si[per-mode=symbol] {-} & Sensor noise 
 \\
-$n$ & \si[per-mode=symbol] {-} & Index for number of FMs
+$m$ & \si[per-mode=symbol] {-} & Index for number of FMs
 \\ 
-$N$ & \si[per-mode=symbol] {-} & Total number of beacons used
+$n$ & \si[per-mode=symbol] {-} & Total number of beacons used
 \\ 
 $S$ & \si[per-mode=symbol] {-} & Set of beacon coordinates
 \\
@@ -238,7 +237,7 @@ $C(x_i)$ & \si[per-mode=symbol] {\metre} & Cost Function
 \\
 $I$ & \si[per-mode=symbol] {\metre^-2} & Total Fisher Information Matrix
 \\ 
-$\theta$ & \si[per-mode=symbol] {deg} & Robot angle
+$\theta$ & \si[per-mode=symbol] {\radian} & Robot angle
 \\
 $T_{robot}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
 which heat is transferred in
@@ -254,6 +253,7 @@ $T_{env}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
 \end{longtable*}
 
 \subsection{Abbreviations and Acronyms}
+\plt{Double check if you need Likely Changes}
 
 \renewcommand{\arraystretch}{1.2}
 \begin{longtable*}{l  l} 
@@ -261,6 +261,7 @@ $T_{env}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
   \textbf{Abbreviation/Acronym} & \textbf{Definition}\\
   \midrule 
   2D & Two-Dimensional \\
+  2D Localizer & 2D Localization Solution\\
   A & Assumption\\
   CRLB & Cram\'er-Rao Lower Bound\\
   DD & Data Definition\\
@@ -270,12 +271,14 @@ $T_{env}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
   GS & Goal Statement\\
   IM & Instance Model\\
   LC & Likely Change\\
-  Localizer & 2D Localization Solution\\
+  MLE & Maximum Likelihood Estimation\\
+  PDF & Probability Density Function\\
   PS & Physical System Description\\
   R & Requirement\\
   SE(2) & Special Euclidean Group in 2D \\
   SRS & Software Requirements Specification\\
   TM & Theoretical Model\\
+  UC & Unlikely Change\\
   \bottomrule
 \end{longtable*}
 
@@ -291,7 +294,8 @@ well as mathematical operators that are used to distinguish different variables 
   \midrule 
   $\textbf{A}$ & Matrix & Bold capital letter  \\
   $\textbf{a}$ & Vector & Bold lowercase letter  \\
-  $a$ & Scalar & Lowercase letter \\
+  $a / A$ & Scalar & Italicized uppercase/lowercase symbol \\
+$\lVert~\rVert$ & Euclidean (2) Norm~~~~& Vertical brackets \\
   \bottomrule
 \end{longtable*}
 
@@ -447,7 +451,7 @@ change [LC], in which the respective assumption is used.
 
 \begin{itemize}
 
-\item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and fiducial markers
+\item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and fiducial markers (FMs)
 \item[A\refstepcounter{assumpnum}2 \label{A_controlled}:]Localizer is used in a controlled environment (i.e., indoors)
 \item[A\refstepcounter{assumpnum}1 \label{A_indep}:]Each sensor has independent measurements
 \item[A\refstepcounter{assumpnum}1 \label{A_noise}:]Sensor noise is zero-mean Gaussian
@@ -503,54 +507,18 @@ Derivation & None\\
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CF}\\
-\hline
-Label &\bf Cost Function \\
-\hline
-Equation& \begin{displaymath}
-C(x) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \left(\tilde{d_j} - \lVert \mathbf{x_i} - \mathbf{a_j}\rVert \right)^2
-\end{displaymath} \\ 
-\hline
-Description &
-The above equation gives the error between the measured and predicted ranges, also known as the cost function.\\
-& $\tilde{d_j}$ is the real measurement with noise from the sensors (\ddref{DD_distance})\\
-& $\sigma_j^2$ is the sensor variance used in the noise factor \\
-& $\lVert \mathbf{x_i} - \mathbf{a_j}\rVert$ is the predicted range the robot is from the jth beacon
-
-\\
-\hline
-Source & - \\
-\hline
-Ref.\ By & None\\
-\hline
-Preconditions & \aref{A_noise} \\
-\hline
-Derivation & None\\
-\hline
-\end{tabular}
-\end{minipage}\\
-
-%TM3
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
 Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
 \hline
 Label &\bf Fisher Information Matrix \\
 \hline
 Equation& \begin{displaymath}
-  \mathbf{I} \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\widehat{x}-a_j\right) \left( \widehat{x}-a_j\right)^T}{\lVert \widehat{x}-a_j \rVert^2}
+  \mathbf{I} \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\hat{x}-a_j\right) \left( \hat{x}-a_j\right)^T}{\lVert \hat{x}-a_j \rVert^2}
 \end{displaymath}\\
 \hline
 Description &
 This equation gives the Fisher Information Matrix which shows how much information the data provides about the robot's position \\
 & $\sigma_j^2$ is the sensor variance used in the noise factor\\
-& $\widehat{x}$ is the estimated position in \iref{IM_MLE}\\
+& $\hat{x}$ is the estimated position in \iref{IM_MLE}\\
 \hline
 Source & Citation here \\
 \hline
@@ -574,23 +542,24 @@ Derivation & \\
 \rowcolor[gray]{0.9}
 Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CRLB}\\
 \hline
-Label &\bf Cram\'{e}r-Rao Lower Bound \\
+Label &\bf Cram\'{e}r-Rao Lower Bound (CRLB)\\
 \hline
 Equation& \begin{displaymath}
-  Var( \hat{\theta}) \geq \frac{1}{I(\theta)}
+  Var( \hat{x}) \geq \frac{1}{I(\hat{x})}
 \end{displaymath}\\
 \hline
 Description &
-This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
+This equation gives the CRLB which shows how accurate an estimate of a parameter is given the noise in the measurements by providing a lower bound to the estimate's variance. We are able to use \tref{T_FIM} to get this lower bound \\
+& $Var(\hat{x})$ is the variance of the unbiased estimator in \iref{IM_MLE}
 \\
 \hline
-Source & Citation here \\
+Source & \cite{Barfoot2017} \\
 \hline
 Ref.\ By & None\\
 \hline
-Preconditions & \tref{T_FIM}\\
+Preconditions & \tref{T_FIM}, \iref{IM_MLE}\\
 \hline
-Derivation & \\
+Derivation & None\\
 \hline
 \end{tabular}
 \end{minipage}\\
@@ -606,21 +575,30 @@ Derivation & \\
 \rowcolor[gray]{0.9}
 Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_SE}\\
 \hline
-Label &\bf SE(2) Transformation \\
+Label &\bf Special Euclidean (SE) 2 Transformation \\
 \hline
 Equation& \begin{displaymath}
   T_{robot} =  
     \begin{bmatrix}
-      R(\theta) & t \\
+      \mathbf{R}(\theta) & \mathbf{t} \\
       0 & 1\\
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+      \cos\theta & -\sin\theta & x\\
+      \sin\theta & \cos\theta & y\\
+      0 & 0 & 1\\
     \end{bmatrix}
 \end{displaymath}\\
 \hline
 Description &
-This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.
+This equation shows SE(2) which represents all possible 2D transformations of the robot. Since the robot has cameras placed on it (\aref{A_sensors}), SE(2) can be used to get the position and orientation through the FMs. \\
+& $\mathbf{R}(\theta)$ is the rotation represented as a 2$\times$2 matrix\\
+& $\mathbf{t}$ is the translation represented as a 2$\times$1 matrix\\
+& $[0~1]$ makes sure that the matrix is homogenous 
 \\
 \hline
-Source & Citation here \\
+Source & \cite{Barfoot2017} \\
 \hline
 Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
 \hline
@@ -634,19 +612,8 @@ Derivation & \\
 ~\newline
 
 \subsubsection{General Definitions}\label{sec_gendef}
-
-\plt{General Definitions (GDs) are a refinement of one or more TMs, and/or of
-  other GDs.  The GDs are less abstract than the TMs.  Generally the reduction
-  in abstraction is possible through invoking (using/referencing) Assumptions.
-  For instance, the TM could be Newton's Law of Cooling stated abstracting.  The
-  GD could take the general law and apply it to get a 1D equation.}
-
 This section collects the laws and equations that will be used in building the
 instance models.
-
-\plt{Some projects may not have any content for this section, but the section
-  heading should be kept.}  \plt{Modify the examples below for your problem, and
-  add additional definitions as appropriate.}
 
 ~\newline
 
@@ -658,57 +625,38 @@ instance models.
 \rowcolor[gray]{0.9}
 Number& GD\refstepcounter{defnum}\thedefnum\label{GD_PDF}\\
 \hline
-Label &\bf Probability Density Function \\
+Label &\bf Probability Density Function (PDF)\\
 \hline
 % Units&$MLt^{-3}T^0$\\
 % \hline
 SI Units&\si{\per\metre}\\
 \hline
 Equation&\begin{displaymath}
-  p_j \left( \tilde{d_j}\vert x \right) = \mathcal{N}\left( \lVert x - a_j \rVert, \sigma_j^2 \right)
+  p_j \left( \tilde{d_j}\vert \mathbf{x} \right) = \mathcal{N}\left( \lVert \mathbf{x} - \mathbf{a_j} \rVert, \sigma_j^2 \right)
 \end{displaymath}  \\
 \hline
-Description &
-Newton's law of cooling describes convective cooling from a surface.  The law is
-stated as: the rate of heat loss from a body is proportional to the difference
-in temperatures between the body and its surroundings.
-\\
-& $q(t)$ is the thermal flux (\si{\watt\per\square\metre}).\\
-& $h$ is the heat transfer coefficient, assumed independent of $T$ (\aref{A_hcoeff})
-	(\si{\watt\per\square\metre\per\celsius}).\\
-&$\Delta T(t)$= $T(t) - T_{\text{env}}(t)$ is the time-dependent thermal gradient
-between the environment and the object (\si{\celsius}).
+Description & This definition is about the Gaussian PDF (\aref{A_noise}) being used in \iref{IM_like}. This provides the PDF of the actual noisy range measurement $\tilde{d_j}$ of beacon $j$ (\ddref{DD_distance}) that is conditioned on the robot's position $\mathbf{x}$.\\
+& $\mathcal{N}$ is the normal distribution with $\lVert \mathbf{x} - \mathbf{a_j} \rVert$ as the mean (predicted range) and $\sigma_j^2$ as the variance (sensor noise/uncertainty).
 \\
 \hline
-  Source & Citation here \\
+  Source &\cite{Sequeira2024} \\
   \hline
-  Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+  Ref.\ By & \iref{IM_like}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
-\subsubsection*{Detailed derivation of simplified rate of change of temperature}
+% \subsubsection*{Detailed derivation of simplified rate of change of temperature}
 
-\plt{This may be necessary when the necessary information does not fit in the
-  description field.}
-\plt{Derivations are important for justifying a given GD.  You want it to be
-  clear where the equation came from.}
+% \plt{This may be necessary when the necessary information does not fit in the
+%   description field.}
+% \plt{Derivations are important for justifying a given GD.  You want it to be
+%   clear where the equation came from.}
 
 \subsubsection{Data Definitions}\label{sec_datadef}
 
-\plt{The Data Definitions are definitions of symbols and equations that are
-  given for the problem.  They are not derived; they are simply used by other
-  models.  For instance, if a problem depends on density, there may be a data
-  definition for the equation defining density.  The DDs are given information
-  that you can use in your other modules.}
-
-\plt{All Data Definitions should be used (referenced) by at least one other
-  model.}
-
 This section collects and defines all the data needed to build the instance
-models. The dimension of each quantity is also given.  \plt{Modify the examples
-  below for your problem, and add additional definitions as appropriate.}
-
+models. The dimension of each quantity is also given.
 ~\newline
 
 \noindent
@@ -731,20 +679,15 @@ Symbol &$\tilde{d_j}$\\
   \end{displaymath}\\
   \hline
   Description & 
-  $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
-                The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
-                assuming that Newton's Law 
-                of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
-                the coil, which has area $A_C$ (\si{\square\metre}) and heat 
-                transfer coefficient $h_C$
-                (\si{\watt\per\square\metre\per\celsius}).  This equation
-                assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
-                of the coil (\aref{A_tlcoil}).
+  $\tilde{d_j}$ is the actual beacon measurement that will be used compared to \tref{T_NRM} which is just a model. Although it would return a scalar from the sensor, the formulation the equation above. \\
+  & $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
+  & $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and \\
+  & $\eta_j$ is the noise from beacon j(\si\metre) (\aref{A_noise}).
   \\
   \hline
-  Sources& Citation here \\
+  Sources&\cite{Sequeira2024} \\
   \hline
-  Ref.\ By & \tref{T_MLE}\\
+  Ref.\ By &\dref{GD_PDF}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -789,22 +732,12 @@ models. \plt{Modify the examples below for your problem, and add additional
 \end{minipage}\\
 
 \subsubsection{Instance Models}\label{sec_instance}    
-
-\plt{The motivation for this section is to reduce the problem defined in
-  ``Physical System Description'' (Section~\ref{sec_phySystDescrip}) to one
-  expressed in mathematical terms. The IMs are built by refining the TMs and/or
-  GDs.  This section should remain abstract.  The SRS should specify the
-  requirements without considering the implementation.}
-
 This section transforms the problem defined in Section~\ref{Sec_pd} into 
 one which is expressed in mathematical terms. It uses concrete symbols defined 
 in Section~\ref{sec_datadef} to replace the abstract symbols in the models 
 identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
 
-The goals \plt{reference your goals} are solved by \plt{reference your instance
-  models}.  \plt{other details, with cross-references where appropriate.}
-\plt{Modify the examples below for your problem, and add additional models as
-  appropriate.}
+The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
 
 ~\newline
 
@@ -818,29 +751,25 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
   \rowcolor[gray]{0.9}
   Number& IM\refstepcounter{instnum}\theinstnum\label{IM_like}\\
   \hline
-  Label& \bf Full Likelihood Function \\
+  Label& \bf Joint Likelihood Function \\
   \hline
-  Input&$\tilde{D}$, $N$\\
+  Input&$\mathbf{\tilde{d}}$, $N$\\
   \hline
-  Output& $p ( \tilde{D} \vert x ) $\\
+  Output& $p ( \mathbf{\tilde{d}} \vert \mathbf{x} ) $\\
   \hline
   Equation&\begin{displaymath}
-    p \left( \tilde{D} \vert x \right) = \prod_{j=1}^{N} p\left( \tilde{d_j}\vert x \right)
+    p \left( \mathbf{\tilde{d}} \vert \mathbf{x} \right) = \prod_{j=1}^{N} p\left( \tilde{d_j}\vert \mathbf{x} \right)
   \end{displaymath}\\
   \hline
-  Description&$T_W$ is the water temperature (\si{\celsius}).\\
-  &$T_P$ is the PCM temperature (\si{\celsius}).\\
-  &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
-  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
-  & The above equation applies as long as the water is in liquid form,
-  $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
+  Description& This equation uses the measurements gotten from each beacon (\aref{A_indep}) to calculate the product of how likely $\mathbf{x}$ is the best position to reflect the inputs where \\
+  & $\mathbf{\tilde{d}} = [ \tilde{d_1}, \tilde{d_2}, \dots, \tilde{d_N}]$, \\
+  & N is the number of beacons, and \\
+  & $p( \tilde{d_j}\vert \mathbf{x})$ is the Gaussian PDF from \dref{GD_PDF}
   \\
   \hline
-  Sources& Citation here \\
+  Sources& \cite{Sequeira2024} \\
   \hline
-  Ref.\ By & \iref{epcm}\\
+  Ref.\ By & \iref{IM_MLE}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -856,26 +785,22 @@ The goals \plt{reference your goals} are solved by \plt{reference your instance
   \rowcolor[gray]{0.9}
   Number& IM\refstepcounter{instnum}\theinstnum\label{IM_MLE}\\
   \hline
-  Label& \bf Maximum Likelihood Estimation \\
+  Label& \bf Maximum Likelihood Estimation (MLE) \\
   \hline
-  Input&$p( \tilde{D} \vert x )$\\
+  Input&$p( \mathbf{\tilde{d}} \vert \mathbf{x} )$\\
   \hline
-  Output& $\widehat{x} $\\
+  Output& $\mathbf{\hat{x}} $\\
   \hline
   Equation&\begin{displaymath}
-    \widehat{x} = \arg\min p(\tilde{D}\vert x)
+    \mathbf{\hat{x}} = \underset{x}{\arg\max}\,p( \mathbf{\tilde{d}} \vert \mathbf{x} )
   \end{displaymath}\\
   \hline
-  Description&$T_W$ is the water temperature (\si{\celsius}).\\
-  &$T_P$ is the PCM temperature (\si{\celsius}).\\
-  &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
-  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
-  & This equation gives the MLE which estimates the best position $\widehat{x}$ (\si\metre) to align based on the range measurements given.\\
+  Description&Continuing from \iref{IM_like}, the MLE equation gives an estimate based on the maximum probability calculated from the joint likelihood function.\\
+  & $ p( \mathbf{\tilde{d}} \vert \mathbf{x} )$ is the joint likelihood function from \iref{IM_like}\\
   \hline
-  Sources& Citation here \\
+  Sources& \cite{Sequeira2024} \\
   \hline
-  Ref.\ By & \iref{epcm}\\
+  Ref.\ By & \tref{T_FIM}, \tref{T_CRLB}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -937,7 +862,7 @@ Table~\ref{TblSpecParams}.
 \end{longtable*}
 \end{table}
 
-\subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
+\subsubsection{Properties of a Correct Solution}\label{sec_CorrectSolution}
 
 \noindent
 A correct solution must exhibit \plt{fill in the details}.  \plt{These
@@ -970,15 +895,15 @@ This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
 
-% \pagebreak
+\pagebreak[4]
 
 \subsection{Functional Requirements}
 
-\noindent \begin{itemize}
+\noindent\begin{itemize}
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_Inputs}:] Provide the inputs for 2D Localizer which include the 2D map, the coordinates of all sensors and markers located in the environment, and the measurements taken from the sensors.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_OutputInputs}:] 2D Localizer will acquire $\widehat{x}$ from the inputs in \rref{R_Inputs}.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_OutputInputs}:] 2D Localizer will acquire $\hat{x}$ from the inputs in \rref{R_Inputs}.
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] 2D Localizer will calculate the estimated posed from the measurements provided for \iref{IM_MLE}.
 
@@ -1054,16 +979,15 @@ the assumptions.
 \hline
 	& \aref{A_sensors}& \aref{A_controlled}& \aref{A_indep}& \aref{A_noise} \\
 \hline
-\tref{T_NRM}        & X& & &  \\ \hline
-\tref{T_CF}        & & & &  \\ \hline
-\tref{T_FIM}        & & & &  \\ \hline
+\tref{T_NRM}         &X & & &X  \\ \hline
+\tref{T_FIM}         & & &X &X  \\ \hline
 \tref{T_CRLB}        & & & &  \\ \hline
-\tref{T_SE}        & & & &  \\ \hline
-\dref{GD_PDF}           & & X& &  \\ \hline
-\ddref{DD_distance}    & & & & \\ \hline
-\iref{IM_like}         & & & & \\ \hline
-\iref{IM_MLE}         & & & & \\ \hline
-\ucref{UC_noise}    & & & &\\
+\tref{T_SE}          &X &X & &  \\ \hline
+\dref{GD_PDF}        & & & & X \\ \hline
+\ddref{DD_distance}  & & & &X \\ \hline
+\iref{IM_like}       & & &X & \\ \hline
+\iref{IM_MLE}        & & & & \\ \hline
+\ucref{UC_noise}     & & & &X\\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
@@ -1076,17 +1000,16 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_NRM}& \tref{T_CF}& \tref{T_FIM}& \tref{T_CRLB}& \tref{T_SE} & \dref{GD_PDF}& \ddref{DD_distance} & \iref{IM_like} & \iref{IM_MLE}\\
+	& \tref{T_NRM}& \tref{T_FIM}& \tref{T_CRLB}& \tref{T_SE} & \dref{GD_PDF}& \ddref{DD_distance} & \iref{IM_like} & \iref{IM_MLE}\\
 \hline
-\tref{T_NRM}     & & & & & & & & & \\ \hline
-\tref{T_CF}     & & & X& & & & & & \\ \hline
-\tref{T_FIM}     & & & & & & & & & \\ \hline
-\tref{T_CRLB}     & & & & & & & & & \\ \hline
-\tref{T_SE}     & & & & & & & & &  \\ \hline
-\dref{GD_PDF}        & & & & & & & & & \\ \hline
-\ddref{DD_distance} & & & & X& & & & & \\ \hline
-\iref{IM_like}      & & & & & X& X& X& & \\ \hline
-\iref{IM_MLE}      & & & & & X& & X& &\\
+\tref{T_NRM}     &  & & & & & & & \\ \hline
+\tref{T_FIM}     &  & & & & & & &X \\ \hline
+\tref{T_CRLB}     &  &X & & & & & & X\\ \hline
+\tref{T_SE}     &  & & & & & & &  \\ \hline
+\dref{GD_PDF}        &  & & & & & & & \\ \hline
+\ddref{DD_distance} & X & & & & & & & \\ \hline
+\iref{IM_like}      &  & & & &X &X & & \\ \hline
+\iref{IM_MLE}      &  & & & & & &X &\\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
@@ -1099,13 +1022,13 @@ the assumptions.
 \hline
 	& \iref{IM_like}& \iref{IM_MLE}& \rref{R_Inputs}& \rref{R_OutputInputs}& \rref{R_Calculate}& \rref{R_VerifyOutput}& \rref{R_Output} \\
 \hline
-\iref{IM_like}            & & X& & & & X& X \\ \hline
-\iref{IM_MLE}            & X& & & X& & X& X \\ \hline
-\rref{R_Inputs}          & & & & & & X& X \\ \hline
+\iref{IM_like}          & & & & & & & \\ \hline
+\iref{IM_MLE}           & X& & & & & & \\ \hline
+\rref{R_Inputs}         & & & & & & & \\ \hline
 \rref{R_OutputInputs}   & & & X& & & & \\ \hline
-\rref{R_Calculate}     & & & & X& & & \\ \hline
-\rref{R_VerifyOutput}  & & & X& X& & & \\ \hline
-\rref{R_Output} & & X& & & & & \\
+\rref{R_Calculate}      & & X& & & & & \\ \hline
+\rref{R_VerifyOutput}   & & & & & & & \\ \hline
+\rref{R_Output}         & & & & & & & \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
@@ -1133,15 +1056,15 @@ the assumptions.
 % 	\end{center}
 % \end{figure}
 
-\section{Development Plan}
+% \section{Development Plan}
 
-\plt{This section is optional.  It is used to explain the plan for developing
-  the software.  In particular, this section gives a list of the order in which
-  the requirements will be implemented.  In the context of a course  this is
-  where you can indicate which requirements will be implemented as part of the
-  course, and which will be ``faked'' as future work.  This section can be
-  organized as a prioritized list of requirements, or it could should the
-  requirements that will be implemented for ``phase 1'', ``phase 2'', etc.}
+% \plt{This section is optional.  It is used to explain the plan for developing
+%   the software.  In particular, this section gives a list of the order in which
+%   the requirements will be implemented.  In the context of a course  this is
+%   where you can indicate which requirements will be implemented as part of the
+%   course, and which will be ``faked'' as future work.  This section can be
+%   organized as a prioritized list of requirements, or it could should the
+%   requirements that will be implemented for ``phase 1'', ``phase 2'', etc.}
 
 \section{Values of Auxiliary Constants}
 
