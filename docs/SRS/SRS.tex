@@ -169,7 +169,7 @@ as the unit system.  In addition to the basic units, several derived units are
 used as described below.  For each unit, the symbol is given followed by a
 description of the unit and the SI name.
 ~\newline
-
+\plt{Remember to label tables}
 \renewcommand{\arraystretch}{1.2}
 %\begin{table}[ht]
 \begin{longtable*}{l l l} 
@@ -206,48 +206,44 @@ description of the unit and the SI name.
 The table that follows summarizes the symbols used in this document along with
 their units. The symbols are listed in alphabetical order. 
 
-\plt{Remeber to organize them in order}
-
 \renewcommand{\arraystretch}{1.2}
 %\noindent \begin{tabularx}{1.0\textwidth}{l l X}
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
 \textbf{symbol} & \textbf{unit} & \textbf{description}\\
 \midrule 
+$\mathbf{a_j}$ & \si[per-mode=symbol] {\metre} & Position for beacon j
+\\
+$\mathbf{\tilde{d}}$ & \si[per-mode=symbol] {\metre} & Set of range measurements
+\\ 
+$\tilde{d_j}$ & \si[per-mode=symbol] {\metre} & Measured range with noise from beacon j
+\\
+$g_j(x_i)$ & \si[per-mode=symbol] {\metre} & Noisy range measurement of the robot's ith taken from jth beacon
+\\
+$\mathbf{I}$ & \si[per-mode=symbol] {\per\square\metre} & Total Fisher Information Matrix
+\\ 
 $i$ & \si[per-mode=symbol] {-} & Index for robot's poses
 \\
 $j$ & \si[per-mode=symbol] {-} & Index for number of beacons
+% \\ 
+% $m$ & \si[per-mode=symbol] {-} & Index for number of FMs
+\\ 
+$N$ & \si[per-mode=symbol] {-} & Total number of beacons used
+% \\ 
+% $S$ & \si[per-mode=symbol] {-} & Set of beacon coordinates
+\\
+% \\ 
+% $F$ & \si[per-mode=symbol] {-} & Coordinates of FMs 
+$\mathbf{T_{robot}}$ & \si[per-mode=symbol] {\metre} & Pose of robot
+\\ 
+$\mathbf{x_i}$ & \si[per-mode=symbol] {\metre} & Position i of robot
+\\ 
+$\mathbf{\hat{x}}$ & \si[per-mode=symbol] {\metre} & Estimated position for robot
 \\ 
 $\eta_j$ & \si[per-mode=symbol] {-} & Sensor noise 
 \\
-$m$ & \si[per-mode=symbol] {-} & Index for number of FMs
-\\ 
-$n$ & \si[per-mode=symbol] {-} & Total number of beacons used
-\\ 
-$S$ & \si[per-mode=symbol] {-} & Set of beacon coordinates
-\\
-$g_j(x_i)$ & \si[per-mode=symbol] {\metre} & Noisy range measurement of the robot's ith taken from jth beacon
-\\ 
-$F$ & \si[per-mode=symbol] {-} & Coordinates of FMs
-\\ 
-$\sigma^2_j$ & \si[per-mode=symbol] {\square\metre} & Noise variance for jth beacon
-\\
-$\tilde{d_j}$ & \si[per-mode=symbol] {\metre} & Measured distance with noise
-\\ 
-$C(x_i)$ & \si[per-mode=symbol] {\metre} & Cost Function
-\\
-$I$ & \si[per-mode=symbol] {\metre^-2} & Total Fisher Information Matrix
-\\ 
 $\theta$ & \si[per-mode=symbol] {\radian} & Robot angle
 \\
-$T_{robot}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
-which heat is transferred in
-\\ 
-$\tilde{D}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
-\\
-$d_j$ & \si[per-mode=symbol] {\square\metre} & surface area over 
-which heat is transferred in
-\\ 
-$T_{env}$ & \si[per-mode=symbol] {\square\metre} & coil surface area
+$\sigma^2_j$ & \si[per-mode=symbol] {\square\metre} & Noise variance for beacon j
 \\
 \bottomrule
 \end{longtable*}
@@ -290,7 +286,7 @@ well as mathematical operators that are used to distinguish different variables 
 \renewcommand{\arraystretch}{1.2}
 \begin{longtable*}{l  l  l} 
   \toprule		
-  \textbf{Variable} & \textbf{Definition} & \textbf{Description}\\
+  \textbf{Notation} & \textbf{Definition} & \textbf{Description}\\
   \midrule 
   $\textbf{A}$ & Matrix & Bold capital letter  \\
   $\textbf{a}$ & Vector & Bold lowercase letter  \\
@@ -484,7 +480,7 @@ Description &
 The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where \\
 & $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
 & $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and \\
-& $\eta_j$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
+& $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
 \\
 \hline
 Source & \citet{Sequeira2024}\\
@@ -509,27 +505,98 @@ Derivation & None\\
 \rowcolor[gray]{0.9}
 Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
 \hline
-Label &\bf Fisher Information Matrix \\
+Label &\bf Fisher Information Matrix (FIM) \\
 \hline
 Equation& \begin{displaymath}
-  \mathbf{I} \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\hat{x}-a_j\right) \left( \hat{x}-a_j\right)^T}{\lVert \hat{x}-a_j \rVert^2}
+  \mathbf{I} (\mathbf{\hat{x}}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{\hat{x}}-\mathbf{a_j}\right) \left( \mathbf{\hat{x}}-\mathbf{a_j}\right)^T}{\lVert \mathbf{\hat{x}}-\mathbf{a_j} \rVert^2}
 \end{displaymath}\\
 \hline
 Description &
-This equation gives the Fisher Information Matrix which shows how much information the data provides about the robot's position \\
+This equation gives the FIM which shows how much information the data provides about the robot's position \\
 & $\sigma_j^2$ is the sensor variance used in the noise factor\\
-& $\hat{x}$ is the estimated position in \iref{IM_MLE}\\
+& $\mathbf{\hat{x}}$ is the estimated position in \iref{IM_MLE}\\
 \hline
-Source & Citation here \\
+Source & \cite{Barfoot2017} \\
 \hline
 Ref.\ By & \tref{T_CRLB}\\
 \hline
 Preconditions & \aref{A_noise}, \iref{IM_MLE}\\
 \hline
-Derivation & \\
-\hline
 \end{tabular}
 \end{minipage}\\
+
+\subsubsection*{Derivation of FIM}
+
+\tref{T_FIM} was derived from \dref{GD_PDF} and \iref{IM_like} as the FIM formula from \cite{Barfoot2017} is
+\begin{displaymath}
+\mathbf{I}(\mathbf{x} | \boldsymbol{\theta}) = \mathbb{E} \left[
+\left( \frac{\partial \ln p(\mathbf{x} | \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right)^{T}
+\left( \frac{\partial \ln p(\mathbf{x} | \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right)
+\right]
+\end{displaymath}
+
+where\\ 
+\[\frac{\partial \ln p(\mathbf{x} | \boldsymbol{\theta})}{\partial \boldsymbol{\theta}}\] is the score function which measures how much the likelihood changes from the parameter being estimated $\boldsymbol{\theta}$ from observed data $\mathbf{x}$.
+
+To change it to the software's symbols, the FIM would be
+\begin{displaymath}
+  \mathbf{I}(\mathbf{x}) = \mathbb{E} \left[
+  \left( \frac{\partial \ln p(\mathbf{\tilde{d}} | \mathbf{x})}{\partial \mathbf{x}} \right)^{T}
+  \left( \frac{\partial \ln p(\mathbf{\tilde{d}} | \mathbf{x})}{\partial \mathbf{x}} \right)
+  \right]
+  \end{displaymath} 
+
+Continuing with Barfoot's equations, their Gaussian PDF can be made with \dref{GD_PDF} since it requires a mean and variance. This can be shown as
+\begin{displaymath}
+  p(\tilde{d_j} | \mathbf{x}) = \frac{1}{\sqrt{2\pi\sigma_j^2}} 
+  \exp \left( 
+  -\frac{(\tilde{d}_j - \lVert\mathbf{x} - \mathbf{a}_j\rVert)^2}{2\sigma_j^2} 
+  \right)
+\end{displaymath}
+
+Linking it to \iref{IM_like}:
+\begin{displaymath}
+  p(\tilde{\mathbf{d}} | \mathbf{x}) = \prod_{j=1}^{N} 
+  \frac{1}{\sqrt{2\pi\sigma_j^2}} 
+  \exp \left( 
+  -\frac{(\tilde{d}_j - \|\mathbf{x} - \mathbf{a}_j\|_2)^2}{2\sigma_j^2} 
+  \right)
+\end{displaymath}
+
+From here, the log-likelihood function can be calculated:
+
+\begin{displaymath}
+  \ln p(\tilde{\mathbf{d}} | \mathbf{x}) = \sum_{j=1}^{N} 
+  \left[ -\frac{1}{2} \ln (2\pi\sigma_j^2) 
+  - \frac{(\tilde{d}_j - \|\mathbf{x} - \mathbf{a}_j\|_2)^2}{2\sigma_j^2} 
+  \right]
+\end{displaymath}
+
+\begin{displaymath}
+  \ln p(\tilde{\mathbf{d}} | \mathbf{x}) = -\sum_{j=1}^{N} 
+  \frac{(\tilde{d}_j - \|\mathbf{x} - \mathbf{a}_j\|_2)^2}{2\sigma_j^2}
+\end{displaymath}
+
+The score function can then be written as
+
+\begin{displaymath}
+  \frac{\partial \ln p(\tilde{\mathbf{d}} | \mathbf{x})}{\partial \mathbf{x}} = \sum_{j=1}^{N} 
+  \frac{(\tilde{d}_j - \|\mathbf{x} - \mathbf{a}_j\|_2)}{\sigma_j^2}
+  \frac{\mathbf{x} - \mathbf{a}_j}{\|\mathbf{x} - \mathbf{a}_j\|}
+\end{displaymath}
+
+This function is in the expectation of FIM formula so when referring to \ddref{DD_distance} 
+
+\begin{displaymath}
+  \mathbb{E} \left[ \tilde{d}_j - \|\mathbf{x} - \mathbf{a}_j\|_2 \right] 
+= \mathbb{E} \left[ \eta_j \right] = 0
+\end{displaymath}
+
+the noise has zero mean (\aref{A_noise}). Cancelling that portion out gives us this model, also known as \tref{T_FIM}
+
+\begin{displaymath}
+  \mathbf{I}(\mathbf{x}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{x}-\mathbf{a_j}\right) \left( \mathbf{x}-\mathbf{a_j}\right)^T}{\lVert \mathbf{x}-\mathbf{a_j} \rVert^2}
+\end{displaymath}
 
 %TM4
 ~\newline
@@ -545,12 +612,12 @@ Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CRLB}\\
 Label &\bf Cram\'{e}r-Rao Lower Bound (CRLB)\\
 \hline
 Equation& \begin{displaymath}
-  Var( \hat{x}) \geq \frac{1}{I(\hat{x})}
+  Var( \mathbf{\hat{x}}) \geq \frac{1}{\mathbf{I}(\mathbf{\hat{x}})}
 \end{displaymath}\\
 \hline
 Description &
 This equation gives the CRLB which shows how accurate an estimate of a parameter is given the noise in the measurements by providing a lower bound to the estimate's variance. We are able to use \tref{T_FIM} to get this lower bound \\
-& $Var(\hat{x})$ is the variance of the unbiased estimator in \iref{IM_MLE}
+& $Var(\mathbf{\hat{x}})$ is the variance of the unbiased estimator in \iref{IM_MLE}
 \\
 \hline
 Source & \cite{Barfoot2017} \\
@@ -595,16 +662,17 @@ Description &
 This equation shows SE(2) which represents all possible 2D transformations of the robot. Since the robot has cameras placed on it (\aref{A_sensors}), SE(2) can be used to get the position and orientation through the FMs. \\
 & $\mathbf{R}(\theta)$ is the rotation represented as a 2$\times$2 matrix\\
 & $\mathbf{t}$ is the translation represented as a 2$\times$1 matrix\\
-& $[0~1]$ makes sure that the matrix is homogenous 
+& $[0~1]$ makes sure that the matrix is homogenous \\
+& $x,y$ are the positions for the x and y coordinates of the 2D map
 \\
 \hline
 Source & \cite{Barfoot2017} \\
 \hline
-Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
+Ref.\ By & None\\
 \hline
-Preconditions & \\
+Preconditions & None\\
 \hline
-Derivation & \\
+Derivation & None\\
 \hline
 \end{tabular}
 \end{minipage}\\
@@ -682,7 +750,7 @@ Symbol &$\tilde{d_j}$\\
   $\tilde{d_j}$ is the actual beacon measurement that will be used compared to \tref{T_NRM} which is just a model. Although it would return a scalar from the sensor, the formulation the equation above. \\
   & $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
   & $\mathbf{a_j}$ is the position of the jth beacon placed (\si\metre), and \\
-  & $\eta_j$ is the noise from beacon j(\si\metre) (\aref{A_noise}).
+  & $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from beacon j(\si\metre) (\aref{A_noise}).
   \\
   \hline
   Sources&\cite{Sequeira2024} \\
@@ -692,44 +760,44 @@ Symbol &$\tilde{d_j}$\\
 \end{tabular}
 \end{minipage}\\
 
-\subsubsection{Data Types}\label{sec_datatypes}
+% \subsubsection{Data Types}\label{sec_datatypes}
 
-\plt{This section is optional.  In many scientific computing programs it isn't
-  necessary, since the inputs and outpus are straightforward types, like reals,
-  integers, and sequences of reals and integers.  However, for some problems it
-  is very helpful to capture the type information.}
+% \plt{This section is optional.  In many scientific computing programs it isn't
+%   necessary, since the inputs and outpus are straightforward types, like reals,
+%   integers, and sequences of reals and integers.  However, for some problems it
+%   is very helpful to capture the type information.}
 
-\plt{The data types are not derived; they are simply stated and used by other
-  models.}
+% \plt{The data types are not derived; they are simply stated and used by other
+%   models.}
 
-\plt{All data types must be used by at least one of the models.}
+% \plt{All data types must be used by at least one of the models.}
 
-\plt{For the mathematical notation for expressing types, the recommendation is
-  to use the notation of~\citet{HoffmanAndStrooper1995}.}
+% \plt{For the mathematical notation for expressing types, the recommendation is
+%   to use the notation of~\citet{HoffmanAndStrooper1995}.}
 
-This section collects and defines all the data types needed to document the
-models. \plt{Modify the examples below for your problem, and add additional
-  definitions as appropriate.}
+% This section collects and defines all the data types needed to document the
+% models. \plt{Modify the examples below for your problem, and add additional
+%   definitions as appropriate.}
 
-~\newline
+% ~\newline
 
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Type Name & Name for Type\\
-  \hline
-  Type Def & mathematical definition of the type\\
-  \hline
-  Description & description here
-  \\
-  \hline
-  Sources & Citation here, if the type is borrowed from another source\\
-  \hline
-\end{tabular}
-\end{minipage}\\
+% \noindent
+% \begin{minipage}{\textwidth}
+% \renewcommand*{\arraystretch}{1.5}
+% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+%   \hline
+%   \rowcolor[gray]{0.9}
+%   Type Name & Name for Type\\
+%   \hline
+%   Type Def & mathematical definition of the type\\
+%   \hline
+%   Description & description here
+%   \\
+%   \hline
+%   Sources & Citation here, if the type is borrowed from another source\\
+%   \hline
+% \end{tabular}
+% \end{minipage}\\
 
 \subsubsection{Instance Models}\label{sec_instance}    
 This section transforms the problem defined in Section~\ref{Sec_pd} into 
@@ -808,11 +876,11 @@ The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
 ~\newline
 
 
-\subsubsection*{Derivation of ...}
+% \subsubsection*{Derivation of ...}
 
-\plt{The derivation shows how the IM is derived from the TMs/GDs.  In cases
-  where the derivation cannot be described under the Description field, it will
-  be necessary to include this subsection.}
+% \plt{The derivation shows how the IM is derived from the TMs/GDs.  In cases
+%   where the derivation cannot be described under the Description field, it will
+%   be necessary to include this subsection.}
 
 \subsubsection{Input Data Constraints} \label{sec_DataConstraints}    
 
@@ -828,49 +896,46 @@ provides an estimate of the confidence with which the physical quantities can be
 measured.  This information would be part of the input if one were performing an
 uncertainty quantification exercise.
 
-The specification parameters in Table~\ref{TblInputVar} are listed in
-Table~\ref{TblSpecParams}.
+% The specification parameters in Table~\ref{TblInputVar} are listed in
+% Table~\ref{TblSpecParams}.
 
 \begin{table}[!h]
   \caption{Input Variables} \label{TblInputVar}
   \renewcommand{\arraystretch}{1.2}
 \noindent \begin{longtable*}{l l l l c} 
   \toprule
-  \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} &
-                             \textbf{Typical Value} & \textbf{Uncertainty}\\
+  \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} &\textbf{Typical Value} & \textbf{Uncertainty}\\
   \midrule 
-  $L$ & $L > 0$ & $L_{\text{min}} \leq L \leq L_{\text{max}}$ & 1.5 \si[per-mode=symbol] {\metre} & 10\%
+  $\mathbf{a_j}$ & $ \mathbf{a_j}> [0~0]$ & - & [1.5, 2.6] \si[per-mode=symbol] {\metre} & -
+  \\
+  $\tilde{d_j}$ & $ \tilde{d_j} > 0$ & - & 4.76 \si[per-mode=symbol] {\metre} & $\eta_j$
   \\
   \bottomrule
+  \multicolumn{5}{l}{\scriptsize * The user will make a set of each input variable.}\\
 \end{longtable*}
 \end{table}
 
-\noindent 
-\begin{description}
-\item[(*)] \plt{you might need to add some notes or clarifications}
-\end{description}
+% \noindent 
+% \begin{description}
+% \item[(*)] \plt{you might need to add some notes or clarifications}
+% \end{description}
 
-\begin{table}[!h]
-\caption{Specification Parameter Values} \label{TblSpecParams}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Var} & \textbf{Value} \\
-  \midrule 
-  $L_\text{min}$ & 0.1 \si{\metre}\\
-  \bottomrule
-\end{longtable*}
-\end{table}
+% \begin{table}[!h]
+% \caption{Specification Parameter Values} \label{TblSpecParams}
+% \renewcommand{\arraystretch}{1.2}
+% \noindent \begin{longtable*}{l l} 
+%   \toprule
+%   \textbf{Var} & \textbf{Value} \\
+%   \midrule 
+%   $L_\text{min}$ & 0.1 \si{\metre}\\
+%   \bottomrule
+% \end{longtable*}
+% \end{table}
 
 \subsubsection{Properties of a Correct Solution}\label{sec_CorrectSolution}
 
 \noindent
-A correct solution must exhibit \plt{fill in the details}.  \plt{These
-  properties are in addition to the stated requirements.  There is no need to
-  repeat the requirements here.  These additional properties may not exist for
-  every problem.  Examples include conservation laws (like conservation of
-  energy or mass) and known constraints on outputs, which are usually summarized
-  in tabular form.  A sample table is shown in Table~\ref{TblOutputVar}}
+A correct solution must exhibit
 
 \begin{table}[!h]
 \caption{Output Variables}\label{TblOutputVar}
@@ -879,15 +944,15 @@ A correct solution must exhibit \plt{fill in the details}.  \plt{These
   \toprule
   \textbf{Var} & \textbf{Physical Constraints} \\
   \midrule 
-  $T_W$ & $T_\text{init} \leq T_W \leq T_C$ (by~\aref{A_charge})
+  $\mathbf{\hat{x}}$ & $\mathbf{\hat{x}} > [0~0]$
   \\
   \bottomrule
 \end{longtable*}
 \end{table}
 
-\plt{This section is not for test cases or techniques for verification and
-  validation.  Those topics will be addressed in the Verification and Validation
-  plan.}
+% \plt{This section is not for test cases or techniques for verification and
+%   validation.  Those topics will be addressed in the Verification and Validation
+%   plan.}
 
 \section{Requirements}
 
@@ -895,7 +960,7 @@ This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
 qualities that the software is expected to exhibit.
 
-\pagebreak[4]
+% \pagebreak[4]
 
 \subsection{Functional Requirements}
 
@@ -941,7 +1006,9 @@ This program has rationale for the assumptions mentioned in~\ref{sec_assumpt}:
   \item \aref{A_noise}: Having a Gaussian noise assumption simplifies computations in the program especially when some sensors used in robotics follow a Gaussian distribution.
 \end{itemize}
 
-% \section{Likely Changes}    
+\section{Likely Changes}    
+
+There are no likely changes to be made.
 
 % \noindent \begin{itemize}
 
