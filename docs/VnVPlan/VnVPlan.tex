@@ -69,28 +69,44 @@ in.}
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
+  2D & Two-Dimensional \\
+  2D Localizer & 2D Localization Solution\\
+  A & Assumption\\
+  CRLB & Cram\'er-Rao Lower Bound\\
+  DD & Data Definition\\
+  FIM & Fisher Information Matrix \\
+  FM & Fiducial Marker \\
+  GD & General Definition\\
+  GS & Goal Statement\\
+  IM & Instance Model\\
+  LC & Likely Change\\
+  MLE & Maximum Likelihood Estimation\\
+  PDF & Probability Density Function\\
+  PS & Physical System Description\\
+  R & Requirement\\
+  SE(2) & Special Euclidean Group in 2D \\
+  SRS & Software Requirements Specification\\
   T & Test\\
+  TM & Theoretical Model\\
+  UC & Unlikely Change\\
   \bottomrule
 \end{tabular}\\
 
-\wss{symbols, abbreviations, or acronyms --- you can simply reference the SRS
-  \citep{SRS} tables, if appropriate}
-
-\wss{Remove this section if it isn't needed}
+For a full list of symbols, abbreviations, and acronyms used, refer to section 1 in the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS} document.
 
 \newpage
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+This document shows the verification and validation plan of the 2D Localizer program. This plan starts with general information that talks about 2D Localizer in section \ref{sec_general}. The plan and system tests involved with this software is explained in sections \ref{sec_plan} and \ref{sec_sys-tests}.
 
-\section{General Information}
+
+
+\section{General Information}\label{sec_general}
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+This document examines the verification and validation plan of 2D Localizer. This software is used to help accurately locate mobile robots in a provided map given the measurements and coordinates of the sensors and fiducial markers (FMs).
 
 \subsection{Objectives}
 
@@ -140,7 +156,7 @@ Repos.csv) if your plan changes as a result of the VnV planning exercise.}
 \wss{Don't just list the other documents.  You should explain why they are relevant and 
 how they relate to your VnV efforts.}
 
-\section{Plan}
+\section{Plan}\label{sec_plan}
 
 \wss{Introduce this section.  You can provide a roadmap of the sections to
   come.}
@@ -232,7 +248,7 @@ as a Rev 0 demo for the supervisor.}
 
 \wss{This section might reference back to the SRS verification section.}
 
-\section{System Tests}
+\section{System Tests}\label{sec_sys-tests}
 
 \wss{There should be text between all headings, even if it is just a roadmap of
 the contents of the subsections.}
@@ -357,7 +373,7 @@ How test will be performed:
 \wss{Provide a table that shows which test cases are supporting which
   requirements.}
 
-\section{Unit Test Description}
+\section{Unit Test Description}\label{unit-test}
 
 \wss{This section should not be filled in until after the MIS (detailed design
   document) has been completed.}
@@ -488,7 +504,7 @@ How test will be performed:
 
 \newpage
 
-\section{Appendix}
+\section{Appendix}\label{sec_appendix}
 
 This is where you can place additional information.
 
