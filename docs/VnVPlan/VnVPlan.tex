@@ -30,7 +30,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
+24/02/2025 & 1.0 & Notes\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
@@ -67,7 +67,7 @@ in.}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
   \toprule		
-  \textbf{symbol} & \textbf{description}\\
+  \textbf{Symbol} & \textbf{Description}\\
   \midrule 
   2D & Two-Dimensional \\
   2D Localizer & 2D Localization Solution\\
@@ -78,8 +78,8 @@ in.}
   FM & Fiducial Marker \\
   GD & General Definition\\
   GS & Goal Statement\\
-  IM & Instance Model\\
-  LC & Likely Change\\
+  MG & Module Guide \\
+  MIS & Module Interface Specification \\
   MLE & Maximum Likelihood Estimation\\
   PDF & Probability Density Function\\
   PS & Physical System Description\\
@@ -89,6 +89,7 @@ in.}
   T & Test\\
   TM & Theoretical Model\\
   UC & Unlikely Change\\
+  VnV & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
 
@@ -110,64 +111,94 @@ This document examines the verification and validation plan of 2D Localizer. Thi
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+The objective of this plan is to validate the accuracy of this program to build confidence in the software correctness. This plan also aims to satisfy all the requirements the System Requirements Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS}) document outlined.  
 
-\wss{You should also list the objectives that are out of scope.  You don't have 
-the resources to do everything, so what will you be leaving out.  For instance, 
-if you are not going to verify the quality of usability, state this.  It is also 
-worthwhile to justify why the objectives are left out.}
+% \wss{State what is intended to be accomplished.  The objective will be around
+%   the qualities that are most important for your project.  You might have
+%   something like: ``build confidence in the software correctness,''
+%   ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
+%   just those that are most important.}
 
-\wss{The objectives are important because they highlight that you are aware of 
-limitations in your resources for verification and validation.  You can't do everything, 
-so what are you going to prioritize?  As an example, if your system depends on an 
-external library, you can explicitly state that you will assume that external library 
-has already been verified by its implementation team.}
+% \wss{You should also list the objectives that are out of scope.  You don't have 
+% the resources to do everything, so what will you be leaving out.  For instance, 
+% if you are not going to verify the quality of usability, state this.  It is also 
+% worthwhile to justify why the objectives are left out.}
+
+% \wss{The objectives are important because they highlight that you are aware of 
+% limitations in your resources for verification and validation.  You can't do everything, 
+% so what are you going to prioritize?  As an example, if your system depends on an 
+% external library, you can explicitly state that you will assume that external library 
+% has already been verified by its implementation team.}
 
 \subsection{Challenge Level and Extras}
 
-\wss{State the challenge level (advanced, general, basic) for your project.
-Your challenge level should exactly match what is included in your problem
-statement.  This should be the challenge level agreed on between you and the
-course instructor.  You can use a pull request to update your challenge level
-(in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
-VnV planning exercise.}
+This system has an advanced research level which can be seen from the implementation and the topic. Setting up the robot's movement, accurately displaying the trajectory, coordinating the sensors' measurements, and finding a way to animate the output would definitely add difficulty to this system, however, this is not a niche topic meaning that there are papers or libraries available to draw inspiration from.
 
-\wss{Summarize the extras (if any) that were tackled by this project.  Extras
-can include usability testing, code walkthroughs, user documentation, formal
-proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-been approved by the course instructor as included in your problem statement.
-You can use a pull request to update your extras (in TeamComposition.csv or
-Repos.csv) if your plan changes as a result of the VnV planning exercise.}
+% \wss{State the challenge level (advanced, general, basic) for your project.
+% Your challenge level should exactly match what is included in your problem
+% statement.  This should be the challenge level agreed on between you and the
+% course instructor.  You can use a pull request to update your challenge level
+% (in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
+% VnV planning exercise.}
+
+% \wss{Summarize the extras (if any) that were tackled by this project.  Extras
+% can include usability testing, code walkthroughs, user documentation, formal
+% proof, GenderMag personas, Design Thinking, etc.  Extras should have already
+% been approved by the course instructor as included in your problem statement.
+% You can use a pull request to update your extras (in TeamComposition.csv or
+% Repos.csv) if your plan changes as a result of the VnV planning exercise.}
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS
-  and your other project documents (design documents, like MG, MIS, etc).  You
-  can include these even before they are written, since by the time the project
-  is done, they will be written.  You can create BibTeX entries for your
-  documents and within those entries include a hyperlink to the documents.}
+% \wss{Reference relevant documentation.  This will definitely include your SRS
+%   and your other project documents (design documents, like MG, MIS, etc).  You
+%   can include these even before they are written, since by the time the project
+%   is done, they will be written.  You can create BibTeX entries for your
+%   documents and within those entries include a hyperlink to the documents.}
 
-\citet{SRS}
+% \citet{SRS}
 
-\wss{Don't just list the other documents.  You should explain why they are relevant and 
-how they relate to your VnV efforts.}
+% \wss{Don't just list the other documents.  You should explain why they are relevant and 
+% how they relate to your VnV efforts.}
+
+The documentation relevant to the 2D Localizer includes the Problem Statement since it explains the proposed software, the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS} which talks about the requirements needed to properly use the system, the Verification and Validation (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVReport/VnVReport.pdf}{VnV}) report that goes through the tests and plans for the system, and the Module Guide (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftArchitecture/MG.pdf}{MG}) and Module Interface Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{MIS}) for the design.
 
 \section{Plan}\label{sec_plan}
 
-\wss{Introduce this section.  You can provide a roadmap of the sections to
-  come.}
+This section describes the test made for the 2D Localizer system. This begins by mentioning the VnV team in section~\ref{vnv_team}, then followed by the SRS verification plan in~\ref{plan_SRS}, the design verification plan in section~\ref{plan_design},the VnV plan verification plan in section~\ref{plan_verification}, the implementation verification plan in section~\ref{plan_implement}, the automated testing and verification tools in section~\ref{plan_auto}, and the software validation plan in section~\ref{plan_software}.
 
-\subsection{Verification and Validation Team}
+\subsection{Verification and Validation Team}\label{vnv_team}
+
+This section shows the members of the VnV team. They are shown in Table \ref{table:vnvTeam} along with what document they contributed in and their roles.
+
+\begin{center}
+  \begin{table}[h]
+    \centering
+    
+    \begin{tabular}{|l|l|p{5cm}|}
+        \hline
+        \textbf{Name} & \textbf{Document} & \textbf{Role} \\
+        \hline
+        Aliyah Jimoh & All & Author\\
+        \hline
+        Dr. Spencer Smith & All & Instructor \\
+                          &     & Reviewer\\
+        \hline
+        Kiran Singh & SRS & Domain Expert\\
+                    & VnV &               \\
+        \hline
+    \end{tabular}
+
+    \caption{Verification and Validation Team}
+    \label{table:vnvTeam}
+\end{table}
+\end{center}
 
 \wss{Your teammates.  Maybe your supervisor.
   You should do more than list names.  You should say what each person's role is
   for the project's verification.  A table is a good way to summarize this information.}
 
-\subsection{SRS Verification Plan}
+\subsection{SRS Verification Plan}\label{plan_SRS}
 
 \wss{List any approaches you intend to use for SRS verification.  This may
   include ad hoc feedback from reviewers, like your classmates (like your
@@ -181,7 +212,7 @@ issue tracker?}
 
 \wss{Maybe create an SRS checklist?}
 
-\subsection{Design Verification Plan}
+\subsection{Design Verification Plan}\label{plan_design}
 
 \wss{Plans for design verification}
 
@@ -189,7 +220,7 @@ issue tracker?}
 
 \wss{Create a checklists?}
 
-\subsection{Verification and Validation Plan Verification Plan}
+\subsection{Verification and Validation Plan Verification Plan}\label{plan_verification}
 
 \wss{The verification and validation plan is an artifact that should also be
 verified.  Techniques for this include review and mutation testing.}
@@ -198,7 +229,7 @@ verified.  Techniques for this include review and mutation testing.}
 
 \wss{Create a checklists?}
 
-\subsection{Implementation Verification Plan}
+\subsection{Implementation Verification Plan}\label{plan_implement}
 
 \wss{You should at least point to the tests listed in this document and the unit
   testing plan.}
@@ -211,7 +242,7 @@ verified.  Techniques for this include review and mutation testing.}
 walkthrough.  There is also a possibility of using the final presentation (in
 CAS741) for a partial usability survey.}
 
-\subsection{Automated Testing and Verification Tools}
+\subsection{Automated Testing and Verification Tools}\label{plan_auto}
 
 \wss{What tools are you using for automated testing.  Likely a unit testing
   framework and maybe a profiling tool, like ValGrind.  Other possible tools
@@ -228,7 +259,7 @@ that document.}
 \wss{The details of this section will likely evolve as you get closer to the
   implementation.}
 
-\subsection{Software Validation Plan}
+\subsection{Software Validation Plan}\label{plan_software}
 
 \wss{If there is any external data that can be used for validation, you should
   point to it here.  If there are no plans for validation, you should state that
