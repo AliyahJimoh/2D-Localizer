@@ -70,24 +70,13 @@ in.}
   \midrule 
   2D & Two-Dimensional \\
   2D Localizer & 2D Localization Solution\\
-  A & Assumption\\
-  CRLB & Cram\'er-Rao Lower Bound\\
-  DD & Data Definition\\
-  FIM & Fisher Information Matrix \\
   FM & Fiducial Marker \\
-  GD & General Definition\\
-  GS & Goal Statement\\
+  GTSAM & Georgia Tech Smoothing and Mapping\\
   MG & Module Guide \\
   MIS & Module Interface Specification \\
-  MLE & Maximum Likelihood Estimation\\
-  PDF & Probability Density Function\\
-  PS & Physical System Description\\
-  R & Requirement\\
-  SE(2) & Special Euclidean Group in 2D \\
+  PEP8 & Python Enhancement Proposal 8 \\
   SRS & Software Requirements Specification\\
   T & Test\\
-  TM & Theoretical Model\\
-  UC & Unlikely Change\\
   VnV & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
@@ -250,59 +239,58 @@ The implementation of 2D Localizer will be verified be the following techniques:
 \begin{itemize}
   \item \textbf{Static Testing}
   \newline  
-    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy.
+    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a walkthrough in a presentation while explaining the tests made and performed. 
 
   \item \textbf{Dynamic Testing}
+  \newline
+  The unit tests for 2D Localizer are discussed in section \ref{unit-test} 
+
 \end{itemize}
 
+% \wss{You should at least point to the tests listed in this document and the unit
+%   testing plan.}
 
+% \wss{In this section you would also give any details of any plans for static
+%   verification of the implementation.  Potential techniques include code
+%   walkthroughs, code inspection, static analyzers, etc.}
 
-
-\wss{You should at least point to the tests listed in this document and the unit
-  testing plan.}
-
-\wss{In this section you would also give any details of any plans for static
-  verification of the implementation.  Potential techniques include code
-  walkthroughs, code inspection, static analyzers, etc.}
-
-\wss{The final class presentation in CAS 741 could be used as a code
-walkthrough.  There is also a possibility of using the final presentation (in
-CAS741) for a partial usability survey.}
+% \wss{The final class presentation in CAS 741 could be used as a code
+% walkthrough.  There is also a possibility of using the final presentation (in
+% CAS741) for a partial usability survey.}
 
 \subsection{Automated Testing and Verification Tools}\label{plan_auto}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
+For Python implementation, the 2D Localization software will follow the coding style guidelines outlined in Python Enhancement Proposal 8 (PEP8). To enforce this, the Flake8 linter will be used to ensure that code meets PEP8's guidelines.
 
-\wss{If you have already done this in the development plan, you can point to
-that document.}
+% \wss{What tools are you using for automated testing.  Likely a unit testing
+%   framework and maybe a profiling tool, like ValGrind.  Other possible tools
+%   include a static analyzer, make, continuous integration tools, test coverage
+%   tools, etc.  Explain your plans for summarizing code coverage metrics.
+%   Linters are another important class of tools.  For the programming language
+%   you select, you should look at the available linters.  There may also be tools
+%   that verify that coding standards have been respected, like flake9 for
+%   Python.}
 
-\wss{The details of this section will likely evolve as you get closer to the
-  implementation.}
+% \wss{If you have already done this in the development plan, you can point to
+% that document.}
+
+% \wss{The details of this section will likely evolve as you get closer to the
+%   implementation.}
 
 \subsection{Software Validation Plan}\label{plan_software}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
+% To help validate the accuracy of the localization algorithm, 2D Localizer will use the Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) library as an external benchmark as they have a state estimation framework that could be used to compare.
 
-\wss{You might want to use review sessions with the stakeholder to check that
-the requirements document captures the right requirements.  Maybe task based
-inspection?}
+Use data sets. Implement/use GTSAM as an API/modelling language with localizer
+\plt{Please edit this}
 
-\wss{For those capstone teams with an external supervisor, the Rev 0 demo should 
-be used as an opportunity to validate the requirements.  You should plan on 
-demonstrating your project to your supervisor shortly after the scheduled Rev 0 demo.  
-The feedback from your supervisor will be very useful for improving your project.}
+% \wss{If there is any external data that can be used for validation, you should
+%   point to it here.  If there are no plans for validation, you should state that
+%   here.}
 
-\wss{For teams without an external supervisor, user testing can serve the same purpose 
-as a Rev 0 demo for the supervisor.}
+% \wss{You might want to use review sessions with the stakeholder to check that
+% the requirements document captures the right requirements.  Maybe task based
+% inspection?}
 
 \wss{This section might reference back to the SRS verification section.}
 
