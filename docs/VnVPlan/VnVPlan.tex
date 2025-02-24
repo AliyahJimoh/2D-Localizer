@@ -55,7 +55,6 @@ in.}
 \tableofcontents
 
 \listoftables
-\wss{Remove this section if it isn't needed}
 
 \listoffigures
 \wss{Remove this section if it isn't needed}
@@ -107,7 +106,7 @@ This document shows the verification and validation plan of the 2D Localizer pro
 
 \subsection{Summary}
 
-This document examines the verification and validation plan of 2D Localizer. This software is used to help accurately locate mobile robots in a provided map given the measurements and coordinates of the sensors and fiducial markers (FMs).
+This document examines the verification and validation plan of 2D Localizer. This software is used to help accurately locate mobile robots in a provided 2D map given the measurements and coordinates of the sensors and fiducial markers (FMs).
 
 \subsection{Objectives}
 
@@ -181,11 +180,14 @@ This section shows the members of the VnV team. They are shown in Table \ref{tab
         \hline
         Aliyah Jimoh & All & Author\\
         \hline
-        Dr. Spencer Smith & All & Instructor \\
+        Dr.~Spencer Smith & All & Instructor \\
                           &     & Reviewer\\
         \hline
         Kiran Singh & SRS & Domain Expert\\
-                    & VnV &               \\
+                    & VnV & Reviewer      \\
+        \hline
+        Dr.~Matthew Giamou & Problem Statement & Supervisor \\
+                           &                   & Reviewer \\
         \hline
     \end{tabular}
 
@@ -194,42 +196,67 @@ This section shows the members of the VnV team. They are shown in Table \ref{tab
 \end{table}
 \end{center}
 
-\wss{Your teammates.  Maybe your supervisor.
-  You should do more than list names.  You should say what each person's role is
-  for the project's verification.  A table is a good way to summarize this information.}
-
 \subsection{SRS Verification Plan}\label{plan_SRS}
 
-\wss{List any approaches you intend to use for SRS verification.  This may
-  include ad hoc feedback from reviewers, like your classmates (like your
-  primary reviewer), or you may plan for something more rigorous/systematic.}
+The SRS document for 2D Localizer will be verified through the following steps:
+\begin{enumerate}
+  \item The initial review will be preformed by the assigned reviewers (Dr.~Spencer Smith and Kiran Singh) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} as a guide.
+  \item The reviewers will give feedback through creating issues in the GitHub repository.
+  \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
+  \item The author will discuss with the supervisor (Dr.~Matthew Giamou) and ask for their input.
+\end{enumerate}
 
-\wss{If you have a supervisor for the project, you shouldn't just say they will
-read over the SRS.  You should explain your structured approach to the review.
-Will you have a meeting?  What will you present?  What questions will you ask?
-Will you give them instructions for a task-based inspection?  Will you use your
-issue tracker?}
+% \wss{If you have a supervisor for the project, you shouldn't just say they will
+% read over the SRS.  You should explain your structured approach to the review.
+% Will you have a meeting?  What will you present?  What questions will you ask?
+% Will you give them instructions for a task-based inspection?  Will you use your
+% issue tracker?}
 
-\wss{Maybe create an SRS checklist?}
+% \wss{Maybe create an SRS checklist?}
 
 \subsection{Design Verification Plan}\label{plan_design}
+The design for 2D Localizer will be verified through the following steps:
+\begin{enumerate}
+  \item The design documents, the MG and MIS, will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use both checklists (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MG-Checklist.pdf}{MG Checklist} and \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MIS-Checklist.pdf}{MIS Checklist}) as a guide.
+  \item The reviewers will give feedback through creating issues in the GitHub repository.
+  \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
+\end{enumerate}
 
-\wss{Plans for design verification}
+% \wss{Plans for design verification}
 
-\wss{The review will include reviews by your classmates}
+% \wss{The review will include reviews by your classmates}
 
-\wss{Create a checklists?}
+% \wss{Create a checklist?}
 
 \subsection{Verification and Validation Plan Verification Plan}\label{plan_verification}
 
-\wss{The verification and validation plan is an artifact that should also be
-verified.  Techniques for this include review and mutation testing.}
+The VnV plan for 2D Localizer will be verified through the following steps:
+\begin{enumerate}
+  \item The VnV plan will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/VnV-Checklist.pdf}{VnV Checklist} as a guide.
+  \item The reviewers will give feedback through creating issues in the GitHub repository.
+  \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
+\end{enumerate}
 
-\wss{The review will include reviews by your classmates}
+% \wss{The verification and validation plan is an artifact that should also be
+% verified.  Techniques for this include review and mutation testing.}
 
-\wss{Create a checklists?}
+% \wss{The review will include reviews by your classmates}
+
+% \wss{Create a checklists?}
 
 \subsection{Implementation Verification Plan}\label{plan_implement}
+
+The implementation of 2D Localizer will be verified be the following techniques:
+\begin{itemize}
+  \item \textbf{Static Testing}
+  \newline  
+    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy.
+
+  \item \textbf{Dynamic Testing}
+\end{itemize}
+
+
+
 
 \wss{You should at least point to the tests listed in this document and the unit
   testing plan.}
