@@ -30,25 +30,12 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-24/02/2025 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+24/02/2025 & 1.0 & Initial Draft\\
+% Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
 ~\\
-\wss{The intention of the VnV plan is to increase confidence in the software.
-However, this does not mean listing every verification and validation technique
-that has ever been devised.  The VnV plan should also be a \textbf{feasible}
-plan. Execution of the plan should be possible with the time and team available.
-If the full plan cannot be completed during the time available, it can either be
-modified to ``fake it'', or a better solution is to add a section describing
-what work has been completed and what work is still planned for the future.}
-
-\wss{The VnV plan is typically started after the requirements stage, but before
-the design stage.  This means that the sections related to unit testing cannot
-initially be completed.  The sections will be filled in after the design stage
-is complete.  the final version of the VnV plan should have all sections filled
-in.}
 
 \newpage
 
@@ -70,11 +57,14 @@ in.}
   \midrule 
   2D & Two-Dimensional \\
   2D Localizer & 2D Localization Solution\\
+  CRLB & Cram\'er-Rao Lower Bound\\
   FM & Fiducial Marker \\
   GTSAM & Georgia Tech Smoothing and Mapping\\
   MG & Module Guide \\
   MIS & Module Interface Specification \\
+  MLE & Maximum Likelihood Estimation\\
   PEP8 & Python Enhancement Proposal 8 \\
+  SE(2) & Special Euclidean Group in 2D \\
   SRS & Software Requirements Specification\\
   T & Test\\
   VnV & Verification and Validation\\
@@ -237,7 +227,7 @@ The VnV plan for 2D Localizer will be verified through the following steps:
 
 The implementation of 2D Localizer will be verified be the following techniques:
 \begin{itemize}
-  \item \textbf{Static Testing}
+  \item \textbf{Static Verification}
   \newline  
     The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a walkthrough in a presentation while explaining the tests made and performed. 
 
@@ -260,7 +250,11 @@ The implementation of 2D Localizer will be verified be the following techniques:
 
 \subsection{Automated Testing and Verification Tools}\label{plan_auto}
 
-For Python implementation, the 2D Localization software will follow the coding style guidelines outlined in Python Enhancement Proposal 8 (PEP8). To enforce this, the Flake8 linter will be used to ensure that code meets PEP8's guidelines.
+\subsubsection{Code Guidelines}
+For Python implementation, the 2D Localization software will follow the coding style guidelines outlined in Python Enhancement Proposal 8 (PEP8). To enforce this, the Flake8 linter will be used to ensure that code meets PEP8's guidelines and for continuous integration in GitHub Actions.
+
+\subsubsection{GTSAM Integration}
+2D Localizer will use the Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) by~\cite{gtsam2022} as the modelling language for the software meaning that the localization problem by formulated using their representation of factor graphs which are bipartite graphs where factors represent probabilistic constraints connecting variables such as robot poses and sensor measurements. With the tools the framework provides, there would need to be unit tests to check if GTSAM is properly integrated.
 
 % \wss{What tools are you using for automated testing.  Likely a unit testing
 %   framework and maybe a profiling tool, like ValGrind.  Other possible tools
@@ -279,10 +273,7 @@ For Python implementation, the 2D Localization software will follow the coding s
 
 \subsection{Software Validation Plan}\label{plan_software}
 
-% To help validate the accuracy of the localization algorithm, 2D Localizer will use the Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) library as an external benchmark as they have a state estimation framework that could be used to compare.
-
-Use data sets. Implement/use GTSAM as an API/modelling language with localizer~\cite{gtsam2022}
-\plt{Please edit this}
+To help validate the accuracy of the localization algorithm, 2D Localizer will use 2D data sets to test. If a data set cannot be found, alternative test cases and feedback will be discussed with the supervisor.
 
 % \wss{If there is any external data that can be used for validation, you should
 %   point to it here.  If there are no plans for validation, you should state that
@@ -292,132 +283,240 @@ Use data sets. Implement/use GTSAM as an API/modelling language with localizer~\
 % the requirements document captures the right requirements.  Maybe task based
 % inspection?}
 
-\wss{This section might reference back to the SRS verification section.}
+% \wss{This section might reference back to the SRS verification section.}
 
 \section{System Tests}\label{sec_sys-tests}
 
-\wss{There should be text between all headings, even if it is just a roadmap of
-the contents of the subsections.}
+This section goes over the different system tests 2D Localizer will go through to satisfy its requirements.
+
+% \wss{There should be text between all headings, even if it is just a roadmap of
+% the contents of the subsections.}
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Subsets of the tests may be in related, so this section is divided into
-  different areas.  If there are no identifiable subsets for the tests, this
-  level of document structure can be removed.}
+% \wss{Subsets of the tests may be in related, so this section is divided into
+%   different areas.  If there are no identifiable subsets for the tests, this
+%   level of document structure can be removed.}
 
-\wss{Include a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.}
+% \wss{Include a blurb here to explain why the subsections below
+%   cover the requirements.  References to the SRS would be good here.}
 
-\subsubsection{Area of Testing1}
+This subsection looks at the system tests that will help satisfy the functional requirements outlined in the SRS (Section 5.1)
 
-\wss{It would be nice to have a blurb here to explain why the subsections below
-  cover the requirements.  References to the SRS would be good here.  If a section
-  covers tests for input constraints, you should reference the data constraints
-  table in the SRS.}
+\subsubsection{Sensor Estimation Tests}
+
+% \wss{It would be nice to have a blurb here to explain why the subsections below
+%   cover the requirements.  References to the SRS would be good here.  If a section
+%   covers tests for input constraints, you should reference the data constraints
+%   table in the SRS.}
+
+  These tests cover the requirements R1 to R3
 		
-\paragraph{Title for Test}
+\paragraph{Range-Only Pose Estimation}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{F-RO-01\\}
 
-Control: Manual versus Automatic
+Control: Automatic
 					
 Initial State: 
+\begin{itemize}
+  \item Known beacon positions
+  \item Robot starts at unknown location
+\end{itemize}
 					
-Input: 
-					
-Output: \wss{The expected result for the given inputs.  Output is not how you
-are going to return the results of the test.  The output is the expected
-result.}
+Input: Range measurements $\tilde{d}_j$ from beacons with noise
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Output: The estimated robot pose $\hat{x}$, as defined in the SRS (Section 5.1, Requirement R3).
+ 
+
+Test Case Derivation: SRS Section IM2
 					
 How test will be performed: 
-					
-\item{test-id2\\}
-
-Control: Manual versus Automatic
-					
-Initial State: 
-					
-Input: 
-					
-Output: \wss{The expected result for the given inputs}
-
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
-
-How test will be performed: 
+\begin{itemize}
+  \item Use 2D dataset
+  \item Run GTSAM-based factor graph optimization to estimate $\hat{x}$
+  \item Verify the estimated error bounds align with FIM-derived uncertainty
+\end{itemize}
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
 
-...
+\paragraph{SE(2) Transformation Estimation}
+\begin{enumerate}					
+\item{F-SE2-01\\}
+
+Control: Automatic
+					
+Initial State: 
+\begin{itemize}
+  \item Robot starts with a known pose $T_{wf}$
+  \item Fiducial markers are placed at fixed positions
+\end{itemize}
+					
+Input: Transformation matrices $T_{wf}, T_{br}$ 
+
+Output: Computed transformation must satisfy:
+\[
+T_{wr} = T_{wf} T_{fr}
+\]
+
+Test Case Derivation: The transformation matrix $T_{wr}$ is computed using the rigid-body transformation rule in SE(2), which is required to maintain the system’s geometric consistency (SRS Section TM3)
+
+How test will be performed: 
+\begin{itemize}
+  \item Compute $T_{wr}$ using both analytical and numerical methods
+  \item Compare GTSAM-computed pose with theoretical SE(2) output
+\end{itemize}
+\end{enumerate}
+
+\paragraph{Range + SE(2) Sensor Fusion Test}
+\begin{enumerate}
+\item{F-SF-01\\}
+
+Control: Automatic
+					
+Initial State: 
+\begin{itemize}
+  \item Robot starts at unknown pose
+  \item Beacons and fiducial markers placed in test environment
+\end{itemize}
+					
+Input: Range measurements + SE(2) transformation constraints
+
+Output: Estimated pose $T_{wr}$ and $\hat{x}$
+
+Test Case Derivation: F-RO-01 and F-SE2-01
+
+How test will be performed: 
+\begin{itemize}
+  \item Construct factor graph in GTSAM
+  \item Run optimization twice (once with range only, once with full fusion)
+  \item Compare error reductions
+\end{itemize}
+
+\end{enumerate}
+
+\subsubsection{Visual Testing}
+This test covers the requirement R5
+
+\paragraph{2D Map Overlay of Estimated Poses}
+\begin{enumerate}					
+\item{F-MO-01\\}
+
+Control: Automatic
+					
+Initial State: 
+\begin{itemize}
+  \item Environment 2D map and sensor locations (beacons, fiducials) are known.
+  \item Robot follows a predefined trajectory.
+\end{itemize}
+					
+Input: \begin{itemize}
+  \item Ground truth trajectory $T_{wr}$
+  \item Estimated trajectory from localization output $\hat{x}$, generated by a GTSAM-based factor graph optimization.
+  \item Sensor positions and detections.
+\end{itemize}
+
+Output: The visualization correctly displays:
+\begin{itemize}
+    \item Estimated trajectory $\hat{x}$ based on GTSAM’s factor graph optimization.
+    \item Sensor placements (beacons, fiducial markers).
+\end{itemize}
+
+Test Case Derivation: The estimated pose $\hat{x}$ is computed using Maximum Likelihood Estimation (MLE), as described in SRS Section IM2.
+
+How test will be performed: 
+\begin{itemize}
+  \item Run GTSAM-based localization and extract optimized poses $\hat{x}$.
+  \item Generate a visualization overlaying $\hat{x}$ on the environment map.
+  \item Compare the generated visualization with an expected ground-truth image.
+\end{itemize}
+
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{The nonfunctional requirements for accuracy will likely just reference the
-  appropriate functional tests from above.  The test cases should mention
-  reporting the relative error for these tests.  Not all projects will
-  necessarily have nonfunctional requirements related to accuracy.}
+% \wss{The nonfunctional requirements for accuracy will likely just reference the
+%   appropriate functional tests from above.  The test cases should mention
+%   reporting the relative error for these tests.  Not all projects will
+%   necessarily have nonfunctional requirements related to accuracy.}
 
-\wss{For some nonfunctional tests, you won't be setting a target threshold for
-passing the test, but rather describing the experiment you will do to measure
-the quality for different inputs.  For instance, you could measure speed versus
-the problem size.  The output of the test isn't pass/fail, but rather a summary
-table or graph.}
+% \wss{For some nonfunctional tests, you won't be setting a target threshold for
+% passing the test, but rather describing the experiment you will do to measure
+% the quality for different inputs.  For instance, you could measure speed versus
+% the problem size.  The output of the test isn't pass/fail, but rather a summary
+% table or graph.}
 
-\wss{Tests related to usability could include conducting a usability test and
-  survey.  The survey will be in the Appendix.}
+% \wss{Tests related to usability could include conducting a usability test and
+%   survey.  The survey will be in the Appendix.}
 
-\wss{Static tests, review, inspections, and walkthroughs, will not follow the
-format for the tests given below.}
+% \wss{Static tests, review, inspections, and walkthroughs, will not follow the
+% format for the tests given below.}
 
-\wss{If you introduce static tests in your plan, you need to provide details.
-How will they be done?  In cases like code (or document) walkthroughs, who will
-be involved? Be specific.}
+% \wss{If you introduce static tests in your plan, you need to provide details.
+% How will they be done?  In cases like code (or document) walkthroughs, who will
+% be involved? Be specific.}
 
-\subsubsection{Area of Testing1}
+\subsubsection{Estimation Accuracy}
 		
-\paragraph{Title for Test}
+\paragraph{Accuracy Validation}
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{NF-ACC-01\\}
 
-Type: Functional, Dynamic, Manual, Static etc.
+Type: Nonfunctional, Dynamic, Automatic
 					
 Initial State: 
+\begin{itemize}
+  \item The system has access to ground truth robot poses $\bar{x}$.
+  \item Sensor measurements (range, fiducial marker detections) are available.
+\end{itemize}
 					
 Input/Condition: 
+\begin{itemize}
+  \item Synthetic and real-world sensor data.
+  \item Estimated robot poses $\hat{x}$, generated using a GTSAM-based factor graph optimization.
+  \item Ground truth robot trajectory.
+\end{itemize}
 					
 Output/Result: 
+\begin{itemize}
+  \item The Root Mean Squared Error (RMSE) of the estimated poses $\hat{x}$ must satisfy the accuracy constraint in SRS Section 5.2, Requirement NFR1.
+  \item The estimated pose covariance must not exceed the theoretical Cramér-Rao Lower Bound (CRLB) (SRS Section TM2).
+\end{itemize}
 					
 How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
+\begin{itemize}
+  \item Generate test cases with ground-truth trajectory $\bar{x}$.
+  \item Compute estimated poses $\hat{x}$ using GTSAM factor graph optimization.
+  \item Evaluate RMSE between $\hat{x}$ and $\bar{x}$:
+  \item Compare estimated variance to the theoretical CRLB (TM3)
+\end{itemize}
 
 \end{enumerate}
 
-\subsubsection{Area of Testing2}
-
-...
-
+\newpage
 \subsection{Traceability Between Test Cases and Requirements}
 
-\wss{Provide a table that shows which test cases are supporting which
-  requirements.}
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+    & F-RO-01 & F-SE2-01 & F-SF-01 & F-MO-01 & NF-ACC-01 \\
+  \hline
+  R1          &X &X &X & X& \\ \hline
+  R2           &X & &X & &X \\ \hline
+  R3         &X & &X & & \\ \hline
+  R4   & & & & & \\ \hline
+  R5      & & & &X & \\
+  \hline
+  \end{tabular}
+  \caption{Traceability Matrix Showing the Connections Between Requirements and System Tests}
+\end{table}
+
 
 \section{Unit Test Description}\label{unit-test}
 
@@ -543,6 +642,7 @@ How test will be performed:
 \subsection{Traceability Between Test Cases and Modules}
 
 \wss{Provide evidence that all of the modules have been considered.}
+
 				
 \bibliographystyle{plainnat}
 
