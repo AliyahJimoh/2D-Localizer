@@ -485,7 +485,7 @@ Input/Condition:
 Output/Result: 
 \begin{itemize}
   \item The Root Mean Squared Error (RMSE) of the estimated poses $\hat{x}$ must satisfy the accuracy constraint in SRS Section 5.2, Requirement NFR1.
-  \item The estimated pose covariance must not exceed the theoretical Cramér-Rao Lower Bound (CRLB) (SRS Section TM2).
+  \item The estimated pose covariance must not exceed the theoretical Cram\'er-Rao Lower Bound (CRLB) (SRS Section TM2).
 \end{itemize}
 					
 How test will be performed: 
@@ -493,7 +493,7 @@ How test will be performed:
   \item Generate test cases with ground-truth trajectory $\bar{x}$.
   \item Compute estimated poses $\hat{x}$ using GTSAM factor graph optimization.
   \item Evaluate RMSE between $\hat{x}$ and $\bar{x}$:
-  \item Compare estimated variance to the theoretical CRLB (TM3)
+  \item Compare estimated variance to the CRLB (TM3)
 \end{itemize}
 
 \end{enumerate}
