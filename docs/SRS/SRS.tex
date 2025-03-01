@@ -200,7 +200,7 @@ $\tilde{d_j}$ & \si[per-mode=symbol] {\metre} & Measured range with noise from b
 \\
 $g_j(\mathbf{x_i})$ & \si[per-mode=symbol] {\metre} & Noisy range measurement of robot's position $i$ taken from beacon $j$
 \\
-$\mathbf{I}$ & \si[per-mode=symbol] {\per\square\metre} & Total Fisher Information Matrix
+$\boldsymbol{\mathcal{I}}$ & \si[per-mode=symbol] {\per\square\metre} & Total Fisher Information Matrix
 \\ 
 $i$ & \si[per-mode=symbol] {-} & Index for robot's positions
 \\
@@ -210,7 +210,7 @@ $N$ & \si[per-mode=symbol] {-} & Total number of beacons used
 \\
 $\mathbf{T_{robot}}$ & \si[per-mode=symbol] {\metre} & Pose of robot
 \\ 
-$\mathbf{x_i}$ & \si[per-mode=symbol] {\metre} & Position $i$ of robot
+$\mathbf{x_i}$ & \si[per-mode=symbol] {\metre} & Position $i$th 
 \\ 
 $\mathbf{\hat{x}}$ & \si[per-mode=symbol] {\metre} & Estimated position for robot
 \\ 
@@ -287,7 +287,7 @@ The main purpose of this document is to describe the requirements needed to run 
 
 \subsection{Scope of Requirements} 
 
-The scope of the requirements includes the robot analyzed being in a controlled environment to help with potential lighting problems for vision sensors used. The sensors used on the robot and environment are specified for modelling purposes. Some models can have joint formula due to sensors having independent measurements. The noise from the sensors will be considered zero-mean Gaussian for simplicity in calculations.
+The scope of the requirements includes the robot analyzed being in a controlled environment (seen as a 2D environment) to help with potential lighting problems for vision sensors used. The sensors used on the robot and environment are specified for modelling purposes. Some models can have joint formula due to sensors having independent measurements. The noise from the sensors will be considered zero-mean Gaussian for simplicity in calculations.
 
 \subsection{Characteristics of Intended Reader}\label{sec_IntendedReader}
 
@@ -411,8 +411,8 @@ change [LC], in which the respective assumption is used.
 
 \item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and FMs
 \item[A\refstepcounter{assumpnum}2 \label{A_controlled}:]Localizer is used in a controlled environment (i.e., indoors)
-\item[A\refstepcounter{assumpnum}1 \label{A_indep}:]Each sensor has independent measurements
-\item[A\refstepcounter{assumpnum}1 \label{A_noise}:]Sensor noise is zero-mean Gaussian
+\item[A\refstepcounter{assumpnum}3 \label{A_indep}:]Each sensor has independent measurements
+\item[A\refstepcounter{assumpnum}4 \label{A_noise}:]Sensor noise is zero-mean Gaussian
 
 
 \end{itemize}
@@ -441,8 +441,8 @@ Equation& \begin{displaymath}
 Description &
 The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where \\
 & $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
-& $\mathbf{a_j}$ is the position of the beacon j (\si\metre), and \\
-& $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from the jth beacon (\si\metre) (\aref{A_noise}).
+& $\mathbf{a_j}$ is the position of the beacon $j$ (\si\metre), and \\
+& $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from the $j$th beacon (\si\metre) (\aref{A_noise}).
 \\
 \hline
 Source & \citet{Sequeira2024}\\
@@ -470,13 +470,13 @@ Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
 Label &\bf Fisher Information Matrix (FIM) \\
 \hline
 Equation& \begin{displaymath}
-  \mathbf{I} (\mathbf{\hat{x}}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{\hat{x}}-\mathbf{a_j}\right) \left( \mathbf{\hat{x}}-\mathbf{a_j}\right)^T}{\lVert \mathbf{\hat{x}}-\mathbf{a_j} \rVert^2}
+  \boldsymbol{\mathcal{I}} (\mathbf{\hat{x}}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{\hat{x}}-\mathbf{a_j}\right) \left( \mathbf{\hat{x}}-\mathbf{a_j}\right)^T}{\lVert \mathbf{\hat{x}}-\mathbf{a_j} \rVert^2}
 \end{displaymath}\\
 \hline
 Description &
 This equation gives the FIM which shows how much information the data provides about the robot's position \\
 & $\sigma_j^2$ is the sensor variance used in the noise factor\\
-& $\mathbf{a_j}$ is the position of beacon j (\si\metre), and \\
+& $\mathbf{a_j}$ is the position of beacon $j$ (\si\metre), and \\
 & $\mathbf{\hat{x}}$ is the estimated position in \iref{IM_MLE} (\si\metre)\\
 \hline
 Source & \cite{Barfoot2017} \\
@@ -492,7 +492,7 @@ Preconditions & \aref{A_noise}, \iref{IM_MLE}\\
 
 \tref{T_FIM} was derived from \dref{GD_PDF} and \iref{IM_like} as the FIM formula from \cite{Barfoot2017} is
 \begin{displaymath}
-\mathbf{I}(\mathbf{x} | \boldsymbol{\theta}) = \mathbb{E} \left[
+  \boldsymbol{\mathcal{I}}(\mathbf{x} | \boldsymbol{\theta}) = \mathbb{E} \left[
 \left( \frac{\partial \ln p(\mathbf{x} | \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right)^{T}
 \left( \frac{\partial \ln p(\mathbf{x} | \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \right)
 \right]
@@ -503,13 +503,13 @@ where\\
 
 To change it to the software's symbols, the FIM would be
 \begin{displaymath}
-  \mathbf{I}(\mathbf{x}) = \mathbb{E} \left[
+  \boldsymbol{\mathcal{I}}(\mathbf{x}) = \mathbb{E} \left[
   \left( \frac{\partial \ln p(\mathbf{\tilde{d}} | \mathbf{x})}{\partial \mathbf{x}} \right)^{T}
   \left( \frac{\partial \ln p(\mathbf{\tilde{d}} | \mathbf{x})}{\partial \mathbf{x}} \right)
   \right]
-  \end{displaymath} 
+\end{displaymath} 
 
-Continuing with Barfoot's equations, their Gaussian PDF can be made with \dref{GD_PDF} since it requires a mean and variance. This can be shown as
+Continuing with Barfoot's equations, their Gaussian Probability Density Function (PDF) can be made with \dref{GD_PDF} since it requires a mean and variance. This can be shown as
 \begin{displaymath}
   p(\tilde{d_j} | \mathbf{x}) = \frac{1}{\sqrt{2\pi\sigma_j^2}} 
   \exp \left( 
@@ -558,7 +558,7 @@ This function is in the expectation of FIM formula so when referring to \ddref{D
 the noise has zero mean (\aref{A_noise}). Cancelling that portion out gives us this model, also known as \tref{T_FIM}
 
 \begin{displaymath}
-  \mathbf{I}(\mathbf{x}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{x}-\mathbf{a_j}\right) \left( \mathbf{x}-\mathbf{a_j}\right)^T}{\lVert \mathbf{x}-\mathbf{a_j} \rVert^2}
+  \boldsymbol{\mathcal{I}}(\mathbf{x}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{x}-\mathbf{a_j}\right) \left( \mathbf{x}-\mathbf{a_j}\right)^T}{\lVert \mathbf{x}-\mathbf{a_j} \rVert^2}
 \end{displaymath}
 
 %TM3
@@ -575,13 +575,13 @@ Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_CRLB}\\
 Label &\bf Cram\'{e}r-Rao Lower Bound (CRLB)\\
 \hline
 Equation& \begin{displaymath}
-  Var( \mathbf{\hat{x}}) \geq \frac{1}{\mathbf{I}(\mathbf{\hat{x}})}
+  Var( \mathbf{\hat{x}}) \geq \frac{1}{\boldsymbol{\mathcal{I}}(\mathbf{\hat{x}})}
 \end{displaymath}\\
 \hline
 Description &
 This equation gives the CRLB which shows how accurate an estimate of a parameter is given the noise in the measurements by providing a lower bound to the estimate's variance. We are able to use \tref{T_FIM} to get this lower bound \\
 & $Var(\mathbf{\hat{x}})$ is the variance of the unbiased estimator in \iref{IM_MLE}\\
-& $\mathbf{I}(\mathbf{\hat{x}})$ is the FIM calculated from \tref{T_FIM}
+& $\boldsymbol{\mathcal{I}}(\mathbf{\hat{x}})$ is the FIM calculated from \tref{T_FIM}
 \\
 \hline
 Source & \cite{Barfoot2017} \\
