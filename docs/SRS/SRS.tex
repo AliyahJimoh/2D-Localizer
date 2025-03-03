@@ -409,10 +409,10 @@ change [LC], in which the respective assumption is used.
 
 \begin{itemize}
 
-\item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and FMs
-\item[A\refstepcounter{assumpnum}2 \label{A_controlled}:]Localizer is used in a controlled environment (i.e., indoors)
-\item[A\refstepcounter{assumpnum}3 \label{A_indep}:]Each sensor has independent measurements
-\item[A\refstepcounter{assumpnum}4 \label{A_noise}:]Sensor noise is zero-mean Gaussian
+\item[A\refstepcounter{assumpnum}1 \label{A_sensors}:]Robot uses camera sensors while the environment uses beacons and FMs (\tref{T_SE}, \ddref{DD_distance})
+\item[A\refstepcounter{assumpnum}2 \label{A_controlled}:]Localizer is used in a controlled environment (i.e., indoors) (\tref{T_SE})
+\item[A\refstepcounter{assumpnum}3 \label{A_indep}:]Each sensor has independent measurements, meaning the data from one does not depend on or affect the data from another. (\tref{T_FIM}, \iref{IM_like})
+\item[A\refstepcounter{assumpnum}4 \label{A_noise}:]Sensor noise is zero-mean Gaussian (\tref{T_FIM}, \ddref{DD_distance})
 
 
 \end{itemize}
@@ -929,7 +929,7 @@ This program has rationale for the assumptions mentioned in~\ref{sec_assumpt}:
   \item \aref{A_sensors}: Assuming the type of sensors assisted in setting up the type of output variables that is needed for each set of estimates.
   \item \aref{A_controlled}: Referring to \aref{A_sensors}, vision sensors will be used on the robot and lighting could affect the way they detect FMs. Another main reason for this assumption is so that the coordinates of each beacon and FM can be structured around the area the user provides.
   \item \aref{A_indep}: To find the sum and products of variables that need data from each beacon and FM placement (\tref{T_FIM}, \iref{IM_like}), having each sensor collect independent data from different positions would help with the overall accuracy the program would want to achieve.
-  \item \aref{A_noise}: Having a Gaussian noise assumption simplifies computations in the program especially when some sensors used in robotics follow a Gaussian distribution.
+  \item \aref{A_noise}: The most common way to model noise in robotics is with a Gaussian distribution, making it a reasonable and sufficient assumption for this software.
 \end{itemize}
 
 \section{Likely Changes}    
