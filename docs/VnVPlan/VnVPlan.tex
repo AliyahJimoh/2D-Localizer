@@ -11,6 +11,9 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
+\usepackage{graphicx}
+\usepackage{caption}
+
 
 \input{../Comments}
 \input{../Common}
@@ -31,7 +34,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 24/02/2025 & 1.0 & Initial Draft\\
-% Date 2 & 1.1 & Notes\\
+03/03/2025 & 1.1 & Feedback Implementation\\
 \bottomrule
 \end{tabularx}
 
@@ -143,7 +146,7 @@ The documentation relevant to the 2D Localizer includes the Problem Statement si
 
 \section{Plan}\label{sec_plan}
 
-This section describes the test made for the 2D Localizer system. This begins by mentioning the VnV team in section~\ref{vnv_team}, then followed by the SRS verification plan in~\ref{plan_SRS}, the design verification plan in section~\ref{plan_design},the VnV plan verification plan in section~\ref{plan_verification}, the implementation verification plan in section~\ref{plan_implement}, the automated testing and verification tools in section~\ref{plan_auto}, and the software validation plan in section~\ref{plan_software}.
+This section describes the tests made for the 2D Localizer system. This begins by mentioning the VnV team in section~\ref{vnv_team}, then followed by the SRS Verification Plan in~\ref{plan_SRS}, the Design Verification Plan in section~\ref{plan_design},the VnV Plan Verification Plan in section~\ref{plan_verification}, the Implementation Verification Plan in section~\ref{plan_implement}, the Automated Testing and Verification tools in section~\ref{plan_auto}, and the Software Validation Plan in section~\ref{plan_software}.
 
 \subsection{Verification and Validation Team}\label{vnv_team}
 
@@ -254,7 +257,15 @@ The implementation of 2D Localizer will be verified be the following techniques:
 For Python implementation, the 2D Localization software will follow the coding style guidelines outlined in Python Enhancement Proposal 8 (PEP8). To enforce this, the Flake8 linter will be used to ensure that code meets PEP8's guidelines and for continuous integration in GitHub Actions.
 
 \subsubsection{GTSAM Integration}
-2D Localizer will use the Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) by~\cite{gtsam2022} as the modelling language for the software meaning that the localization problem by formulated using their representation of factor graphs which are bipartite graphs where factors represent probabilistic constraints connecting variables such as robot poses and sensor measurements. With the tools the framework provides, there would need to be unit tests to check if GTSAM is properly integrated.
+Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) by~\cite{gtsam2022} is a library that implements sensor fusion for robotics using factor graphs. These graphs consist of two types of nodes: variables (e.g., robot poses and sensor measurements) and factors, which represent probabilistic constraints between them. 2D Localizer will be using this library as a modelling language and would need to run unit tests to verify if GTSAM is properly integrated.
+
+\begin{figure}[h!]
+  \begin{center}
+    \includegraphics[width=0.6\textwidth]{factor_graph.png}
+    \caption{Example Factor Graph from \cite{Dellaert2012}}
+    \label{fig_factor} 
+  \end{center}
+\end{figure}
 
 % \wss{What tools are you using for automated testing.  Likely a unit testing
 %   framework and maybe a profiling tool, like ValGrind.  Other possible tools
