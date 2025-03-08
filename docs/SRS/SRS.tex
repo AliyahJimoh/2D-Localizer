@@ -903,15 +903,23 @@ qualities that the software is expected to exhibit.
 
 \noindent\begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_Inputs}:] Provide the inputs for 2D Localizer which include the 2D map, the coordinates of all sensors and markers located in the environment, and the measurements taken from the sensors.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_In_map}:] \progname~shall accept a picture of a 2D map as a user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_OutputInputs}:] 2D Localizer will acquire $\mathbf{\hat{x}}$ from the inputs in \rref{R_Inputs}.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_In_position}:] \progname~shall accept the coordinates of all sensors and markers located in the environment as a user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] 2D Localizer will calculate the estimated posed from the measurements provided for \iref{IM_MLE}.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_In_measurement}:] \progname~shall accept the beacon measurements as a user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] 2D Localizer will verify that inputs provided are within their constraints.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_OutputInputs}:] \progname~shall compute $\mathbf{\hat{x}}$ based on the provided inputs (\rref{R_In_map}, \rref{R_In_position}, \rref{R_In_measurement}).
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_Output}:] 2D Localizer will show a visual animated graph that tracks the mobile robots work while also displaying the sensors' coordinates.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] \progname~shall calculate the estimated pose from the measurements provided for \iref{IM_MLE}.
+
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] \progname~shall verify that inputs provided are within their constraints.
+
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Visual}:] \progname~shall display a visual representation of the robot’s estimated position and orientation in a 2D environment.
+
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Coordinates}:] \progname~shall display real-time coordinate updates of the robot.
+
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Trajectory}:] \progname~shall display a trajectory path based on previous pose estimates.
 
 \end{itemize}
 
