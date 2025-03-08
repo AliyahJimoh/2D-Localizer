@@ -130,8 +130,8 @@
 
 \begin{document}
 
-\title{Software Requirements Specification for 2D Localizer} 
-\author{Aliyah Jimoh}
+\title{Software Requirements Specification for \progname} 
+\author{\authname}
 \date{\today}
 	
 \maketitle
@@ -150,7 +150,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2025/02/05 & 1.0 & Initial Draft\\
-% Date 2 & 1.1 & Notes\\
+2025/03/03 & 1.1 & Feedback Implementation\\
 \bottomrule
 \end{tabularx}
 
@@ -233,7 +233,7 @@ $\sigma^2_j$ & \si[per-mode=symbol] {\metre} & Noise variance for $j$
   \textbf{Abbreviation/Acronym} & \textbf{Definition}\\
   \midrule 
   2D & Two-Dimensional \\
-  2D Localizer & 2D Localization Solution\\
+  \progname & 2D Localization Solution\\
   A & Assumption\\
   CRLB & Cram\'er-Rao Lower Bound\\
   DD & Data Definition\\
@@ -277,13 +277,13 @@ $\lVert~\rVert$ & Euclidean (2) Norm~~~~& Vertical brackets \\
 
 \section{Introduction}
 
-Mobile robots have been used to traverse areas with various hazards, help collect data whether through its sensors or obtaining samples, and to overall complete challenging tasks. Due to their autonomy, there is no need to constantly monitor them as they have their own means with interacting with the environment. However, it could raise some concern when there is no reliable method to track their movements, especially if they are placed in a vastly large area or if they are difficult to access once they are operational. Risks such as having difficulty retrieving them if there is a malfunction keeping them from returning or possible collisions in the area or with other robots are reasons one would want to find a way to locate them as they carry out their tasks. The program being documented, 2D Localizer, proposes to solve this problem by developing a 2D localization solution that can implement various sensors to accurately localize the robots as they traverse the map provided.
+Mobile robots have been used to traverse areas with various hazards, help collect data whether through its sensors or obtaining samples, and to overall complete challenging tasks. Due to their autonomous movement, there is no need to constantly monitor them as they have their own means with interacting with the environment. However, it could raise some concern when there is no reliable method to track their movements, especially if they are in enclosed or indoor environments; they would not have access to a GPS signal to locate the robot or see if its work has been completed. Risks such as malfunctions preventing their return or collisions with robots or obstacles make tracking them during tasks essential. To address these challenges, the program being documented, \progname,  proposes on addressing this problem by developing a 2D localization solution that enhances autonomous operation by lessening the risks mentioned. By integrating various sensors and markers, this solution ensures that mobile robots maintain reliable and accurate localization in GPS-denied environments.
 
-The following section provides an overview of the Software Requirement Specification (SRS) for 2D Localizer. This section explains the purpose of this document, the scope of the requirements, the characteristics of the intended reader, and the organization of the document.
+The following section provides an overview of the Software Requirement Specification (SRS) for \progname. This section explains the purpose of this document, the scope of the requirements, the characteristics of the intended reader, and the organization of the document.
 
 \subsection{Purpose of Document}
 
-The main purpose of this document is to describe the requirements needed to run 2D Localizer. Information such as the constraints, assumptions and theoretical models used will be provided to help readers get a better understanding of the purpose and computations of this software. Therefore, it can be used as a reference guide on how to plan and set up the requirements needed by the user to get the desired and accurate results.
+The purpose of this document is to outline the development process of 2D Localizer. Information such as the constraints, assumptions and theoretical models used will be provided to help readers get a better understanding of the purpose and computations of this software. Therefore, this document can be used as a reference guide on how to plan and defining the requirements needed by the user to achieve the desired and accurate results.
 
 \subsection{Scope of Requirements} 
 
