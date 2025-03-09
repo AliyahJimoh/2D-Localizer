@@ -222,7 +222,7 @@ $\sigma^2_j$ & \si[per-mode=symbol] {\metre} & Noise variance for $j$
 \\
 \bottomrule
 \end{longtable*}
-
+\plt{Remember to update table for IM3}
 ~\newline
 
 \subsection{Abbreviations and Acronyms}
@@ -253,6 +253,7 @@ $\sigma^2_j$ & \si[per-mode=symbol] {\metre} & Noise variance for $j$
   UC & Unlikely Change\\
   \bottomrule
 \end{longtable*}
+
 
 \subsection{Mathematical Notation}
 Throughout this document, there will be typographic conventions as 
@@ -365,9 +366,7 @@ easier to correctly understand the requirements:
   \caption{Pose on a 2D Plane from \cite{DiCaro2017}}
   \label{Fig_Pose} 
   \end{center}
-  \end{figure}
-
-
+\end{figure}
 
 \item \textbf{Localization}: Determining where an object is with respect to its environment.
 \item \textbf{Fiducial Markers (FMs)}: Markers placed around the environment for the robot to determine its location.
@@ -441,41 +440,6 @@ on.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_NRM}\\
-\hline
-Label &\bf Noisy Range Measurement \\
-\hline
-Equation& \begin{displaymath}
-  g_j(x) = \lVert \mathbf{x_i} - \mathbf{a_j}\rVert + \eta_j
-\end{displaymath} \\
-\hline
-Description &
-The equation above gives the noisy range measurement $g_j$ (\si\metre) of the beacons placed in the environment (\aref{A_sensors}) where \\
-& $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
-& $\mathbf{a_j}$ is the position of the beacon $j$ (\si\metre), and \\
-& $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from the $j$th beacon (\si\metre) (\aref{A_noise}).
-\\
-\hline
-Source & \citet{Sequeira2024}\\
-\hline
-Ref.\ By & \ddref{DD_distance}\\
-\hline
-Preconditions & \aref{A_noise}\\
-\hline
-Derivation & None\\
-\hline
-\end{tabular}
-\end{minipage}\\
-
-% TM2
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
 Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_FIM}\\
 \hline
 Label &\bf Fisher Information Matrix (FIM) \\
@@ -486,9 +450,9 @@ Equation& \begin{displaymath}
 \hline
 Description &
 This equation gives the FIM which shows how much information the data provides about the robot's position \\
-& $\sigma_j^2$ is the sensor variance used in the noise factor\\
+& $\sigma_j^2$ is the variance used in the sensor noise which affects the uncertainty of measurements\\
 & $\mathbf{a_j}$ is the position of beacon $j$ (\si\metre), and \\
-& $\mathbf{\hat{x}}$ is the estimated position in \iref{IM_MLE} (\si\metre)\\
+& $\mathbf{\hat{x}}$ is the best estimated position based on all beacon measurements in the area. This is acquired from using the Maximum Likelihood Estimation (MLE) in \iref{IM_MLE} (\si\metre)\\
 \hline
 Source & \cite{Barfoot2017} \\
 \hline
@@ -572,7 +536,7 @@ the noise has zero mean (\aref{A_noise}). Cancelling that portion out gives us t
   \boldsymbol{\mathcal{I}}(\mathbf{x}) \cong \sum_{j=1}^{N}\frac{1}{\sigma_j^2} \frac{\left(\mathbf{x}-\mathbf{a_j}\right) \left( \mathbf{x}-\mathbf{a_j}\right)^T}{\lVert \mathbf{x}-\mathbf{a_j} \rVert^2}
 \end{displaymath}
 
-%TM3
+%TM2
 ~\newline
 
 \noindent
@@ -606,7 +570,7 @@ Derivation & None\\
 \end{tabular}
 \end{minipage}\\
 
-%TM4
+%TM3
 ~\newline
 
 \noindent
@@ -643,7 +607,7 @@ This equation shows SE(2) which represents all possible 2D transformations of th
 \hline
 Source & \cite{Barfoot2017} \\
 \hline
-Ref.\ By & None\\
+Ref.\ By & \iref{IM_EP}\\
 \hline
 Preconditions & None\\
 \hline
@@ -678,7 +642,7 @@ Equation&\begin{displaymath}
   p_j \left( \tilde{d_j}\vert \mathbf{x} \right) = \mathcal{N}\left( \lVert \mathbf{x} - \mathbf{a_j} \rVert, \sigma_j^2 \right)
 \end{displaymath}  \\
 \hline
-Description & This definition is about the Gaussian PDF (\aref{A_noise}) being used in \iref{IM_like}. This provides the PDF of the actual noisy range measurement $\tilde{d_j}$ of beacon $j$ (\ddref{DD_distance}) that is conditioned on the robot's position $\mathbf{x}$.\\
+Description & This definition is about the Gaussian PDF (\aref{A_noise}) being used in \iref{IM_like}. This provides the PDF of the noisy range measurement $\tilde{d_j}$ of beacon $j$ (\ddref{DD_distance}) that is conditioned on the robot's position $\mathbf{x}$.\\
 & $\mathcal{N}$ is the normal distribution with $\lVert \mathbf{x} - \mathbf{a_j} \rVert$ as the mean (predicted range) and $\sigma_j^2$ as the variance.
 \\
 \hline
@@ -703,7 +667,7 @@ models. The dimension of each quantity is also given.
 \rowcolor[gray]{0.9}
 Number& DD\refstepcounter{datadefnum}\thedatadefnum\label{DD_distance}\\
 \hline
-Label& \bf Actual Range Measurement\\
+Label& \bf Noisy Range Measurement\\
 \hline
 Symbol &$\tilde{d_j}$\\
 % Units& $Mt^{-3}$\\
@@ -715,7 +679,7 @@ Symbol &$\tilde{d_j}$\\
   \end{displaymath}\\
   \hline
   Description & 
-  $\tilde{d_j}$ is the actual beacon measurement that will be used compared to \tref{T_NRM} which is just a model. Although it would return a scalar from the sensor, the formulation the equation above. \\
+  $\tilde{d_j}$ is the distance between the $i$th position of the robot and beacon $j$ along with its noise. Although it would return a scalar from the sensor, the formulation the equation above. The noise is modeled as zero-mean Gaussian (A\ref{A_noise}), a standard assumption in robotics for capturing random measurement errors caused by sensor imperfections and environmental factors.\\
   & $\mathbf{x_i}$ is the position of the robot (\si\metre), \\
   & $\mathbf{a_j}$ is the position of the $j$th beacon placed (\si\metre), and \\
   & $\eta_j \sim \mathcal{N}(0, \sigma_j^2)$ is the noise from beacon $j$ (\si\metre) (\aref{A_noise}).
@@ -824,6 +788,48 @@ The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
 
 ~\newline
 
+%IM 3
+\noindent
+\begin{minipage}{\textwidth}
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+  \hline
+  \rowcolor[gray]{0.9}
+  Number& IM\refstepcounter{instnum}\theinstnum\label{IM_EP}\\
+  \hline
+  Label& \bf Estimated Pose \\
+  \hline
+  Input&$T_{mf}$, $T_{fr}$\\
+  \hline
+  Output& $T_{mr}$\\
+  \hline
+  Equation&\begin{displaymath}
+    T_{mr} = T_{mf} \cdot T_{fr}
+  \end{displaymath}\\
+  \hline
+  Description& This equation uses the structure of the SE(2) transformation defined in \tref{T_SE} to calculate the pose of the robot with respect to the map's frame of reference $T_{mr}$ \\
+  & $T_{mf}$ is the pose of the fiducial marker with respect to the map's frame of reference. This pose should be known as the fiducial marker is placed by the user (A\ref{A_controlled})\\
+  & $T_{fr}$ is the pose of the robot with respect to the fiducial marker.\\
+  \hline
+  Sources& \cite{Barfoot2017} \\
+  \hline
+  Ref.\ By & None\\
+  \hline
+\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\begin{figure}[h!]
+  \begin{center}
+   \includegraphics[width=0.8\textwidth]{PoseEstimation.png}
+  \caption{Pose Estimation Diagram}
+  \label{Fig_PoseEstimation} 
+  \end{center}
+\end{figure}
+
+~\newline
+
 
 \subsubsection{Input Data Constraints} \label{sec_DataConstraints}    
 
@@ -837,7 +843,7 @@ flexibility to experiment with unusual situations.  The column of typical values
 is intended to provide a feel for a common scenario.  The uncertainty column
 provides an estimate of the confidence with which the physical quantities can be
 measured.  This information would be part of the input if one were performing an
-uncertainty quantification exercise.
+uncertainty quantification exercise. 
 
 % The specification parameters in Table~\ref{TblInputVar} are listed in
 % Table~\ref{TblSpecParams}.
@@ -979,6 +985,8 @@ other. Table~\ref{Table:A_trace} shows the dependencies of theoretical models,
 general definitions, data definitions, instance models, and likely changes on
 the assumptions.
 
+\plt{Update tables after feedback implementation}
+
 % \begin{landscape}
 
 % \end{landscape}
@@ -987,16 +995,16 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_NRM}& \tref{T_FIM}& \tref{T_CRLB}& \tref{T_SE} & \dref{GD_PDF}& \ddref{DD_distance} & \iref{IM_like} & \iref{IM_MLE}\\
+	& \tref{T_FIM}& \tref{T_CRLB}& \tref{T_SE} & \dref{GD_PDF}& \ddref{DD_distance} & \iref{IM_like} & \iref{IM_MLE} & \iref{IM_EP}\\
 \hline
-\tref{T_NRM}         & & & & & & & & \\ \hline
-\tref{T_FIM}         & & & & & X& &X &X \\ \hline
-\tref{T_CRLB}        & & X& & & & & & X\\ \hline
-\tref{T_SE}          & & & & & & & &  \\ \hline
-\dref{GD_PDF}        & & & & & & & & \\ \hline
-\ddref{DD_distance}  & X& & & & & & & \\ \hline
-\iref{IM_like}       & & & & &X &X & & \\ \hline
-\iref{IM_MLE}        & & & & & & &X &\\
+\tref{T_FIM}          & & & & X& &X &X & \\ \hline
+\tref{T_CRLB}         & X& & & & & & X & \\ \hline
+\tref{T_SE}           & & & & & & &  &\\ \hline
+\dref{GD_PDF}         & & & & & & &  &\\ \hline
+\ddref{DD_distance}   & & & & & & &  &\\ \hline
+\iref{IM_like}        & & & &X &X & &  &\\ \hline
+\iref{IM_MLE}         & & & & & &X & &\\ \hline
+\iref{IM_EP}         & & &X & & & & &\\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
