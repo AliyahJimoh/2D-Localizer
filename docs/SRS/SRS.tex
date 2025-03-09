@@ -584,7 +584,7 @@ Number& TM\refstepcounter{theorynum}\thetheorynum\label{T_SE}\\
 Label &\bf Special Euclidean (SE) 2 Transformation \\
 \hline
 Equation& \begin{displaymath}
-  T_{robot} =  
+  \mathbf{T_{robot}} =  
     \begin{bmatrix}
       \mathbf{R}(\theta) & \mathbf{t} \\
       0 & 1\\
@@ -799,17 +799,17 @@ The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
   \hline
   Label& \bf Estimated Pose \\
   \hline
-  Input&$T_{mf}$, $T_{fr}$\\
+  Input&$\mathbf{T_{mf}}$, $\mathbf{T_{fr}}$\\
   \hline
-  Output& $T_{mr}$\\
+  Output& $\mathbf{T_{mr}}$\\
   \hline
   Equation&\begin{displaymath}
-    T_{mr} = T_{mf} \cdot T_{fr}
+    \mathbf{T_{mr}} = \mathbf{T_{mf}} \cdot \mathbf{T_{fr}}
   \end{displaymath}\\
   \hline
-  Description& This equation uses the structure of the SE(2) transformation defined in \tref{T_SE} to calculate the pose of the robot with respect to the map's frame of reference $T_{mr}$ \\
-  & $T_{mf}$ is the pose of the fiducial marker with respect to the map's frame of reference. This pose should be known as the fiducial marker is placed by the user (A\ref{A_controlled})\\
-  & $T_{fr}$ is the pose of the robot with respect to the fiducial marker.\\
+  Description& This equation uses the structure of the SE(2) transformation defined in \tref{T_SE} to calculate the pose of the robot with respect to the map's frame of reference $\mathbf{T_{mr}}$ \\
+  & $\mathbf{T_{mf}}$ is the pose of the fiducial marker with respect to the map's frame of reference. This pose should be known as the fiducial marker is placed by the user (A\ref{A_controlled})\\
+  & $\mathbf{T_{fr}}$ is the pose of the robot with respect to the fiducial marker.\\
   \hline
   Sources& \cite{Barfoot2017} \\
   \hline
@@ -822,9 +822,9 @@ The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
 
 \begin{figure}[h!]
   \begin{center}
-   \includegraphics[width=0.8\textwidth]{PoseEstimation.png}
-  \caption{Pose Estimation Diagram}
-  \label{Fig_PoseEstimation} 
+   \includegraphics[width=0.84\textwidth]{PoseEstimation.png}
+  \caption{Estimated Pose Diagram}
+  \label{Fig_EstimatedPose} 
   \end{center}
 \end{figure}
 
