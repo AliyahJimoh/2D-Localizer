@@ -907,13 +907,13 @@ qualities that the software is expected to exhibit.
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_In_position}:] \progname~shall accept the coordinates of all sensors and markers located in the environment as a user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_In_measurement}:] \progname~shall accept the beacon measurements as a user input.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_In_measurement}:] \progname~shall read and accept the beacon range measurements as a user input.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] \progname~shall compute $\mathbf{\hat{x}}$ based on the provided inputs (\rref{R_In_map}, \rref{R_In_position}, \rref{R_In_measurement}).
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] \progname~shall compute $\mathbf{\hat{x}}$ based on the provided inputs (\rref{R_In_map}, \rref{R_In_position}, \rref{R_In_measurement}) satisfying GS1.
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] \progname~shall verify that inputs provided are within their constraints.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Visual}:] \progname~shall display a visual representation of the robot’s estimated position and orientation in a 2D environment.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Visual}:] \progname~shall display a visual representation of the robot’s estimated position and orientation in a 2D environment satisfying GS2.
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Coordinates}:] \progname~shall display real-time coordinate updates of the robot.
 
