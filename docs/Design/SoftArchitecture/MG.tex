@@ -157,16 +157,27 @@ adapted here is called design for
 change.
 
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific hardware on which the software is running.
+\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the initial input data.
+\item[\refstepcounter{acnum} \actheacnum \label{acLocalize}:] The localization algorithm's accuracy.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acOutput}:] The format of the visualization method.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acSF}:] The integration of different sensors.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acFIM}:] The evaluation methods for accuracy.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acControl}:] The format for user interaction.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acCRLB}:] The technique for uncertainty estimation.
+
+\item[\refstepcounter{acnum} \actheacnum \label{acPlot}:] The accuracy of the visualization method.
+
 \end{description}
 
-\wss{Anticipated changes relate to changes that would be made in requirements,
-design or implementation choices.  They are not related to changes that are made
-at run-time, like the values of parameters.}
+% \wss{Anticipated changes relate to changes that would be made in requirements,
+% design or implementation choices.  They are not related to changes that are made
+% at run-time, like the values of parameters.}
 
 \subsection{Unlikely Changes} \label{SecUchange}
 
@@ -180,7 +191,8 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{uc2D}:] This system will always be designed for 2D localization.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucGTSAM}:] The Georgia Tech Smoothing and Mapping (GTSAM) library will be implemented as a modelling language.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -200,7 +212,6 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mFIM}:] Fisher Information Matrix(FIM) Module
 \item [\refstepcounter{mnum} \mthemnum \label{mCRLB}:] Cram\'{e}r-Rao Lower Bound(CRLB) Module
 \item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
-\item ...
 \end{description}
 
 
@@ -237,12 +248,12 @@ The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
 
-\wss{The intention of this section is to document decisions that are made
-  ``between'' the requirements and the design.  To satisfy some requirements,
-  design decisions need to be made.  Rather than make these decisions implicit,
-  they are explicitly recorded here.  For instance, if a program has security
-  requirements, a specific design decision may be made to satisfy those
-  requirements with a password.}
+% \wss{The intention of this section is to document decisions that are made
+%   ``between'' the requirements and the design.  To satisfy some requirements,
+%   design decisions need to be made.  Rather than make these decisions implicit,
+%   they are explicitly recorded here.  For instance, if a program has security
+%   requirements, a specific design decision may be made to satisfy those
+%   requirements with a password.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -294,7 +305,54 @@ to be implemented.
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Output Format Module (\mref{mOutput})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the output data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Sensor Fusion Module (\mref{mSF})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Localization Module (\mref{mLocalize})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Control Module (\mref{mC})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+
+
+
+% \subsubsection{Etc.}
 
 
 \subsection{Software Decision Module}
@@ -310,7 +368,41 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{FIM Module (\mref{mFIM})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{CRLB Module (\mref{mCRLB})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+\subsubsection{Plotting Module (\mref{mPlot})}
+
+\begin{description}
+\item[Secrets:]The format and structure of the input data.
+\item[Services:]Converts the input data into the data structure used by the
+  input parameters module.
+\item[Implemented By:] [Your Program Name Here]
+\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
+  [Information to include for leaf modules in the decomposition by secrets tree.]
+\end{description}
+
+
+% \subsubsection{Etc.}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -325,17 +417,15 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
+R1 & \mref{mInput}, \mref{mC}\\
+R2 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
+R3 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
+R4 & \mref{mInput}\\
+R5 & \mref{mOutput}, \mref{mSF}, \mref{mLocalize}\\
+R6 & \mref{mFIM}, \mref{mCRLB}\\
+R7 & \mref{mOutput}, \mref{mPlot}\\
+R8 & \mref{mOutput}, \mref{mPlot}\\
+R9 & \mref{mPlot}\\
 \bottomrule
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
@@ -350,15 +440,12 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
 \acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
+\acref{acLocalize} & \mref{mLocalize}\\
 \acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
+\acref{acSF} & \mref{mSF}\\
+\acref{acFIM} & \mref{mFIM}\\
+\acref{acControl} & \mref{mC}\\
+\acref{acCRLB} & \mref{mCRLB}\\
 \acref{acPlot} & \mref{mPlot}\\
 \bottomrule
 \end{tabular}
