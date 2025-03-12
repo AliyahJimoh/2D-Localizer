@@ -915,9 +915,11 @@ qualities that the software is expected to exhibit.
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_In_measurement}:] \progname~shall read and accept the beacon range measurements as a user input.
 
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] \progname~shall verify that inputs provided are within their constraints.
+
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_Calculate}:] \progname~shall compute $\mathbf{\hat{x}}$ based on the provided inputs (\rref{R_In_map}, \rref{R_In_position}, \rref{R_In_measurement}) satisfying GS1.
 
-\item[R\refstepcounter{reqnum}\thereqnum\label{R_VerifyOutput}:] \progname~shall verify that inputs provided are within their constraints.
+\item[R\refstepcounter{reqnum}\thereqnum\label{R_Accuracy}:] \progname~shall evaluate the accuracy of the estimated pose using statistical models (\tref{T_FIM}, \tref{T_CRLB}).
 
 \item[R\refstepcounter{reqnum}\thereqnum\label{R_Out_Visual}:] \progname~shall display a visual representation of the robot’s estimated position and orientation in a 2D environment satisfying GS2.
 

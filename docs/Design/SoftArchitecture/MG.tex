@@ -46,8 +46,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2025/03/19 & 1.0 & Initial Draft\\
+% Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
@@ -64,6 +64,7 @@ This section records information for easy reference.
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
+  \progname & 2D Localization Solution\\
   AC & Anticipated Change\\
   DAG & Directed Acyclic Graph \\
   M & Module \\
@@ -72,7 +73,6 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
   UC & Unlikely Change \\
   \wss{etc.} & \wss{...}\\
   \bottomrule
@@ -93,11 +93,11 @@ This section records information for easy reference.
 \section{Introduction}
 
 Decomposing a system into modules is a commonly accepted approach to developing
-software.  A module is a work assignment for a programmer or programming
-team~\citep{ParnasEtAl1984}.  We advocate a decomposition
-based on the principle of information hiding~\citep{Parnas1972a}.  This
+software. A module is a work assignment for a programmer or programming
+team~\citep{ParnasEtAl1984}. We advocate a decomposition
+based on the principle of information hiding~\citep{Parnas1972a}. This
 principle supports design for change, because the ``secrets'' that each module
-hides represent likely future changes.  Design for change is valuable in SC,
+hides represent likely future changes. Design for change is valuable in scientific computing (SC),
 where modifications are frequent, especially during initial development as the
 solution space is explored.  
 
@@ -192,6 +192,14 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSF}:] Sensor Fusion Module
+\item [\refstepcounter{mnum} \mthemnum \label{mLocalize}:] Localization Module
+\item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFIM}:] Fisher Information Matrix(FIM) Module
+\item [\refstepcounter{mnum} \mthemnum \label{mCRLB}:] Cram\'{e}r-Rao Lower Bound(CRLB) Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
 \item ...
 \end{description}
 
@@ -206,19 +214,16 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
+& Output Format Module\\
+& Sensor Fusion Module\\
+& Localization Module\\
+& Control Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & FIM Module\\
+& CRLB Module\\
+& Plotting Module\\
 \bottomrule
 
 \end{tabular}
