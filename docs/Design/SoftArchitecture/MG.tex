@@ -165,11 +165,9 @@ change.
 
 \item[\refstepcounter{acnum} \actheacnum \label{acSF}:] The integration of different sensors.
 
-\item[\refstepcounter{acnum} \actheacnum \label{acFIM}:] The evaluation methods for accuracy.
+\item[\refstepcounter{acnum} \actheacnum \label{acAccurate}:] The evaluation methods for accuracy and uncertainty estimation.
 
 \item[\refstepcounter{acnum} \actheacnum \label{acControl}:] The format for user interaction.
-
-\item[\refstepcounter{acnum} \actheacnum \label{acCRLB}:] The technique for uncertainty estimation.
 
 \item[\refstepcounter{acnum} \actheacnum \label{acPlot}:] The accuracy of the visualization method.
 
@@ -209,8 +207,7 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mSF}:] Sensor Fusion Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLocalize}:] Localization Module
 \item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
-\item [\refstepcounter{mnum} \mthemnum \label{mFIM}:] Fisher Information Matrix(FIM) Module
-\item [\refstepcounter{mnum} \mthemnum \label{mCRLB}:] Cram\'{e}r-Rao Lower Bound(CRLB) Module
+\item [\refstepcounter{mnum} \mthemnum \label{mAccurate}:] Accuracy Evaluation Module
 \item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
 \end{description}
 
@@ -232,8 +229,7 @@ actually be implemented.
 & Control Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & FIM Module\\
-& CRLB Module\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & Accuracy Evaluation Module \\
 & Plotting Module\\
 \bottomrule
 
@@ -339,10 +335,9 @@ to be implemented.
 \subsubsection{Control Module (\mref{mC})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The system's order in running modules and how users provide input.
+\item[Services:]Handles the user interaction and manages the execution of the other modules.
+\item[Implemented By:] \progname
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
@@ -366,24 +361,13 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{FIM Module (\mref{mFIM})}
+
+\subsubsection{Accuracy Evaluation Module (\mref{mAccurate})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
-
-\subsubsection{CRLB Module (\mref{mCRLB})}
-
-\begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The accuracy analysis of the pose estimate.
+\item[Services:]Assesses accuracy through computing the Fisher Information Matrix(FIM) and evaluating the Cram\'{e}r-Rao Lower Bound (CRLB).
+\item[Implemented By:] \progname
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
@@ -391,10 +375,9 @@ to be implemented.
 \subsubsection{Plotting Module (\mref{mPlot})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The visualization technique used to display the localization data.
+\item[Services:]Generates visual representation of pose estimate with the beacon and fiducial marker coordinates on the map.
+\item[Implemented By:] Matplotlib
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
@@ -420,7 +403,7 @@ R2 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
 R3 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
 R4 & \mref{mInput}\\
 R5 & \mref{mOutput}, \mref{mSF}, \mref{mLocalize}\\
-R6 & \mref{mFIM}, \mref{mCRLB}\\
+R6 & \mref{mAccurate}\\
 R7 & \mref{mOutput}, \mref{mPlot}\\
 R8 & \mref{mOutput}, \mref{mPlot}\\
 R9 & \mref{mPlot}\\
@@ -441,9 +424,8 @@ R9 & \mref{mPlot}\\
 \acref{acLocalize} & \mref{mLocalize}\\
 \acref{acOutput} & \mref{mOutput}\\
 \acref{acSF} & \mref{mSF}\\
-\acref{acFIM} & \mref{mFIM}\\
+\acref{acAccurate} & \mref{mAccurate}\\
 \acref{acControl} & \mref{mC}\\
-\acref{acCRLB} & \mref{mCRLB}\\
 \acref{acPlot} & \mref{mPlot}\\
 \bottomrule
 \end{tabular}
@@ -464,19 +446,19 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
-\wss{The uses relation is not a data flow diagram.  In the code there will often
-be an import statement in module A when it directly uses module B.  Module B
-provides the services that module A needs.  The code for module A needs to be
-able to see these services (hence the import statement).  Since the uses
-relation is transitive, there is a use relation without an import, but the
-arrows in the diagram typically correspond to the presence of import statement.}
+% \wss{The uses relation is not a data flow diagram.  In the code there will often
+% be an import statement in module A when it directly uses module B.  Module B
+% provides the services that module A needs.  The code for module A needs to be
+% able to see these services (hence the import statement).  Since the uses
+% relation is transitive, there is a use relation without an import, but the
+% arrows in the diagram typically correspond to the presence of import statement.}
 
-\wss{If module A uses module B, the arrow is directed from A to B.}
+% \wss{If module A uses module B, the arrow is directed from A to B.}
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
-\caption{Use hierarchy among modules}
+\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\caption{Use Hierarchy Among Modules}
 \label{FigUH}
 \end{figure}
 
