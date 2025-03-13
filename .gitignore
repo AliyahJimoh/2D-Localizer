@@ -284,3 +284,4 @@ TSWLatexianTemp*
 docs/SRS/.vscode/ltex.disabledRules.en-US.txt
 src/.venv/*
 src/tests/__pycache__/models.cpython-310.pyc
+.vscode/ltex.dictionary.en-CA.txt

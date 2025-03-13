@@ -300,7 +300,7 @@ to be implemented.
 \item[Secrets:]The format and structure of the input data.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Implemented By:] \progname
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
@@ -308,8 +308,8 @@ to be implemented.
 \subsubsection{Output Format Module (\mref{mOutput})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the output data.
-\item[Services:]Converts the input data into the data structure used by the
+\item[Secrets:]The format and structure of the estimated pose (output).
+\item[Services:]Converts the localization and accuracy evaluation data into the data structure used by the
   input parameters module.
 \item[Implemented By:] [Your Program Name Here]
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
@@ -319,10 +319,9 @@ to be implemented.
 \subsubsection{Sensor Fusion Module (\mref{mSF})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The algorithm that combines multiple sensor data from their sources (beacons and fiducial markers)
+\item[Services:]Integrates sensor measurements to calculate joint position estimate
+\item[Implemented By:] GTSAM
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
@@ -330,10 +329,9 @@ to be implemented.
 \subsubsection{Localization Module (\mref{mLocalize})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+\item[Secrets:]The mathematical models used to calculate the estimated pose.
+\item[Services:]Computes estimated position based on the sensor fusion measurements
+\item[Implemented By:] GTSAM
 \item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
