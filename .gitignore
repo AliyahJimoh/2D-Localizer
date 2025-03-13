@@ -285,3 +285,9 @@ docs/SRS/.vscode/ltex.disabledRules.en-US.txt
 src/.venv/*
 src/tests/__pycache__/models.cpython-310.pyc
 .vscode/ltex.dictionary.en-CA.txt
+src/__pycache__/input_format.cpython-310.pyc
+src/__pycache__/localization.cpython-310.pyc
+src/requirements.txt
+src/Plaza2_DR.txt
+src/__pycache__/plot.cpython-310.pyc
+src/__pycache__/sensor_fusion.cpython-310.pyc

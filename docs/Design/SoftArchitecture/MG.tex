@@ -204,7 +204,6 @@ actually be implemented.
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 \item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Format Module
-\item [\refstepcounter{mnum} \mthemnum \label{mSF}:] Sensor Fusion Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLocalize}:] Localization Module
 \item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
 \item [\refstepcounter{mnum} \mthemnum \label{mAccurate}:] Accuracy Evaluation Module
@@ -224,7 +223,6 @@ actually be implemented.
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
 & Output Format Module\\
-& Sensor Fusion Module\\
 & Localization Module\\
 & Control Module\\
 \midrule
@@ -312,16 +310,6 @@ to be implemented.
   [Information to include for leaf modules in the decomposition by secrets tree.]
 \end{description}
 
-\subsubsection{Sensor Fusion Module (\mref{mSF})}
-
-\begin{description}
-\item[Secrets:]The algorithm that combines multiple sensor data from their sources (beacons and fiducial markers)
-\item[Services:]Integrates sensor measurements to calculate joint position estimate
-\item[Implemented By:] GTSAM
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
-
 \subsubsection{Localization Module (\mref{mLocalize})}
 
 \begin{description}
@@ -402,7 +390,7 @@ R1 & \mref{mInput}, \mref{mC}\\
 R2 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
 R3 & \mref{mHH}, \mref{mInput}, \mref{mC}\\
 R4 & \mref{mInput}\\
-R5 & \mref{mOutput}, \mref{mSF}, \mref{mLocalize}\\
+R5 & \mref{mOutput}, \mref{mLocalize}\\
 R6 & \mref{mAccurate}\\
 R7 & \mref{mOutput}, \mref{mPlot}\\
 R8 & \mref{mOutput}, \mref{mPlot}\\
@@ -423,7 +411,7 @@ R9 & \mref{mPlot}\\
 \acref{acInput} & \mref{mInput}\\
 \acref{acLocalize} & \mref{mLocalize}\\
 \acref{acOutput} & \mref{mOutput}\\
-\acref{acSF} & \mref{mSF}\\
+\acref{acSF} & \mref{mLocalize}\\
 \acref{acAccurate} & \mref{mAccurate}\\
 \acref{acControl} & \mref{mC}\\
 \acref{acPlot} & \mref{mPlot}\\
