@@ -137,10 +137,11 @@ The following table is taken directly from the Module Guide document for this pr
   & Output Format Module\\
   & Localization Module\\
   & Control Module\\
+  & Plotting Module\\
   \midrule
   
   \multirow{3}{0.3\textwidth}{Software Decision Module} & Accuracy Evaluation Module\\
-  & Plotting Module\\
+  & \\
   \bottomrule
   
 \end{tabular}
@@ -151,23 +152,28 @@ The following table is taken directly from the Module Guide document for this pr
 \newpage
 ~\newpage
 
-\section{MIS of Control Module} \label{M_Control} \wss{Use labels for
-  cross-referencing}
+\section{MIS of Control Module} \label{M_Control} 
+% \wss{Use labels for cross-referencing}
 
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
+% \wss{You can reference SRS labels, such as R\ref{R_In_position}.}
 
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 
 \subsection{Module}
 
 main
 
 \subsection{Uses}
+\begin{itemize}
+  \item Input Format Module (Section \ref{M_Input})
+  \item Localization Module (Section \ref{M_Localize})
+  % \item Accuracy Evaluation Module (Section \ref{M_Accurate})
+  \item Plotting Module (Section \ref{M_Plotting})
+\end{itemize}
 
-
-\subsection{Syntax}
 
 \subsubsection{Exported Constants}
+None
 
 \subsubsection{Exported Access Programs}
 
@@ -176,7 +182,7 @@ main
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+main& - & - & Runtime error \\
 \hline
 \end{tabular}
 \end{center}
@@ -184,72 +190,80 @@ main
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+None
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+\begin{itemize}
+  \item user\textunderscore input: stores user-provided input
+\end{itemize}
 
 \subsubsection{Assumptions}
 
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
-
+% \begin{itemize}
+  
+% \end{itemize}
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent main():
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item transition: None 
+\item output: The control module is the first to be called 
+\item exception: None
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent Get(user\textunderscore input) variables from user\\\\
+\noindent load\textunderscore input(user\textunderscore input)\\\\
+\noindent \textit{\# verify\textunderscore input(All inputs from file)}\\\\
+\noindent localize(beacons, $T_{mf}$, $T_{rf}$, range\textunderscore measurements)\\\\
+\noindent \textit{\# plot(estimated poses, beacons, $T_{mf}$)}\\\\
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
-\subsubsection{Local Functions}
 
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+% \subsubsection{Local Functions}
+
+% \wss{As appropriate} \wss{These functions are for the purpose of specification.
+%   They are not necessarily something that is going to be implemented
+%   explicitly.  Even if they are implemented, they are not exported; they only
+%   have local scope.}
 
 \newpage
 
-\section{MIS of Input Format Module} \label{M_Input} \wss{Use labels for
-  cross-referencing}
+\section{MIS of Input Format Module} \label{M_Input} 
+% \wss{Use labels for
+%   cross-referencing}
 
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
+% \wss{You can reference SRS labels, such as R\ref{R_In_position}.}
 
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 
 \subsection{Module}
 
-user\textunderscore input
+input\textunderscore format
 
 \subsection{Uses}
-
+None
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
-
+None
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{2cm} p{2cm} p{4cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+load\textunderscore input & String & \textit{Data} & File error (file does not exist) \\
+verify\textunderscore input & - & - & Error in \textunderscore\textunderscore\textunderscore  variable \\
 \hline
 \end{tabular}
 \end{center}
@@ -257,63 +271,68 @@ user\textunderscore input
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+\begin{itemize}
+  \item sensor\textunderscore data(user\textunderscore input): 
+  \begin{itemize}
+    \item range\textunderscore measurements: $\mathbb{R}^N$
+    \item camera: $\mathbb{R}^3$
+  \end{itemize}
+\end{itemize}
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+\begin{itemize}
+  \item The module will call on a yaml file
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent load\textunderscore input("Filename" + ".yaml"):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+% \item transition: \wss{if appropriate} 
+\item output:
+\begin{itemize}
+  \item beacons: $\mathbb{R}^{N \times 2}$
+  \item fiducial\textunderscore map: $\mathbb{R}^3$
+  \item fiducial\textunderscore robot: $\mathbb{R}^3$
+  \item range\textunderscore measurements: $\mathbb{R}^N$
+\end{itemize}
+\item exception: \textit{File not found}
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent verify\textunderscore input(data):
+\begin{itemize}
+% \item transition: \wss{if appropriate} 
+% \item output: \wss{if appropriate} 
+\item exception: \textit{Data format was incorrect}
+\end{itemize}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
 
-\subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
 
 \newpage
 
-\section{MIS of Localization Module} \label{M_Localize} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Localization Module} \label{M_Localize}
 
 \subsection{Module}
 
 localization
 
 \subsection{Uses}
-
-
+\begin{itemize}
+  \item Input Format Module (Section \ref{M_Input})
+  
+\end{itemize}
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
+None
 
 \subsubsection{Exported Access Programs}
 
@@ -322,7 +341,7 @@ localization
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+localize & User Data & $\mathbb{R}^3$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -330,72 +349,59 @@ localization
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+\textit{initial/current pose}
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+\begin{itemize}
+  \item GTSAM is installed
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent localize(beacons, fm\textunderscore map, fm\textunderscore robot, range\textunderscore m):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+% \item transition: \wss{if appropriate} 
+\item output: Estimated pose of the robot
+\begin{itemize}
+  \item estimated\textunderscore pose: $\mathbb{R}^3$ 
+\end{itemize}
+\item exception: \textit{Format errors}
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
-
 \subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+\textit{GTSAM functions}
 
 \newpage
 
-\section{MIS of Accuracy Evaluation Module} \label{M_Accurate} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Accuracy Evaluation Module} \label{M_Accurate}
 
 \subsection{Module}
 
 accuracy
 
 \subsection{Uses}
+\begin{itemize}
+  \item Localization Module (Section \ref{M_Localize})
+\end{itemize}
 
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
+None
 
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+compute\textunderscore fim & ($\mathbb{R}^2, \mathbb{R}^{N \times 2}, \mathbb{R}^N$)  & $\mathbb{R}^{2 \times 2}$ & - \\
+compute\textunderscore crlb & $\mathbb{R}^{2 \times 2}$ & $\mathbb{R}^{2 \times 2}$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -403,72 +409,66 @@ accuracy
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+None
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+\begin{itemize}
+  \item Noise variances are positive
+\end{itemize}
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent compute\_fim(estimated\textunderscore pose, beacons, range\textunderscore variances):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+% \item transition: \wss{if appropriate} 
+\item output: A \( 2 \times 2 \) Fisher Information Matrix (FIM), computed as:
+\[
+\mathcal{I}(\hat{\mathbf{x}}) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \frac{(\hat{\mathbf{x}} - \mathbf{a}_j)(\hat{\mathbf{x}} - \mathbf{a}_j)^T}{\|\hat{\mathbf{x}} - \mathbf{a}_j\|^2}
+\]
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
-
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
+\noindent compute\_fim(estimated\textunderscore pose, beacons, range\textunderscore variances):
+\begin{itemize}
+% \item transition: \wss{if appropriate} 
+\item output: A \( 2 \times 2 \) CRLB matrix, computed as:
+\[
+\mathcal{C} = \mathcal{I}^{-1}
+\]
+\item exception: \textit{If \( \mathcal{I} \) is singular, the function returns `None`.}
+\end{itemize}
 
 \subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+None
 
 \newpage
 
-\section{MIS of Output Format Module} \label{M_Output} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
+\section{MIS of Output Module} \label{M_Output} 
 \subsection{Module}
 
 output
 
 \subsection{Uses}
-
+\begin{itemize}
+  \item Localization Module (Section \ref{M_Localize})
+\end{itemize}
 
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
+None
 
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+output\_format & - & - & - \\
+output\_pose & - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -476,52 +476,37 @@ output
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
-
+None
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
-
+\begin{itemize}
+  \item 
+\end{itemize}
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent output\_format():
 \begin{itemize}
 \item transition: \wss{if appropriate} 
 \item output: \wss{if appropriate} 
 \item exception: \wss{if appropriate} 
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent output\_pose():
+\begin{itemize}
+\item transition: \wss{if appropriate} 
+\item output: \wss{if appropriate} 
+\item exception: \wss{if appropriate} 
+\end{itemize}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 \subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+None
 
 \newpage
 
-\section{MIS of Plotting Module} \label{M_Plotting} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_In_position}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+\section{MIS of Plotting Module} \label{M_Plotting}
 
 \subsection{Module}
 
@@ -537,11 +522,13 @@ plot
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-\wss{accessProg} & - & - & - \\
+plot\_localization\_live & \( R^{N \times 2}, R^2, \text{Image} \) & Plot & - \\
+\hline
+update\_trajectory & \( R^2 \) & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -549,43 +536,29 @@ plot
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
-\wss{Not all modules will have state variables.  State variables give the module
-  a memory.}
+None
 
 \subsubsection{Environment Variables}
-
-\wss{This section is not necessary for all modules.  Its purpose is to capture
-  when the module has external interaction with the environment, such as for a
-  device driver, screen interface, keyboard, file, etc.}
+None
 
 \subsubsection{Assumptions}
-
-\wss{Try to minimize assumptions and anticipate programmer errors via
-  exceptions, but for practical purposes assumptions are sometimes appropriate.}
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent \wss{accessProg}():
+\noindent plot\_localization\_live(beacons, fm\_map\_2D, map):
 \begin{itemize}
-\item transition: \wss{if appropriate} 
-\item output: \wss{if appropriate} 
-\item exception: \wss{if appropriate} 
+\item output: A dynamic plot showing real-time robot localization.
 \end{itemize}
 
-\wss{A module without environment variables or state variables is unlikely to
-  have a state transition.  In this case a state transition can only occur if
-  the module is changing the state of another module.}
+\noindent update\_trajectory(estimated\_pose):
+\begin{itemize}
+\item transition: Changes the robot's position on the map
+\end{itemize}
 
-\wss{Modules rarely have both a transition and an output.  In most cases you
-  will have one or the other.}
 
 \subsubsection{Local Functions}
-
-\wss{As appropriate} \wss{These functions are for the purpose of specification.
-  They are not necessarily something that is going to be implemented
-  explicitly.  Even if they are implemented, they are not exported; they only
-  have local scope.}
+None
 
 \newpage
 

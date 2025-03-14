@@ -10,7 +10,7 @@ FM: #Fiducial marker placement
     fm_map: [5, 7, 1.57] # FM from the map's frame (T_mf)
     
 
-map: "factorylayout3" #Name of you image (jpg)
+map: "factorylayout3" #Name of your image (jpg)
 
 sensor_data:
     camera: [3, 0.5, 0] # FM from the robot's frame (T_rf)

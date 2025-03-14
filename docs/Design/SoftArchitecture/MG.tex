@@ -203,7 +203,7 @@ actually be implemented.
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 \item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
-\item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Format Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLocalize}:] Localization Module
 \item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
 \item [\refstepcounter{mnum} \mthemnum \label{mAccurate}:] Accuracy Evaluation Module
@@ -222,13 +222,14 @@ actually be implemented.
 \midrule
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
-& Output Format Module\\
+& Output Module\\
 & Localization Module\\
 & Control Module\\
+& Plotting Module\\
 \midrule
 
 \multirow{3}{0.3\textwidth}{Software Decision Module} & Accuracy Evaluation Module \\
-& Plotting Module\\
+\\
 \bottomrule
 
 \end{tabular}
@@ -295,19 +296,16 @@ to be implemented.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
 \item[Implemented By:] \progname
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Object
 \end{description}
 
-\subsubsection{Output Format Module (\mref{mOutput})}
+\subsubsection{Output Module (\mref{mOutput})}
 
 \begin{description}
 \item[Secrets:]The format and structure of the estimated pose (output).
-\item[Services:]Converts the localization and accuracy evaluation data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Services:]Converts the localization and accuracy evaluation data into the data structure that displays the updated pose.
+\item[Implemented By:] \progname
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Localization Module (\mref{mLocalize})}
@@ -316,8 +314,7 @@ to be implemented.
 \item[Secrets:]The mathematical models used to calculate the estimated pose.
 \item[Services:]Computes estimated position based on the sensor fusion measurements
 \item[Implemented By:] GTSAM
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Object
 \end{description}
 
 \subsubsection{Control Module (\mref{mC})}
@@ -326,11 +323,17 @@ to be implemented.
 \item[Secrets:]The system's order in running modules and how users provide input.
 \item[Services:]Handles the user interaction and manages the execution of the other modules.
 \item[Implemented By:] \progname
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Object
 \end{description}
 
+\subsubsection{Plotting Module (\mref{mPlot})}
 
+\begin{description}
+\item[Secrets:]The visualization technique used to display the localization data.
+\item[Services:]Generates visual representation of pose estimate with the beacon and fiducial marker coordinates on the map.
+\item[Implemented By:] Matplotlib
+\item[Type of Module:] Abstract Object
+\end{description}
 
 
 % \subsubsection{Etc.}
@@ -356,18 +359,7 @@ to be implemented.
 \item[Secrets:]The accuracy analysis of the pose estimate.
 \item[Services:]Assesses accuracy through computing the Fisher Information Matrix(FIM) and evaluating the Cram\'{e}r-Rao Lower Bound (CRLB).
 \item[Implemented By:] \progname
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
-\end{description}
-
-\subsubsection{Plotting Module (\mref{mPlot})}
-
-\begin{description}
-\item[Secrets:]The visualization technique used to display the localization data.
-\item[Services:]Generates visual representation of pose estimate with the beacon and fiducial marker coordinates on the map.
-\item[Implemented By:] Matplotlib
-\item[Type of Module:] [Record, Library, Abstract Object, or Abstract Data Type]
-  [Information to include for leaf modules in the decomposition by secrets tree.]
+\item[Type of Module:] Abstract Object
 \end{description}
 
 
