@@ -1,17 +1,19 @@
-beacons: #Beacon (range sensor) positions
+beacons: # Beacon (range sensor) positions
  # x, y
-- [2, 5]
-- [4, 7]
-- [8, 12] #Continue to add them in this format
+- [6.7, 12.4]
+- [9.96, 4.8]
+- [9.96, 21]
+- [6.7, 28.5]
+- [9.96, 35] # Continue to add them in this format
 
 
-FM: #Fiducial marker placement
+FM: # Fiducial marker placement
             #x, y, theta(radians)
-    fm_map: [5, 7, 1.57] # FM from the map's frame (T_mf)
+    fm_map: [8.63, 39.67, 0] # FM from the map's frame (T_mf)
     
 
-map: "factorylayout3" #Name of your image (jpg)
+map: "factorylayout3.jpg" # Name of your image
 
 sensor_data:
     camera: [3, 0.5, 0] # FM from the robot's frame (T_rf)
-    range_measurements: [2.35, 4.6, 10.1]
+    range_measurements: [2.35, 4.6, 10.1, 6.7, 8.0]

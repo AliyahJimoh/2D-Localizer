@@ -1,13 +1,39 @@
 # Control Module
-
-from localization import localize
+import time
 from input_format import load_input
-from gtsam import Point2, Pose2
-
-try:
-        beacons, fm_map, fm_robot,range_m = load_input(f"src/user_input" + ".yaml")
-except Exception as e:
-        print(f"Error loading input file: {e}")
+from localization import localize
+from plot import plot_localization_live, update_trajectory
+import numpy as np
 
 
-print(localize(beacons, fm_map, fm_robot,range_m))
+def main():
+    # Loading Data
+    beacons, fm_map, fm_robot, map, range_m = load_input(
+        f"src/user_input.yaml")
+
+    print("Starting Real-Time Localization...")
+
+    m = np.size(range_m, 0)
+
+    # Allow at least one update before starting the plot
+    estimated_pose = localize(beacons, fm_map, fm_robot, range_m[0, :])
+    update_trajectory(estimated_pose)
+
+    # Launch the live trajectory visualization on the factory layout
+    plot_localization_live(beacons, fm_map, map)
+
+    # Simulating continuous localization updates
+
+    for t in range(1, m):
+        estimated_pose = localize(beacons, fm_map, fm_robot, range_m[t, :])
+
+        # Store the trajectory for real-time plotting
+        update_trajectory(estimated_pose)
+
+        print(f"Time {t}: Estimated Pose -> {estimated_pose}")
+
+        time.sleep(0.1)  # Simulate delay between measurements
+
+
+if __name__ == "__main__":
+    main()
