@@ -2,7 +2,6 @@
 import time
 from input_format import load_input
 from localization import localize
-from mle import localize_with_gtsam
 from trajectory import trajectory
 from plot import plot_localization_live, update_trajectory
 import numpy as np
