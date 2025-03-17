@@ -38,7 +38,7 @@ def main():
         time.sleep(0.01)  # Simulate delay between measurements
 
     plot_localization_live(beacons, fm_map, map)
-
+    
 
 if __name__ == "__main__":
     main()

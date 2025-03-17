@@ -77,7 +77,7 @@ def plot_localization_live(beacons, fm_map, map):
 
         # Update the current robot position (red dot)
         robot_dot.set_data(x, y)
-        robot_dot.set_markersize(10)  # Make sure the dot is visible
+        robot_dot.set_markersize(10) 
 
         plt.draw()
         plt.pause(0.1)  # Allow the UI to refresh

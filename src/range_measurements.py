@@ -5,8 +5,8 @@ import numpy as np
 
 
 def noisy_range(beacons):
-    eta = 0.02  # Sensor noise (uncertainty)
-
+    sigma = 0.03 # Noise variance 
+    eta = sigma * np.random.randn()  # Sensor noise (uncertainty)
     # Beacon symbols defined with 'a'
     # beacon_ids = [symbol('a', i+1) for i in range(len(beacons))]
 
