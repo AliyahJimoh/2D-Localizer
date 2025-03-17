@@ -3,6 +3,7 @@
 from trajectory import trajectory
 import numpy as np
 
+
 def noisy_range(beacons):
     eta = 0.02  # Sensor noise (uncertainty)
 
@@ -21,5 +22,4 @@ def noisy_range(beacons):
     for i in range(m):
         for j in range(n):
             r[i, j] = np.linalg.norm(path[i, :] - beacons[j, :]) + eta
-
     return r

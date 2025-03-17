@@ -87,7 +87,7 @@ def plot_localization_live(beacons, fm_map, map):
     ani = FuncAnimation(fig, update, frames=lambda: iter(range(
         len(trajectory))), interval=500, repeat=False)
 
-    print("Trajectory data:", trajectory)
+    # print("Trajectory data:", trajectory)
 
     ax.legend()
     plt.show(block=True)  # Ensures the plot remains open
