@@ -11,7 +11,7 @@ robot_dot = None
 ani = None
 
 
-def plot_localization_live(beacons, fm_map, map):
+def plot_localization_live(beacons, fm_map, map,g_truth):
     """
     Live updating plot for localization trajectory on a factory layout image.
     """
@@ -38,6 +38,9 @@ def plot_localization_live(beacons, fm_map, map):
                c='blue', marker='o', label="Beacons")
     ax.scatter(fm_map.x(), fm_map.y(), c='green',
                marker='s', label="Fiducial Marker")
+    
+    # Static ground truth
+    ax.plot(g_truth[:,0],g_truth[:,1], 'b-', label="Ground Truth")
 
     # Dynamic elements (robot trajectory and current position)
     global robot_trajectory, robot_dot, ani
