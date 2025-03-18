@@ -5,7 +5,7 @@ from gtsam import symbol, Point2, Pose2
 import numpy as np
 from trajectory import trajectory
 
-def localize(beacons, fm_map, fm_robot, range_m,init_guess):
+def localize(beacons, fm_map,fm_robot, range_m,init_guess):
 
     init_x = init_guess[0]
     init_y = init_guess[1]
