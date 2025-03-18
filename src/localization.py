@@ -5,11 +5,8 @@ from gtsam import symbol, Point2, Pose2
 import numpy as np
 from trajectory import trajectory
 
-
-
 def localize(beacons, fm_map, fm_robot, range_m,init_guess):
 
-    max_distance = 15  # Max distance a beacon can measure the robot
     init_x = init_guess[0]
     init_y = init_guess[1]
 
@@ -67,8 +64,6 @@ def localize(beacons, fm_map, fm_robot, range_m,init_guess):
     # Print initial estimates for debugging
     print("Initial Estimates:")
     print(initial_estimates)
-
-
 
     # Solve using Levenberg-Marquardt optimizer (more stable)
     optimizer = gtsam.LevenbergMarquardtOptimizer(graph, initial_estimates)
