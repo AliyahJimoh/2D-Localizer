@@ -1,11 +1,12 @@
 # Setting up the range measurements from the trajectory
 
-from trajectory import trajectory
 import numpy as np
+
+from trajectory import trajectory
 
 
 def noisy_range(beacons):
-    sigma = 0.03 # Noise variance 
+    sigma = 0.03  # Noise variance
     eta = sigma * np.random.randn()  # Sensor noise (uncertainty)
     # Beacon symbols defined with 'a'
     # beacon_ids = [symbol('a', i+1) for i in range(len(beacons))]

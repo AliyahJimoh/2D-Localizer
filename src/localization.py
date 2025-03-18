@@ -1,25 +1,25 @@
 # This is to mathematically compute the estimate pose
 
 import gtsam
-from gtsam import symbol, Point2, Pose2
-import numpy as np
-from trajectory import trajectory
+from gtsam import Point2, Pose2, symbol
 
-def localize(beacons, fm_map, fm_robot, range_m,init_guess):
+
+
+def localize(beacons, fm_map, fm_robot, range_m, init_guess):
 
     init_x = init_guess[0]
     init_y = init_guess[1]
 
     # Robot position (MLE will estimate this) defined with 'x'
-    robot_id = symbol('x', 1)  # Robot variable in factor graph
+    robot_id = symbol("x", 1)  # Robot variable in factor graph
 
     # Beacon symbols defined with 'a'
     # visible_beacon_indices = [i for i in range(
     #     len(beacons)) if range_m[i] <= max_distance]
-    beacon_ids = [symbol('a', i+1) for i in range(len(beacons))]
+    beacon_ids = [symbol("a", i + 1) for i in range(len(beacons))]
 
     # Fiducial Markers defined with 'f'
-    fiducial_id = symbol('f', 1)
+    symbol("f", 1)
 
     # Setting Up fiducial marker poses
     # Compute transformation from fiducial marker to robot
@@ -39,25 +39,27 @@ def localize(beacons, fm_map, fm_robot, range_m,init_guess):
 
     # Add range measurement factors to the graph
     for i, beacon_pos in enumerate(beacons):
-        beacon_symbol = beacon_ids[i]  
+        beacon_symbol = beacon_ids[i]
         graph.add(gtsam.RangeFactor2D(robot_id, beacon_symbol, range_m[i], range_noise))
 
     # Fix one beacon's position with a very small noise model
-    beacon_prior_noise = gtsam.noiseModel.Isotropic.Sigma(
-        2, 0.5)  # Small uncertainty
-    graph.add(gtsam.PriorFactorPoint2(beacon_ids[0], Point2(
-        beacons[0][0], beacons[0][1]), beacon_prior_noise))
+    beacon_prior_noise = gtsam.noiseModel.Isotropic.Sigma(2, 0.5)  # Small uncertainty
+    graph.add(
+        gtsam.PriorFactorPoint2(
+            beacon_ids[0], Point2(beacons[0][0], beacons[0][1]), beacon_prior_noise
+        )
+    )
 
     # Create initial values for optimization
     initial_estimates = gtsam.Values()
 
     # Use Fiducial markers as first pose estimate
-    T_mr = T_mf.compose(T_fr)
+    T_mf.compose(T_fr)
     # initial_estimates.insert(robot_id, T_mr)
-    initial_estimates.insert(robot_id, Pose2(init_x,init_y,0))
+    initial_estimates.insert(robot_id, Pose2(init_x, init_y, 0))
 
     for i, beacon_pos in enumerate(beacons):
-        initial_estimates.insert(beacon_ids[i], Point2(beacon_pos[0], beacon_pos[1])) 
+        initial_estimates.insert(beacon_ids[i], Point2(beacon_pos[0], beacon_pos[1]))
 
     # initial_estimates.insert(fiducial_id, T_mf)
 

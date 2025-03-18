@@ -1,9 +1,9 @@
 import numpy as np
 
 
-def compute_fim(estimated_pose,beacons, variance):
-    j = estimated_pose-beacons
-    fim = 1/variance * ((j*np.transpose(j))/np.square(np.norm(j)))
+def compute_fim(estimated_pose, beacons, variance):
+    j = estimated_pose - beacons
+    fim = 1 / variance * ((j * np.transpose(j)) / np.square(np.norm(j)))
 
     return fim
 
