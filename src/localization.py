@@ -1,4 +1,4 @@
-# This is to mathematically compute the estimate pose
+# This is to mathematically compute the estimate pose with the GTSAM library
 
 import gtsam_wrapper as gtsam
 from gtsam_wrapper import Point2, Pose2, symbol
@@ -24,7 +24,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     # Compute transformation from fiducial marker to robot
     T_fr = gtsam.inverse(fm_robot)
     T_mf = fm_map
-
+    T_mr = gtsam.compose(T_mf, T_fr)
     # Factor graph needs to be initialized
     graph = gtsam.NonlinearFactorGraph()
 
@@ -53,18 +53,20 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     initial_estimates = gtsam.Values()
 
     # Use Fiducial markers as first pose estimate
-    gtsam.compose(T_mf, T_fr)
-    # initial_estimates.insert(robot_id, T_mr)
-    initial_estimates.insert(robot_id, Pose2(init_x, init_y, 0))
+    
+    if init_y == 38.0:
+        initial_estimates.insert(robot_id, T_mr)
+    else:
+        initial_estimates.insert(robot_id, Pose2(init_x, init_y, 0))
 
     for i, beacon_pos in enumerate(beacons):
         initial_estimates.insert(beacon_ids[i], Point2(beacon_pos[0], beacon_pos[1]))
 
     # initial_estimates.insert(fiducial_id, T_mf)
 
-    # Print initial estimates for debugging
-    print("Initial Estimates:")
-    print(initial_estimates)
+    # # Print initial estimates for debugging
+    # print("Initial Estimates:")
+    # print(initial_estimates)
 
     # Solve using Levenberg-Marquardt optimizer (more stable)
     optimizer = gtsam.LevenbergMarquardtOptimizer(graph, initial_estimates)

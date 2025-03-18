@@ -44,7 +44,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     # Dynamic elements (robot trajectory and current position)
     global robot_trajectory, robot_dot, ani
     (robot_trajectory,) = ax.plot([], [], "r-", label="Trajectory")  # Line for path
-    (robot_dot,) = ax.plot([], [], "ro", label="Current Position", markersize=8)
+    (robot_dot,) = ax.plot([], [], marker=(3, 0, 0),c="black", label="Robot", markersize=12)
 
     max_wait_time = 5  # Maximum wait time (seconds)
     start_time = time.time()
@@ -71,10 +71,10 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
             )
             return robot_trajectory, robot_dot  # Prevent out-of-bounds access
 
-        x, y, _ = trajectory[frame]  # Extract only x, y
+        x, y, theta = trajectory[frame]  # Extract only x, y
 
         # Update the trajectory line
-        trajectory_x, trajectory_y = zip(
+        trajectory_x, trajectory_y,= zip(
             *[(p[0], p[1]) for p in trajectory[: frame + 1]]
         )  # Fix iteration issue
         robot_trajectory.set_data(trajectory_x, trajectory_y)
@@ -82,6 +82,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
         # Update the current robot position (red dot)
         robot_dot.set_data(x, y)
         robot_dot.set_markersize(10)
+        robot_dot.set_marker((3, 0, theta*(180/np.pi)))
 
         plt.draw()
         plt.pause(0.1)  # Allow the UI to refresh
