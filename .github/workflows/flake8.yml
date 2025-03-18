@@ -40,4 +40,4 @@ jobs:
           make || echo "Makefile not used"
 
       - name: Run flake8 Lint
-        run: flake8 src --exclude .venv --max-line-length=88 --statistics
+        run: flake8 src --exclude .venv --exclude venv --max-line-length=88 --statistics
