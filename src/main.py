@@ -9,7 +9,7 @@ import numpy as np
 
 def main():
     # Loading Data
-    beacons, fm_map, fm_robot, map,range_m = load_input(
+    beacons, fm_map, fm_robot, map, range_m = load_input(
         f"src/user_input.yaml")
 
     print("Starting Real-Time Localization...")
