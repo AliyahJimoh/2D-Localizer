@@ -2,37 +2,31 @@ import queue
 import tkinter as tk
 from tkinter import ttk
 
-# Defining a global queue to receive updates from main
-data_queue = queue.Queue()
-
-
 def update_table():
     """Check for new data in the queue and update the table."""
+    global data_queue
     while not data_queue.empty():
-        time_step, x, y, theta = data_queue.get()
-        tree.insert(
-            "", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))
-        )  # Rounding estimate to 3 decimal places
+        try:
+            time_step, x, y, theta = data_queue.get_nowait()
+            tree.insert("", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))) # Round all to 3 decimal places
+        except queue.Empty:
+            pass
 
-    root.after(100, update_table)  # Schedule the function to run again
+    root.after(100, update_table)  # Re-run after 100ms
 
-
-# Running the GUI
-def run_gui():
-    """Initialize and run the Tkinter GUI."""
-    global root, tree  # Make them access to update_table()
+def run_gui(queue):
+    """Start the Tkinter GUI and link it to the queue."""
+    global root, tree, data_queue
+    data_queue = queue
     root = tk.Tk()
     root.title("Live Robot Position Table")
 
-    # Creating table
     tree = ttk.Treeview(root, columns=("Time", "X", "Y", "Theta"), show="headings")
-    tree.heading("Time", text="Time")
-    tree.heading("X", text="X Position")
-    tree.heading("Y", text="Y Position")
-    tree.heading("Theta", text="Theta")
+    for col in ("Time", "X", "Y", "Theta"):
+        tree.heading(col, text=col)
+        tree.column(col, width=100, anchor="center")
 
     tree.pack(expand=True, fill="both")
 
-    update_table()  # Checking for updates
-
+    root.after(100, update_table) 
     root.mainloop()
