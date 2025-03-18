@@ -2,17 +2,21 @@ import queue
 import tkinter as tk
 from tkinter import ttk
 
+
 def update_table():
     """Check for new data in the queue and update the table."""
     global data_queue
     while not data_queue.empty():
         try:
             time_step, x, y, theta = data_queue.get_nowait()
-            tree.insert("", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))) # Round all to 3 decimal places
+            tree.insert(
+                "", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))
+            )  # Round all to 3 decimal places
         except queue.Empty:
             pass
 
     root.after(100, update_table)  # Re-run after 100ms
+
 
 def run_gui(queue):
     """Start the Tkinter GUI and link it to the queue."""
@@ -28,5 +32,5 @@ def run_gui(queue):
 
     tree.pack(expand=True, fill="both")
 
-    root.after(100, update_table) 
+    root.after(100, update_table)
     root.mainloop()
