@@ -1,7 +1,7 @@
 # This is to mathematically compute the estimate pose
 
 import gtsam_wrapper as gtsam
-from gtsam_wrapper import Pose2, Point2, symbol
+from gtsam_wrapper import Point2, Pose2, symbol
 
 
 def localize(beacons, fm_map, fm_robot, range_m, init_guess):
@@ -53,7 +53,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     initial_estimates = gtsam.Values()
 
     # Use Fiducial markers as first pose estimate
-    T_mr = gtsam.compose(T_mf,T_fr)
+    gtsam.compose(T_mf, T_fr)
     # initial_estimates.insert(robot_id, T_mr)
     initial_estimates.insert(robot_id, Pose2(init_x, init_y, 0))
 

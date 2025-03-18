@@ -7,6 +7,7 @@ from input_format import load_input
 from localization import localize
 from plot import plot_localization_live, update_trajectory
 from trajectory import trajectory
+
 # from output import update_output
 
 
@@ -36,7 +37,6 @@ def main():
         # Store the trajectory for real-time plotting
         update_trajectory(estimated_pose)
         # update_output(t+1, estimated_pose)
-
 
         print(f"Time {t}: Estimated Pose -> {estimated_pose}")
 
