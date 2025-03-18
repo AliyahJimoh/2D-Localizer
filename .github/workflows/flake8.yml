@@ -49,15 +49,14 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git diff --exit-code || echo "CHANGES_FOUND=true" >> $GITHUB_ENV
+          git diff --quiet || echo "Code modified"
 
       - name: Commit and Push Fixes
-        if: env.CHANGES_FOUND == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: 'Auto-fix and Lint Code'
-          file_pattern: 'src/*.py'
-          branch: main
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check_changes.outputs.code_modified != ''
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Auto-fix formatting and linting issues" || exit 0
+          git push
 
