@@ -294,3 +294,5 @@ src/__pycache__/sensor_fusion.cpython-310.pyc
 src/__pycache__/trajectory.cpython-310.pyc
 src/__pycache__/range_measurements.cpython-310.pyc
 src/__pycache__/mle.cpython-310.pyc
+.config/flake8
+.config/flake8

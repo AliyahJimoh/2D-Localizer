@@ -29,16 +29,32 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          sudo apt install -y make
           python -m pip install --upgrade pip
-          pip install flake8
+          pip install flake8 black isort autoflake
 
-      - name: Run Makefile (if needed)
-        run: |
-          cd src
-          make || echo "Makefile not used"
+      - name: Auto-Fix with Black (PEP8 Formatter)
+        run: black src
+
+      - name: Auto-Fix with isort (Sort Imports)
+        run: isort src
+
+      - name: Auto-Fix with Autoflake (Remove Unused Imports & Variables)
+        run: autoflake --remove-all-unused-imports --remove-unused-variables --in-place --recursive src
 
       - name: Run flake8 Lint
-        run: flake8 src --exclude=".venv,venv,dist,build,__pycache__" --max-line-length=88 --statistics
+        run: flake8 src --max-line-length=88 --statistics
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --quiet || echo "Code modified"
+
+      - name: Commit and Push Fixes
+        if: steps.check_changes.outputs.code_modified != ''
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Auto-fix formatting and linting issues" || exit 0
+          git push
 
