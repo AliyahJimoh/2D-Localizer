@@ -33,16 +33,6 @@ run: venv install
 	@echo "Running Python code..."
 	$(PYTHON) src/main.py
 
-test:
-	@echo "Running test case..."
-	PYTHONPATH=$$PYTHONPATH:testing:src $(PYTHON) -m pytest $(TEST)
-	#$(PYTHON) src/ -m pytest $(TEST)
-
 flake:
 	@echo "Flake 8 testing..."
 	$(PYTHON) -m flake8 src/*.py
-
-coverage:
-	@echo "Coverage testing...."
-	$(PYTHON) -m coverage run src/main.py
-	$(PYTHON) -m coverage report -m
