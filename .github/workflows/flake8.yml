@@ -58,4 +58,6 @@ jobs:
           commit_message: 'Auto-fix and Lint Code'
           file_pattern: 'src/*.py'
           branch: main
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
