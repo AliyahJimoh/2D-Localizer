@@ -7,6 +7,7 @@ from input_format import load_input
 from localization import localize
 from plot import plot_localization_live, update_trajectory
 from trajectory import trajectory
+# from output import update_output
 
 
 def main():
@@ -22,6 +23,7 @@ def main():
     # Allow at least one update before starting the plot
     estimated_pose = localize(beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
     update_trajectory(estimated_pose)
+    # update_output(1, estimated_pose)
 
     # Launch the live trajectory visualization on the factory layout
     #     plot_localization_live(beacons, fm_map, map)
@@ -33,6 +35,8 @@ def main():
 
         # Store the trajectory for real-time plotting
         update_trajectory(estimated_pose)
+        # update_output(t+1, estimated_pose)
+
 
         print(f"Time {t}: Estimated Pose -> {estimated_pose}")
 

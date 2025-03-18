@@ -1,8 +1,7 @@
 # This is to mathematically compute the estimate pose
 
-import gtsam
-from gtsam import Point2, Pose2, symbol
-
+import gtsam_wrapper as gtsam
+from gtsam_wrapper import Pose2, Point2, symbol
 
 
 def localize(beacons, fm_map, fm_robot, range_m, init_guess):
@@ -23,7 +22,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
 
     # Setting Up fiducial marker poses
     # Compute transformation from fiducial marker to robot
-    T_fr = fm_robot.inverse()
+    T_fr = gtsam.inverse(fm_robot)
     T_mf = fm_map
 
     # Factor graph needs to be initialized
@@ -31,11 +30,11 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
 
     # Add prior on robot's initial position (for stability)
     # Basically the actual position of the robot
-    prior_noise = gtsam.noiseModel.Isotropic.Sigma(3, 1.0)
+    prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 1.0)
     graph.add(gtsam.PriorFactorPose2(robot_id, Pose2(init_x, init_y, 0), prior_noise))
 
     # Define noise model for range measurements
-    range_noise = gtsam.noiseModel.Isotropic.Sigma(1, 0.5)
+    range_noise = gtsam.noiseModel_Isotropic_Sigma(1, 0.5)
 
     # Add range measurement factors to the graph
     for i, beacon_pos in enumerate(beacons):
@@ -43,7 +42,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
         graph.add(gtsam.RangeFactor2D(robot_id, beacon_symbol, range_m[i], range_noise))
 
     # Fix one beacon's position with a very small noise model
-    beacon_prior_noise = gtsam.noiseModel.Isotropic.Sigma(2, 0.5)  # Small uncertainty
+    beacon_prior_noise = gtsam.noiseModel_Isotropic_Sigma(2, 0.5)  # Small uncertainty
     graph.add(
         gtsam.PriorFactorPoint2(
             beacon_ids[0], Point2(beacons[0][0], beacons[0][1]), beacon_prior_noise
@@ -54,7 +53,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     initial_estimates = gtsam.Values()
 
     # Use Fiducial markers as first pose estimate
-    T_mf.compose(T_fr)
+    T_mr = gtsam.compose(T_mf,T_fr)
     # initial_estimates.insert(robot_id, T_mr)
     initial_estimates.insert(robot_id, Pose2(init_x, init_y, 0))
 

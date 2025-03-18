@@ -277,6 +277,8 @@ TSWLatexianTemp*
 
 # DS_Store file from Mac computers
 .DS_Store
+
+
 .vscode/settings.json
 .vscode/ltex.dictionary.en-US.txt
 .vscode/ltex.hiddenFalsePositives.en-US.txt
@@ -296,3 +298,5 @@ src/__pycache__/range_measurements.cpython-310.pyc
 src/__pycache__/mle.cpython-310.pyc
 .config/flake8
 .config/flake8
+src/__pycache__/gtsam_wrapper.cpython-310.pyc
+src/__pycache__/output.cpython-310.pyc
