@@ -53,7 +53,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     initial_estimates = gtsam.Values()
 
     # Use Fiducial markers as first pose estimate
-    
+
     if init_y == 38.0:
         initial_estimates.insert(robot_id, T_mr)
     else:

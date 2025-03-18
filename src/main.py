@@ -1,16 +1,14 @@
 # Control Module
-import time
 import multiprocessing
+import time
 
 import numpy as np
 
-
 from input_format import load_input
 from localization import localize
+from output import data_queue, run_gui
 from plot import plot_localization_live, update_trajectory
 from trajectory import trajectory
-from output import run_gui, data_queue
-
 
 # from output import update_output
 
@@ -18,7 +16,7 @@ from output import run_gui, data_queue
 def main():
     # Loading Data
     beacons, fm_map, fm_robot, map, range_m = load_input(f"src/user_input.yaml")
-    
+
     # Starting the live table
     process = multiprocessing.Process(target=run_gui)
     process.start()
@@ -41,8 +39,9 @@ def main():
 
         # Store the trajectory for real-time plotting
         update_trajectory(estimated_pose)
-        queue.put((t+1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
-
+        queue.put(
+            (t + 1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta())
+        )
 
         # print(f"Time {t}: Estimated Pose -> {estimated_pose}")
 

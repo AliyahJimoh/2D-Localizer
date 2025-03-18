@@ -1,17 +1,21 @@
+import queue
 import tkinter as tk
 from tkinter import ttk
-import queue
 
 # Defining a global queue to receive updates from main
 data_queue = queue.Queue()
+
 
 def update_table():
     """Check for new data in the queue and update the table."""
     while not data_queue.empty():
         time_step, x, y, theta = data_queue.get()
-        tree.insert("", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))) # Rounding estimate to 3 decimal places
+        tree.insert(
+            "", "end", values=(time_step, round(x, 3), round(y, 3), round(theta, 3))
+        )  # Rounding estimate to 3 decimal places
 
     root.after(100, update_table)  # Schedule the function to run again
+
 
 # Running the GUI
 def run_gui():
