@@ -49,10 +49,10 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          git diff --quiet || echo "Code modified"
+          git diff --exit-code || echo "CHANGES_FOUND=true" >> $GITHUB_ENV
 
       - name: Commit and Push Fixes
-        if: steps.check_changes.outputs.code_modified != ''
+        if: env.CHANGES_FOUND == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
