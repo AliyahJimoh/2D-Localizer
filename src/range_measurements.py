@@ -6,21 +6,19 @@ from trajectory import trajectory
 
 
 def noisy_range(beacons):
-    sigma = 0.03  # Noise variance
-    eta = sigma * np.random.randn()  # Sensor noise (uncertainty)
-    # Beacon symbols defined with 'a'
-    # beacon_ids = [symbol('a', i+1) for i in range(len(beacons))]
-
     path = trajectory()
 
     m, n = (np.size(path, 0), np.size(beacons, 0))
 
     r = np.zeros((m, n))  # Initializing range measurements
 
-    # print("Range measurements initialized:", r.shape)
-
+    # Getting variance for each beacon (sigma squared)
+    variances = np.random.uniform(0.0025, 0.01, size=len(beacons))   
+  
     # Making loop to calculate measurements
-    for i in range(m):
-        for j in range(n):
+    for i in range(m): # Rows (num. of positions)
+        for j in range(n): # Num. of beacons
+            sigma = np.sqrt(variances[j]) 
+            eta = sigma * np.random.randn()   # Sensor noise (uncertainty)
             r[i, j] = np.linalg.norm(path[i, :] - beacons[j, :]) + eta
-    return r
+    return r, variances

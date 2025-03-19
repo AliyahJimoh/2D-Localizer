@@ -30,7 +30,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
 
     # Add prior on robot's initial position (for stability)
     # Basically the actual position of the robot
-    prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 1.0)
+    prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 1)
     graph.add(gtsam.PriorFactorPose2(robot_id, Pose2(init_x, init_y, 0), prior_noise))
 
     # Define noise model for range measurements

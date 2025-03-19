@@ -17,6 +17,6 @@ def load_input(file_path):
     fiducial_robot = Pose2(*data["sensor_data"]["camera"])
     map = data["map"]
     # range_measurements = np.array(data["sensor_data"]["range_measurements"])
-    range_measurements = noisy_range(beacon_positions)
+    range_measurements, variances = noisy_range(beacon_positions)
 
-    return beacon_positions, fiducial_map, fiducial_robot, map, range_measurements
+    return beacon_positions, fiducial_map, fiducial_robot, map, range_measurements, variances

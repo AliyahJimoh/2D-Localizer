@@ -300,3 +300,4 @@ src/__pycache__/mle.cpython-310.pyc
 .config/flake8
 src/__pycache__/gtsam_wrapper.cpython-310.pyc
 src/__pycache__/output.cpython-310.pyc
+src/__pycache__/accuracy.cpython-310.pyc
