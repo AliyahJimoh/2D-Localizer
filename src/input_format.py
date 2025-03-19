@@ -19,4 +19,11 @@ def load_input(file_path):
     # range_measurements = np.array(data["sensor_data"]["range_measurements"])
     range_measurements, variances = noisy_range(beacon_positions)
 
-    return beacon_positions, fiducial_map, fiducial_robot, map, range_measurements, variances
+    return (
+        beacon_positions,
+        fiducial_map,
+        fiducial_robot,
+        map,
+        range_measurements,
+        variances,
+    )

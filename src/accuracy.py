@@ -9,8 +9,7 @@ def compute_fim(estimated_pose, beacons, variances):
     for i in range(len(beacons)):
         j = np.array([x - beacons[i, 0], y - beacons[i, 1]])
         # Setting up Joint FIM
-        fim += 1 / variances[i] * \
-            (np.outer(j, j) / np.square(np.linalg.norm(j)))
+        fim += 1 / variances[i] * (np.outer(j, j) / np.square(np.linalg.norm(j)))
 
     return fim
 
