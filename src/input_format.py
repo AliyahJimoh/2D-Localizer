@@ -7,23 +7,45 @@ from gtsam_wrapper import Pose2
 from range_measurements import noisy_range
 
 
-def load_input(file_path):
-    with open(file_path, "r") as file:
-        data = yaml.safe_load(file)
+class InputData:
+    """
+    Abstract Data Type used for getting user inputs
+    """
 
-    # Convert lists to NumPy arrays for computations
-    beacon_positions = np.array(data["beacons"])
-    fiducial_map = Pose2(*data["FM"]["fm_map"])
-    fiducial_robot = Pose2(*data["sensor_data"]["camera"])
-    map = data["map"]
-    # range_measurements = np.array(data["sensor_data"]["range_measurements"])
-    range_measurements, variances = noisy_range(beacon_positions)
+    def __init__(self, input_file=f"src/user_input.yaml"):
+        self.input_file = input_file
+        self.data = self.load_input()
 
-    return (
-        beacon_positions,
-        fiducial_map,
-        fiducial_robot,
-        map,
-        range_measurements,
-        variances,
-    )
+    def load_input(self):
+        try:
+            with open(self.input_file, "r") as file:
+                return yaml.safe_load(file)
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"Error: User input file '{self.input_file}' not found!")
+        except yaml.YAMLError:
+            raise ValueError(
+                f"Error: Invalid YAML format in '{self.input_file}'.")
+
+    def get_beacons(self):
+        return np.array(self.data["beacons"])
+    
+    def get_fmMap(self):
+        return Pose2(*self.data["FM"]["fm_map"])
+    
+    def get_fmRobot(self):
+        return Pose2(*self.data["sensor_data"]["camera"])
+    
+    def get_map(self):
+        return self.data["map"]
+    
+    def get_ranges(self):
+        # return np.array(self.data["sensor_data"]["range_measurements"])
+        beacons = self.get_beacons()
+        variances = self.get_variances()
+        return noisy_range(beacons, variances)
+    
+    def get_variances(self):
+        return np.array(self.data["sensor_data"]["variances"])
+        # return np.random.uniform(0.0025, 0.01, size=len(self.get_beacons()))
+    

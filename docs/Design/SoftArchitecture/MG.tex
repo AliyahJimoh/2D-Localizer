@@ -202,12 +202,13 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
+\item [\refstepcounter{mnum} \mthemnum \label{mGTSAM}:] GTSAM Module
 \item [\refstepcounter{mnum} \mthemnum \label{mInput}:] Input Format Module
 \item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Module
 \item [\refstepcounter{mnum} \mthemnum \label{mLocalize}:] Localization Module
 \item [\refstepcounter{mnum} \mthemnum \label{mC}:] Control Module
-\item [\refstepcounter{mnum} \mthemnum \label{mAccurate}:] Accuracy Evaluation Module
 \item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
+\item [\refstepcounter{mnum} \mthemnum \label{mAccurate}:] Accuracy Evaluation Module
 \end{description}
 
 
@@ -221,15 +222,16 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & GTSAM Module \\
+& Input Format Module\\
 & Output Module\\
 & Localization Module\\
 & Control Module\\
 & Accuracy Evaluation Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & Plotting Module \\
-\\
+{Software Decision Module} & Plotting Module \\
+
 \bottomrule
 
 \end{tabular}
@@ -289,6 +291,15 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
+\subsubsection{GTSAM Module (\mref{mGTSAM})}
+
+\begin{description}
+\item[Secrets:]The Georgia Tech Smoothing and Mapping (GTSAM) library by \cite{gtsam2022}
+\item[Services:]Creates a wrapper for the GTSAM library to be used in \progname
+\item[Implemented By:] \progname
+\item[Type of Module:] Library
+\end{description}
+
 \subsubsection{Input Format Module (\mref{mInput})}
 
 \begin{description}
@@ -296,7 +307,7 @@ to be implemented.
 \item[Services:]Converts the input data into the data structure used by the
   input parameters module.
 \item[Implemented By:] \progname
-\item[Type of Module:] Abstract Object
+\item[Type of Module:] Abstract Data Type
 \end{description}
 
 \subsubsection{Output Module (\mref{mOutput})}
@@ -445,20 +456,41 @@ because they use modules from the lower levels.
 %\section*{References}
 
 \section{User Interfaces}
+\subsection{Graphical User Interface (GUI)}
+The users will have their results shown on a table with the Output Module (M\ref{mOutput}) and a visual plot with the Plotting Module (M\ref{mPlot}).
 
-\wss{Design of user interface for software and hardware.  Attach an appendix if
-needed. Drawings, Sketches, Figma}
+\subsection{Command-Line Interface (CLI)}
+\progname~provides a simple CLI for users to insert their variables in the system. This is done by having them modify user\_input.yaml which is a file that is set up to be read by the Input Format Module (M\ref{mInput}) in the Control Module (M\ref{mC}). To run the system, users type \lq./run.sh\rq~which executes M\ref{mC}.
 
-\section{Design of Communication Protocols}
+% \section{Design of Communication Protocols}
 
-\wss{If appropriate}
+% \wss{If appropriate}
 
 \section{Timeline}
+Table \ref{TblTimeline} shows the schedule of tasks needed to be completed by the Verification and Validation (VnV) team members referred to in Section 3.1 of the  \hyperlink{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan} document
+\newpage
 
-\wss{Schedule of tasks and who is responsible}
+\begin{table}[H]
+  \centering
+  \renewcommand{\arraystretch}{1.2} % Adjust row height for better appearance
+  \begin{tabular}{|l|c|l|}
+      \hline
+      \multicolumn{1}{|c|}{\textbf{Task}} & \multicolumn{1}{c|}{\textbf{Assigned Member}} & \multicolumn{1}{c|}{\textbf{Due By}} \\ 
+      \hline
+      Place the results for M\ref{mAccurate} in an interface & Author & March 22, 2025 \\ 
+      \hline
+      Modify inputs for M\ref{mInput} & Author & March 24, 2025 \\ 
+      \hline
+      Review modules and present feedback & Domain Expert & March 25, 2025 \\ 
+      \hline
+      Modify modules for final documentation & Author & April 11, 2025 \\ 
+      \hline
+  \end{tabular}
+  \caption{Module Timeline}
+  \label{TblTimeline}
+\end{table}
 
-\wss{You can point to GitHub if this information is included there}
-
+\newpage{}
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
 

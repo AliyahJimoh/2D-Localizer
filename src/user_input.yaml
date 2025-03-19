@@ -17,3 +17,4 @@ map: "factorylayout3.jpg" # Name of your image
 sensor_data:
     camera: [0.6, 2, 0] # FM from the robot's frame (T_rf)
     range_measurements: [2.35, 4.6, 10.1, 6.7, 8.0]
+    variances: [0.00745347, 0.00316923, 0.00730702, 0.00381601, 0.00823384]

@@ -124,8 +124,8 @@ described by giving their type signature followed by their specification.
 The following table is taken directly from the Module Guide document for this project.
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+  \centering
+  \begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
   \toprule
   \textbf{Level 1} & \textbf{Level 2}\\
   \midrule
@@ -133,21 +133,22 @@ The following table is taken directly from the Module Guide document for this pr
   {Hardware-Hiding Module} & ~ \\
   \midrule
   
-  \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module\\
-  & Output Format Module\\
+  \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & GTSAM Module \\
+  & Input Format Module\\
+  & Output Module\\
   & Localization Module\\
   & Control Module\\
   & Accuracy Evaluation Module\\
   \midrule
   
-  \multirow{3}{0.3\textwidth}{Software Decision Module} & Plotting Module\\
-  & \\
+  {Software Decision Module} & Plotting Module \\
+  
   \bottomrule
   
-\end{tabular}
-\caption{Module Hierarchy}
+  \end{tabular}
+  \caption{Module Hierarchy}
   \label{TblMH}
-\end{table}
+  \end{table}
 
 \newpage
 ~\newpage
@@ -167,8 +168,9 @@ main
 \begin{itemize}
   \item Input Format Module (Section \ref{M_Input})
   \item Localization Module (Section \ref{M_Localize})
-  % \item Accuracy Evaluation Module (Section \ref{M_Accurate})
+  \item Accuracy Evaluation Module (Section \ref{M_Accurate})
   \item Plotting Module (Section \ref{M_Plotting})
+  \item Output Module (Section \ref{M_Output})
 \end{itemize}
 
 
@@ -182,7 +184,7 @@ None
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-main& - & - & Runtime error \\
+main& - & - & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -194,7 +196,7 @@ None
 
 \subsubsection{Environment Variables}
 \begin{itemize}
-  \item user\textunderscore input: stores user-provided input
+  \item data\_queue: sequence of tuples \( Q[t] \) where \( Q[t] \) is the update at time \( t \) in the multiprocessing queue 
 \end{itemize}
 
 \subsubsection{Assumptions}
@@ -206,16 +208,34 @@ None
 
 \noindent main():
 \begin{itemize}
-\item transition: None 
-\item output: The control module is the first to be called 
-\item exception: None
+\item transition: Modifying data\_queue with each iteration of range measurements as the Plotting and Output modules get updated 
+% \item output: The control module is the first to be called 
+% \item exception: None
 \end{itemize}
 
-\noindent Get(user\textunderscore input) variables from user\\\\
-\noindent load\textunderscore input(user\textunderscore input)\\\\
-\noindent \textit{\# verify\textunderscore input(All inputs from file)}\\\\
-\noindent localize(beacons, $T_{mf}$, $T_{rf}$, range\textunderscore measurements)\\\\
-\noindent \textit{\# plot(estimated poses, beacons, $T_{mf}$)}\\\\
+\noindent \textit{\# Get Data}\\\\
+\noindent input $=$ InputData()\\\\
+\noindent \textit{\# Start the Output Data}\\\\
+\noindent data\_queue $=$ Queue()\\\\
+\noindent process $=$ Process(target=run\_gui, args$=$(data\_queue,))\\\\
+\noindent process.start()\\\\
+\noindent m = np.size($\mathbf{\tilde{d}}$, 0)\\\\
+\noindent \textit{\# Getting estimated pose for each set of measurements}\\\\
+\noindent for t in range(1,m): \\\\
+\indent $\mathbf{\hat{x}}$:= localize($\mathbf{a}$, $T_{mf}$, $T_{rf}$, $\mathbf{\tilde{d}}[t,:]$)\\\\
+\indent \textit{\# Computing FIM \& CRLB} \\\\
+\indent  fim = compute\_fim($\mathbf{\hat{x}}$, $\mathbf{a}$, variances($\boldsymbol{\sigma^2}$))\\\\
+\indent  crlb = compute\_crlb(fim) \textit{\# Will be printed}\\\\
+\indent update\_trajectory($\mathbf{\hat{x}}$)\\\\
+\indent data\_queue.put((t, $\mathbf{\hat{x}}$.x(), $\mathbf{\hat{x}}$.y(), $\mathbf{\hat{x}}$.theta()))\\\\
+\noindent \textit{\# Plot on the map}\\\\
+\noindent plot\_localization\_live($\mathbf{a}$, $T_{mf}$, map)
+
+% \noindent Get(user\textunderscore input) variables from user\\\\
+% \noindent load\textunderscore input(user\textunderscore input)\\\\
+% \noindent \textit{\# verify\textunderscore input(All inputs from file)}\\\\
+% \noindent )\\\\
+% \noindent \textit{\# plot(estimated poses, beacons, $T_{mf}$)}\\\\
 
 
 
@@ -236,6 +256,144 @@ None
 
 \newpage
 
+\section{MIS of GTSAM Module} \label{M_GTSAM} 
+% \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_In_position}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+gtsam\_wrapper
+
+\subsection{Uses}
+None
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+\begin{tabular}{p{6cm} p{6cm} p{2cm} p{3cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+Pose2 & $x: \mathbb{R}, y: \mathbb{R}, \theta: \mathbb{R}$ & $\mathbb{R}^{3}$ & - \\
+Point2 & $x: \mathbb{R}, y: \mathbb{R}$  & $\mathbb{R}^{2}$  & - \\
+symbol & char: char, int: $\mathbb{Z}$  & - & - \\
+NonlinearFactorGraph & - & Graph & - \\
+PriorFactorPose2 & $key:\mathbb{Z}, \textbf{pose}: \mathbb{R}^3, noise: Model$ & Factor & - \\
+PriorFactorPoint2 & $key:\mathbb{Z}, \textbf{pose}: \mathbb{R}^2, noise: Model$& Factor& - \\
+RangeFactor2D &  $key1: \mathbb{Z}, key2: \mathbb{Z}, d: \mathbb{R}, noise: Model$  & Factor & - \\
+noiseModel\_Isotropic\_Sigma & $dim: \mathbb{Z}, \sigma: \mathbb{R}$ & Model & - \\
+LevenbergMarquardtOptimizer & $graph: Graph, values: Values$ & Values & - \\
+Values & - & Values & - \\
+insert & $values: Values, key: \mathbb{Z}, value: Any$ & - & - \\
+atPose2 & $result: Values, key: \mathbb{Z}$  & $\mathbb{R}^3$ & - \\
+compose & $T_1: \mathbb{R}^3, T_2: \mathbb{R}^3$ & $\mathbb{R}^3$ & - \\
+inverse &  $pose: \mathbb{R}^3$ & $\mathbb{R}^3$ & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item The module will call on a yaml file
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+Pose2($x, y, \theta$):
+\begin{itemize}
+    \item \textbf{output}: $ \mathbb{R}^3 $ (A 2D pose with orientation)
+\end{itemize}
+
+\noindent Point2($x, y$):
+\begin{itemize}
+    \item \textbf{output}: $ \mathbb{R}^2 $ (A 2D point)
+\end{itemize}
+
+\noindent symbol($char, int$):
+\begin{itemize}
+    \item \textbf{output}: $char$ (A GTSAM symbol key)
+\end{itemize}
+
+\noindent NonlinearFactorGraph():
+\begin{itemize}
+    \item \textbf{output}: Graph (An empty nonlinear factor graph)
+\end{itemize}
+
+\noindent PriorFactorPose2($key, pose, noise\_model$):
+\begin{itemize}
+    \item \textbf{output}: Factor (A prior factor on a 2D pose)
+\end{itemize}
+
+\noindent PriorFactorPoint2($key, point, noise\_model$):
+\begin{itemize}
+    \item \textbf{output}: Factor (A prior factor on a 2D point)
+\end{itemize}
+
+\noindent RangeFactor2D($key_1, key_2, measured, noise\_model$):
+\begin{itemize}
+    \item \textbf{output}: Factor (A range factor between two keys)
+\end{itemize}
+
+\noindent noiseModel\_Isotropic\_Sigma($dim, \sigma$):
+\begin{itemize}
+    \item \textbf{output}: Model (An isotropic noise model)
+\end{itemize}
+
+\noindent LevenbergMarquardtOptimizer($graph, values$):
+\begin{itemize}
+    \item \textbf{output}: Values (Optimized results from factor graph)
+\end{itemize}
+
+\noindent Values():
+\begin{itemize}
+    \item \textbf{output}: Values (An empty values container)
+\end{itemize}
+
+\noindent insert($values, key, value$):
+\begin{itemize}
+    \item \textbf{output}: \textit{None} (Modifies values in place)
+\end{itemize}
+
+\noindent atPose2($result, key$):
+\begin{itemize}
+    \item \textbf{output}: $\mathbb{R}^3$ (The retrieved pose from results)
+\end{itemize}
+
+\noindent compose($T_1, T_2$):
+\begin{itemize}
+    \item \textbf{output}: $\mathbb{R}^3$ (The composition of two poses)
+\end{itemize}
+
+\noindent inverse($T$):
+\begin{itemize}
+    \item \textbf{output}: $\mathbb{R}^3$ (The inverse of a pose)
+\end{itemize}
+
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+\newpage
+
 \section{MIS of Input Format Module} \label{M_Input} 
 % \wss{Use labels for
 %   cross-referencing}
@@ -246,10 +404,12 @@ None
 
 \subsection{Module}
 
-input\textunderscore format
+input\_format
 
 \subsection{Uses}
-None
+\begin{itemize}
+  \item GTSAM Module (Section \ref{M_GTSAM})
+\end{itemize}
 
 \subsection{Syntax}
 
@@ -262,8 +422,14 @@ None
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-load\textunderscore input & String & \textit{Data} & File error (file does not exist) \\
-verify\textunderscore input & - & - & Error in \textunderscore\textunderscore\textunderscore  variable \\
+load\_input & -& -& FileNotFoundError \\
+ &  &  & ValueError \\
+get\_beacons& - & $\mathbb{R}^{N \times 2}$ & - \\
+get\_fmMap& - & $\mathbb{R}^3$ & - \\
+get\_fmRobots& - & $\mathbb{R}^3$ & - \\
+get\_map& - & String & - \\
+get\_ranges& - & $\mathbb{R}^N$ & - \\
+get\_variances& - & $\mathbb{R}^N$ & - \\
 \hline
 \end{tabular}
 \end{center}
@@ -276,6 +442,7 @@ verify\textunderscore input & - & - & Error in \textunderscore\textunderscore\te
   \begin{itemize}
     \item range\textunderscore measurements: $\mathbb{R}^N$
     \item camera: $\mathbb{R}^3$
+    \item variances: $\mathbb{R}^N$
   \end{itemize}
 \end{itemize}
 
@@ -289,26 +456,47 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent load\textunderscore input("Filename" + ".yaml"):
+\noindent load\_input():
 \begin{itemize}
-% \item transition: \wss{if appropriate} 
-\item output:
-\begin{itemize}
-  \item beacons: $\mathbb{R}^{N \times 2}$
-  \item fiducial\textunderscore map: $\mathbb{R}^3$
-  \item fiducial\textunderscore robot: $\mathbb{R}^3$
-  \item range\textunderscore measurements: $\mathbb{R}^N$
-\end{itemize}
-\item exception: \textit{File not found}
+    \item output: None
+    \item exception: \textit{FileNotFoundError}, \textit{ValueError}
 \end{itemize}
 
-\noindent verify\textunderscore input(data):
+\noindent input.get\_beacons():
 \begin{itemize}
-% \item transition: \wss{if appropriate} 
-% \item output: \wss{if appropriate} 
-\item exception: \textit{Data format was incorrect}
+    \item output:$=\mathbf{a}$
+    \item exception: None
 \end{itemize}
 
+\noindent get\_fmMap():
+\begin{itemize}
+    \item output: $T_{mf}=Pose2(\mathbb{R}^{3})$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_fmRobot():
+\begin{itemize}
+    \item output: $T_{rf}=Pose2(\mathbb{R}^{3})$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_map():
+\begin{itemize}
+    \item output:$=$ \lq Image.png\rq
+    \item exception: None
+\end{itemize}
+
+\noindent get\_ranges():
+\begin{itemize}
+    \item output:$=\mathbf{\tilde{d}}$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_variances():
+\begin{itemize}
+    \item output: $\boldsymbol{\sigma^2}$
+    \item exception: None
+\end{itemize}
 % \wss{A module without environment variables or state variables is unlikely to
 %   have a state transition.  In this case a state transition can only occur if
 %   the module is changing the state of another module.}
@@ -372,8 +560,7 @@ None
 \end{itemize}
 
 \subsubsection{Local Functions}
-\textit{GTSAM functions}
-
+None
 \newpage
 
 \section{MIS of Accuracy Evaluation Module} \label{M_Accurate}
@@ -528,7 +715,7 @@ plot
 \hline
 plot\_localization\_live & \( R^{N \times 2}, R^2, \text{Image} \) & Plot & - \\
 \hline
-update\_trajectory & \( R^2 \) & - & - \\
+update\_trajectory & \( R^3 \) & - & - \\
 \hline
 \end{tabular}
 \end{center}

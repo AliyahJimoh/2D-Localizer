@@ -23,7 +23,7 @@ def run_gui(queue):
     global root, tree, data_queue
     data_queue = queue
     root = tk.Tk()
-    root.title("Live Robot Position Table")
+    root.title("Estimated Pose Table")
 
     tree = ttk.Treeview(root, columns=("Time", "X", "Y", "Theta"), show="headings")
     for col in ("Time", "X", "Y", "Theta"):

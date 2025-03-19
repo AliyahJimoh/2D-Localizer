@@ -5,7 +5,7 @@ from multiprocessing import Process, Queue
 import numpy as np
 
 from accuracy import compute_crlb, compute_fim
-from input_format import load_input
+from input_format import InputData
 from localization import localize
 from output import run_gui
 from plot import plot_localization_live, update_trajectory
@@ -14,9 +14,14 @@ from trajectory import trajectory
 
 def main():
     # Loading Data
-    beacons, fm_map, fm_robot, map, range_m, variances = load_input(
-        f"src/user_input.yaml"
-    )
+    input = InputData()
+
+    beacons = input.get_beacons()
+    fm_map = input.get_fmMap()
+    fm_robot = input.get_fmRobot()
+    map = input.get_map()
+    range_m = input.get_ranges()
+    variances = input.get_variances()
 
     data_queue = Queue()
 
@@ -31,14 +36,17 @@ def main():
     path = trajectory()
 
     # Allow at least one update before starting the plot
-    estimated_pose = localize(beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
+    estimated_pose = localize(
+        beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
     update_trajectory(estimated_pose)
-    data_queue.put((1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    data_queue.put(
+        (1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
 
     # Simulating continuous localization updates
 
     for t in range(1, m):
-        estimated_pose = localize(beacons, fm_map, fm_robot, range_m[t, :], path[t, :])
+        estimated_pose = localize(
+            beacons, fm_map, fm_robot, range_m[t, :], path[t, :])
 
         # Computing FIM & CRLB
         fim = compute_fim(estimated_pose, beacons, variances)

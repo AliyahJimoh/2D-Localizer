@@ -4,16 +4,14 @@ import numpy as np
 
 from trajectory import trajectory
 
-
-def noisy_range(beacons):
+def noisy_range(beacons,variances):
     path = trajectory()
 
     m, n = (np.size(path, 0), np.size(beacons, 0))
 
     r = np.zeros((m, n))  # Initializing range measurements
 
-    # Getting variance for each beacon (sigma squared)
-    variances = np.random.uniform(0.0025, 0.01, size=len(beacons))
+    # Getting variance for each beacon (sigma squared) 
 
     # Making loop to calculate measurements
     for i in range(m):  # Rows (num. of positions)
@@ -21,4 +19,4 @@ def noisy_range(beacons):
             sigma = np.sqrt(variances[j])
             eta = sigma * np.random.randn()  # Sensor noise (uncertainty)
             r[i, j] = np.linalg.norm(path[i, :] - beacons[j, :]) + eta
-    return r, variances
+    return r

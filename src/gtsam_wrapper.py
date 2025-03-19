@@ -9,8 +9,8 @@ def Point2(x, y):
     return gtsam.Point2(x, y)
 
 
-def symbol(str, num):
-    return gtsam.symbol(str, num)  # str -> a string
+def symbol(char, int):
+    return gtsam.symbol(char, int) 
 
 
 def NonlinearFactorGraph():
@@ -41,8 +41,8 @@ def Values():
     return gtsam.Values()
 
 
-def insert(values, key, value):
-    values.insert(key, value)
+def insert(Values, key, value):
+    Values.insert(key, value)
 
 
 def atPose2(result, key):
