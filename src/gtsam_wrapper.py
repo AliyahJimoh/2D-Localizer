@@ -10,7 +10,7 @@ def Point2(x, y):
 
 
 def symbol(char, int):
-    return gtsam.symbol(char, int) 
+    return gtsam.symbol(char, int)
 
 
 def NonlinearFactorGraph():

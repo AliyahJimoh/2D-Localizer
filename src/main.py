@@ -36,17 +36,14 @@ def main():
     path = trajectory()
 
     # Allow at least one update before starting the plot
-    estimated_pose = localize(
-        beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
+    estimated_pose = localize(beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
     update_trajectory(estimated_pose)
-    data_queue.put(
-        (1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    data_queue.put((1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
 
     # Simulating continuous localization updates
 
     for t in range(1, m):
-        estimated_pose = localize(
-            beacons, fm_map, fm_robot, range_m[t, :], path[t, :])
+        estimated_pose = localize(beacons, fm_map, fm_robot, range_m[t, :], path[t, :])
 
         # Computing FIM & CRLB
         fim = compute_fim(estimated_pose, beacons, variances)
