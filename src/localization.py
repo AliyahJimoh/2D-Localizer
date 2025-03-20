@@ -15,7 +15,7 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     # Beacon symbols defined with 'a'
     # visible_beacon_indices = [i for i in range(
     #     len(beacons)) if range_m[i] <= max_distance]
-    beacon_ids = [symbol("a", i + 1) for i in range(len(beacons))]
+    beacon_ids = [symbol("a", j + 1) for j in range(len(beacons))]
 
     # Fiducial Markers defined with 'f'
     symbol("f", 1)
@@ -37,9 +37,9 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     range_noise = gtsam.noiseModel_Isotropic_Sigma(1, 0.5)
 
     # Add range measurement factors to the graph
-    for i, beacon_pos in enumerate(beacons):
-        beacon_symbol = beacon_ids[i]
-        graph.add(gtsam.RangeFactor2D(robot_id, beacon_symbol, range_m[i], range_noise))
+    for j, beacon_pos in enumerate(beacons):
+        beacon_symbol = beacon_ids[j]
+        graph.add(gtsam.RangeFactor2D(robot_id, beacon_symbol, range_m[j], range_noise))
 
     # Fix one beacon's position with a very small noise model
     beacon_prior_noise = gtsam.noiseModel_Isotropic_Sigma(2, 0.5)  # Small uncertainty
@@ -59,9 +59,9 @@ def localize(beacons, fm_map, fm_robot, range_m, init_guess):
     else:
         gtsam.insert(initial_estimates, robot_id, Pose2(init_x, init_y, 0))
 
-    for i, beacon_pos in enumerate(beacons):
+    for j, beacon_pos in enumerate(beacons):
         gtsam.insert(
-            initial_estimates, beacon_ids[i], Point2(beacon_pos[0], beacon_pos[1])
+            initial_estimates, beacon_ids[j], Point2(beacon_pos[0], beacon_pos[1])
         )
 
     # initial_estimates.insert(fiducial_id, T_mf)
