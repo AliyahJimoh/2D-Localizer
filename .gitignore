@@ -278,27 +278,15 @@ TSWLatexianTemp*
 # DS_Store file from Mac computers
 .DS_Store
 
+# _pycache_ files
+*.pyc
+src/_pycache_/*
 
-.vscode/settings.json
-.vscode/ltex.dictionary.en-US.txt
-.vscode/ltex.hiddenFalsePositives.en-US.txt
-.vscode/ltex.disabledRules.en-US.txt
-docs/SRS/.vscode/ltex.disabledRules.en-US.txt
+# Virtual Environment
 src/.venv/*
-src/tests/__pycache__/models.cpython-310.pyc
-.vscode/ltex.dictionary.en-CA.txt
-src/__pycache__/input_format.cpython-310.pyc
-src/__pycache__/localization.cpython-310.pyc
-src/requirements.txt
-src/Plaza2_DR.txt
-src/__pycache__/plot.cpython-310.pyc
-src/__pycache__/sensor_fusion.cpython-310.pyc
-src/__pycache__/trajectory.cpython-310.pyc
-src/__pycache__/range_measurements.cpython-310.pyc
-src/__pycache__/mle.cpython-310.pyc
+
+# Potential vscode files
+.vscode/*
+
+# Flake8 configuration files
 .config/flake8
-.config/flake8
-src/__pycache__/gtsam_wrapper.cpython-310.pyc
-src/__pycache__/output.cpython-310.pyc
-src/__pycache__/accuracy.cpython-310.pyc
-src/__pycache__/main.cpython-310.pyc
