@@ -25,8 +25,8 @@ def run_gui(queue):
     root = tk.Tk()
     root.title("Estimated Pose Table")
 
-    tree = ttk.Treeview(root, columns=("Time", "X", "Y", "Theta"), show="headings")
-    for col in ("Time", "X", "Y", "Theta"):
+    tree = ttk.Treeview(root, columns=("Position", "X", "Y", "Theta"), show="headings")
+    for col in ("Position", "X", "Y", "Theta"):
         tree.heading(col, text=col)
         tree.column(col, width=100, anchor="center")
 

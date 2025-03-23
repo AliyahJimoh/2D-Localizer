@@ -42,19 +42,19 @@ def main():
 
     # Simulating continuous localization updates
 
-    for t in range(1, m):
-        estimated_pose = localize(beacons, fm_map, fm_robot, range_m[t, :], path[t, :])
+    for i in range(1, m):
+        estimated_pose = localize(beacons, fm_map, fm_robot, range_m[i, :], path[i, :])
 
         # Computing FIM & CRLB
         fim = compute_fim(estimated_pose, beacons, variances)
         crlb = compute_crlb(fim)
 
-        print(f"Time {t}: CRLB=\n{crlb}")
+        print(f"Position {i}: CRLB=\n{crlb}")
 
         # Store the trajectory for real-time plotting
         update_trajectory(estimated_pose)
         data_queue.put(
-            (t + 1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta())
+            (i + 1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta())
         )
 
         time.sleep(0.1)  # Simulate delay between measurements

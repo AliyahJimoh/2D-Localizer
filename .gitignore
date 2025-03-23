@@ -284,6 +284,7 @@ src/_pycache_/*
 
 # Virtual Environment
 src/.venv/*
+.venv/*
 
 # Potential vscode files
 .vscode/*
