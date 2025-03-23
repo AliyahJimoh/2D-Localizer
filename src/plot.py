@@ -19,7 +19,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     plt.ion()  # Enable interactive mode
 
     # Load the factory layout image
-    img = mpimg.imread(f"src/{map}")
+    img = mpimg.imread(f"{map}")
 
     fig, ax = plt.subplots(figsize=(10, 8))
 

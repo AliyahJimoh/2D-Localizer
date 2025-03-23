@@ -4,7 +4,7 @@ Instructions for installing 2D-Localizer.
 User of this program can install the software in the src folder on Linux/macOS
 
 1. Clone this repository
-2. Direct your terminal to the src/ folder
+2. `cd src`- to direct your terminal to the src/ folder
 3. `make install` - to set up the virtual environment and dependencies using the Makefile
 4. `source .venv/bin/activate` - to activate the environment
 4. Modify the `user_input.yaml` file to desired values

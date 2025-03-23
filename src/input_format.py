@@ -12,7 +12,7 @@ class InputData:
     Abstract Data Type used for getting user inputs
     """
 
-    def __init__(self, input_file=f"src/user_input.yaml"):
+    def __init__(self, input_file=f"user_input.yaml"):
         self.input_file = input_file
         self.data = self.load_input()
 
