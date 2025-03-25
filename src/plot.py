@@ -1,4 +1,5 @@
 """Plotting Module: Used to plot the visual representation of the map"""
+
 import time
 
 import matplotlib.image as mpimg

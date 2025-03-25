@@ -1,4 +1,5 @@
 """Control Module: Manages the execution of the program"""
+
 import time
 from multiprocessing import Process, Queue
 
