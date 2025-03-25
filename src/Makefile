@@ -6,9 +6,16 @@ PYTHON := $(VENV_NAME)/bin/python3.10
 venv:
 	@echo "Creating virtual environment..."
 	@if [ ! -d "$(VENV_NAME)" ]; then \
-		sudo apt update -y && \
-		sudo apt install -y python3.10-venv python3.10-tk && \
-		$(PYTHON_VER) -m venv $(VENV_NAME); \
+		if [ "$$(uname)" = "Darwin" ]; then \
+			echo "Detected macOS. Installing dependencies with brew (if needed)..."; \
+			brew install $(PYTHON_VER) || true; \
+			$(PYTHON_VER) -m venv $(VENV_NAME); \
+		else \
+			echo "Detected Linux. Installing dependencies with apt..."; \
+			sudo apt update -y && \
+			sudo apt install -y python3.10-venv python3.10-tk && \
+			$(PYTHON_VER) -m venv $(VENV_NAME); \
+		fi \
 	else \
 		echo "Virtual environment already exists."; \
 	fi
