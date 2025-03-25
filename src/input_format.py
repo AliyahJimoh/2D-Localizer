@@ -1,10 +1,11 @@
 # Puts the users input in the correct format
 
 import numpy as np
+import csv
 import yaml
 
 from gtsam_wrapper import Pose2
-from range_measurements import noisy_range
+from simulation import noisy_range
 
 
 class InputData:
@@ -38,13 +39,18 @@ class InputData:
 
     def get_map(self):
         return self.data["map"]
-
+    
+    def get_trajectory(self):
+        reader = csv.reader(open(self.data["trajectory"], "r"), delimiter=",")
+        next(reader)
+        x = list(reader)
+        return np.array(x).astype("float")
+        
     def get_ranges(self):
-        # return np.array(self.data["sensor_data"]["range_measurements"])
         beacons = self.get_beacons()
         variances = self.get_variances()
-        return noisy_range(beacons, variances)
+        trajectory = self.get_trajectory()
+        return noisy_range(beacons, variances, trajectory)
 
     def get_variances(self):
         return np.array(self.data["sensor_data"]["variances"])
-        # return np.random.uniform(0.0025, 0.01, size=len(self.get_beacons()))
