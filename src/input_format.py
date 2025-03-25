@@ -1,7 +1,8 @@
 # Puts the users input in the correct format
 
-import numpy as np
 import csv
+
+import numpy as np
 import yaml
 
 from gtsam_wrapper import Pose2
@@ -39,13 +40,13 @@ class InputData:
 
     def get_map(self):
         return self.data["map"]
-    
+
     def get_trajectory(self):
         reader = csv.reader(open(self.data["trajectory"], "r"), delimiter=",")
         next(reader)
         x = list(reader)
         return np.array(x).astype("float")
-        
+
     def get_ranges(self):
         beacons = self.get_beacons()
         variances = self.get_variances()

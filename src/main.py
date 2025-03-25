@@ -10,6 +10,7 @@ from localization import localize
 from output import run_gui
 from plot import plot_localization_live, update_trajectory
 
+
 def main():
     # Loading Data
     input = InputData()
@@ -21,7 +22,7 @@ def main():
     range_m = input.get_ranges()
     variances = input.get_variances()
     path = input.get_trajectory()
-    
+
     data_queue = Queue()
 
     # Starting the live table
@@ -31,8 +32,6 @@ def main():
     print("Starting Real-Time Localization...")
 
     m = np.size(range_m, 0)
-
-    
 
     # Allow at least one update before starting the plot
     estimated_pose = localize(beacons, fm_map, fm_robot, range_m[0, :], path[0, :])
