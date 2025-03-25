@@ -11,10 +11,19 @@ def compute_fim(estimated_pose, beacons, variances):
     fim = np.zeros((2, 2))
     x = estimated_pose.x()  # Extract X position
     y = estimated_pose.y()  # Extract Y position
-    for i in range(len(beacons)):
-        j = np.array([x - beacons[i, 0], y - beacons[i, 1]])
-        # Setting up Joint FIM
-        fim += 1 / variances[i] * (np.outer(j, j) / np.square(np.linalg.norm(j)))
+    
+    # Calculate differences of each axis
+    x_diff = x -  beacons[:, 0]
+    y_diff = y -  beacons[:, 1]
+    
+    j = np.stack([x_diff, y_diff],axis=0) # 2 x 5
+    # print(j.shape)
+    var = 1 / variances # 5x 1
+    # print(var.shape)
+    norm = np.square(np.linalg.norm(j, axis=0)) # 5 x 1
+    # print(norm.shape)
+    fim = np.einsum("ik,jk,k->ij", j, j, var / norm)
+
 
     return fim
 
