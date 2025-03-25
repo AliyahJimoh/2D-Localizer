@@ -1,4 +1,4 @@
-# plot.py
+"""Plotting Module: Used to plot the visual representation of the map"""
 import time
 
 import matplotlib.image as mpimg
@@ -14,7 +14,7 @@ ani = None
 
 def plot_localization_live(beacons, fm_map, map, g_truth):
     """
-    Live updating plot for localization trajectory on a factory layout image.
+    Creates the plot that shows the robot positions, beacons and fiducial markers live on the map
     """
     plt.ion()  # Enable interactive mode
 
@@ -61,7 +61,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
 
     def update(frame):
         """
-        This function updates the plot at each frame.
+        Updates the plot at each frame.
         """
         if len(trajectory) == 0:
             print("Warning: No trajectory data available. Skipping update.")
@@ -102,11 +102,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
         repeat=False,
     )
 
-    # print("Trajectory data:", trajectory)
-
     ax.legend()
     plt.show(block=True)  # Ensures the plot remains open
-    # plt.pause(0.1)
 
     while plt.fignum_exists(fig.number):
         plt.pause(0.1)

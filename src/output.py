@@ -1,10 +1,14 @@
+"""Output Module: Displays a table of the estimated pose for each set of measurements"""
+
 import queue
 import tkinter as tk
 from tkinter import ttk
 
 
 def update_table():
-    """Check for new data in the queue and update the table."""
+    """
+    Check for new data in the queue and update the table.
+    """
     global data_queue
     while not data_queue.empty():
         try:
@@ -19,7 +23,9 @@ def update_table():
 
 
 def run_gui(queue):
-    """Start the Tkinter GUI and link it to the queue."""
+    """
+    Start the Tkinter GUI and link it to the queue.
+    """
     global root, tree, data_queue
     data_queue = queue
     root = tk.Tk()

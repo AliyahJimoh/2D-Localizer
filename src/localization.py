@@ -1,10 +1,13 @@
-# This is to mathematically compute the estimate pose with the GTSAM library
+"""Localization Module: Mathematically computes the estimate pose with the wrapped GTSAM library"""
 
 import gtsam_wrapper as gtsam
 from gtsam_wrapper import Point2, Pose2, symbol
 
 
 def localize(beacons, fm_map, fm_robot, range_m, init_guess):
+    """
+    Gives estimated pose from selected set of measurements for position i
+    """
 
     init_x = init_guess[0]
     init_y = init_guess[1]

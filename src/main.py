@@ -1,4 +1,4 @@
-# Control Module
+"""Control Module: Manages the execution of the program"""
 import time
 from multiprocessing import Process, Queue
 
@@ -12,6 +12,9 @@ from plot import plot_localization_live, update_trajectory
 
 
 def main():
+    """
+    Executes the program
+    """
     # Loading Data
     input = InputData()
 

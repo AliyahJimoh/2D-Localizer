@@ -1,7 +1,12 @@
+"""Accuracy Evaluation Module: Checks the accuracy (uncertainty) for each estimated pose"""
+
 import numpy as np
 
 
 def compute_fim(estimated_pose, beacons, variances):
+    """
+    Computes the Fisher Information Matrix (FIM) of the estimated pose
+    """
 
     fim = np.zeros((2, 2))
     x = estimated_pose.x()  # Extract X position
@@ -15,6 +20,9 @@ def compute_fim(estimated_pose, beacons, variances):
 
 
 def compute_crlb(fim):
+    """
+    Computes the Cramer-Rao Lower Bound (CRLB) to evaluate uncertainty
+    """
     C = np.linalg.inv(fim)
 
     return C

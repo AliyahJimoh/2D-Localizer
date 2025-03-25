@@ -1,9 +1,12 @@
-# Setting up the range measurements from the trajectory
+"""Simulation Module: Simulates noisy range measurements from the trajectory provided"""
 
 import numpy as np
 
 
 def noisy_range(beacons, variances, trajectory):
+    """
+    Creates noisy measurements from ground truth
+    """
     path = trajectory
 
     m, n = (np.size(path, 0), np.size(beacons, 0))

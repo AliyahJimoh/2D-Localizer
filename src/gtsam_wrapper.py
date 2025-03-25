@@ -1,3 +1,5 @@
+"""GTSAM Module: Creates wrapper for the Georgia Tech Smoothing and Mapping (GTSAM) library """
+
 import gtsam
 
 
