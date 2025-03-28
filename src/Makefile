@@ -1,6 +1,7 @@
 REQUIREMENTS = requirements.txt
 VENV_NAME := .venv
-PYTHON_VER := python3.10
+PYTHON_VER_LINUX := python3.10
+PYTHON_VER_MAC := python@3.10
 PYTHON := $(VENV_NAME)/bin/python3.10
 
 venv:
@@ -8,13 +9,13 @@ venv:
 	@if [ ! -d "$(VENV_NAME)" ]; then \
 		if [ "$$(uname)" = "Darwin" ]; then \
 			echo "Detected macOS. Installing dependencies with brew (if needed)..."; \
-			brew install $(PYTHON_VER) || true; \
-			$(PYTHON_VER) -m venv $(VENV_NAME); \
+			brew install $(PYTHON_VER_MAC) || true; \
+			$(PYTHON_VER_MAC) -m venv $(VENV_NAME); \
 		else \
 			echo "Detected Linux. Installing dependencies with apt..."; \
 			sudo apt update -y && \
 			sudo apt install -y python3.10-venv python3.10-tk && \
-			$(PYTHON_VER) -m venv $(VENV_NAME); \
+			$(PYTHON_VER_LINUX) -m venv $(VENV_NAME); \
 		fi \
 	else \
 		echo "Virtual environment already exists."; \

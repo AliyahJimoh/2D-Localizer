@@ -1,4 +1,3 @@
-
 from input_format import InputData
 
 input = InputData()
