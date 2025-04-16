@@ -3,9 +3,11 @@
 import time
 
 import matplotlib.image as mpimg
+from matplotlib.patches import Polygon
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
+from input_format import InputData
 
 trajectory = []  # Stores estimated positions over time
 robot_trajectory = None
@@ -17,6 +19,9 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     """
     Creates the plot that shows the robot positions, beacons and fiducial markers live on the map
     """
+    input = InputData()
+    axis = input.get_mapSize()
+
     plt.ion()  # Enable interactive mode
 
     # Load the factory layout image
@@ -25,19 +30,19 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Set axis limits based on your environment dimensions
-    ax.set_xlim(0, 60)  # Adjust this based on real-world map scaling
-    ax.set_ylim(0, 45)
+    ax.set_xlim(0, axis[0])  # Adjust this based on real-world map scaling
+    ax.set_ylim(0, axis[1])
     ax.set_title("Real-Time Robot Localization on Factory Layout")
     ax.set_xlabel("X Position")
     ax.set_ylabel("Y Position")
 
     # Display the background image (Factory Layout)
-    ax.imshow(img, extent=[0, 60, 0, 45], alpha=0.6, aspect="auto")
+    ax.imshow(img, extent=[0, axis[0], 0, axis[1]], alpha=0.6, aspect="auto")
 
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
     ax.scatter(beacons[:, 0], beacons[:, 1], c="blue", marker="o", label="Beacons")
-    ax.scatter(fm_map.x(), fm_map.y(), c="green", marker="s", label="Fiducial Marker")
+    ax.scatter(fm_map[:,0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker")
 
     # Static ground truth
     ax.plot(g_truth[:, 0], g_truth[:, 1], "b-", label="Ground Truth")
@@ -45,9 +50,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     # Dynamic elements (robot trajectory and current position)
     global robot_trajectory, robot_dot, ani
     (robot_trajectory,) = ax.plot([], [], "r-", label="Trajectory")  # Line for path
-    (robot_dot,) = ax.plot(
-        [], [], marker=(3, 0, 0), c="black", label="Robot", markersize=12
-    )
+    triangle_patch = [ax.add_patch(Polygon([[0, 0], [0, 0], [0, 0]], closed=True, color='black', label="Robot"))]
+
 
     max_wait_time = 5  # Maximum wait time (seconds)
     start_time = time.time()
@@ -85,15 +89,28 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
         )  # Fix iteration issue
         robot_trajectory.set_data(trajectory_x, trajectory_y)
 
-        # Update the current robot position (red dot)
-        robot_dot.set_data(x, y)
-        robot_dot.set_markersize(10)
-        robot_dot.set_marker((3, 0, theta * (180 / np.pi)))
+        # Isosceles triangle parameters
+        length = 1.25  # distance from center to tip
+        width = 1.0   # total base width
 
-        plt.draw()
-        plt.pause(0.1)  # Allow the UI to refresh
+        # Triangle points (before rotation): tip, bottom-left, bottom-right
+        points = np.array([
+            [length, 0],               # tip of the triangle
+            [-length * 0.5, -width/2], # bottom left
+            [-length * 0.5, width/2],  # bottom right
+        ])
 
-        return robot_trajectory, robot_dot
+        # Rotation matrix for theta
+        R = np.array([
+            [np.cos(theta), -np.sin(theta)],
+            [np.sin(theta),  np.cos(theta)]
+        ])
+
+        # Rotate and shift
+        rotated_points = points @ R.T + np.array([x, y])
+
+        # Update triangle patch
+        triangle_patch[0].set_xy(rotated_points)
 
     ani = FuncAnimation(
         fig,

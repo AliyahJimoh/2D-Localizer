@@ -1,21 +1,15 @@
 beacons: # Beacon (range sensor) positions
- # x, y
-- [6.7, 12.4]
-- [9.96, 4.8]
-- [9.96, 21]
-- [6.7, 28.5]
-- [9.96, 35] # Continue to add them in this format
-
+ "beacons.csv"
 
 FM: # Fiducial marker placement
             #x, y, theta(radians)
-    fm_map: [8.63, 39.67, 0.7854] # FM from the map's frame (T_mf)
+    fm_map: "fiducial_map.csv" # FM from the map's frame (T_mf)
     
+map: 
+    name: "factorylayout3.jpg" # Name of your image
+    size: [60, 45] # length (x-axis) and width (y-axis) in meters
 
-map: "factorylayout3.jpg" # Name of your image
-
-trajectory: "trajectory.csv"
+trajectory: "trajectory_curvy.csv"
 
 sensor_data:
-    camera: [0.6, 2, 0] # FM from the robot's frame (T_rf)
-    variances: [0.5, 0.5, 0.5, 0.5, 0.5]
+    variances: 0.5

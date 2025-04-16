@@ -2,6 +2,6 @@ from input_format import InputData
 
 input = InputData()
 
-path = input.get_trajectory()
+ranges = input.get_ranges()
 
-print(path)
+print(ranges[:100,:])
