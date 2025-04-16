@@ -1,6 +1,7 @@
 """Localization Module: Mathematically computes the estimate pose with the wrapped GTSAM library"""
 
 from gtsam import BetweenFactorPose2
+
 import gtsam_wrapper as gtsam
 from gtsam_wrapper import Point2, Pose2, symbol
 from simulation import visible_fms
@@ -21,9 +22,13 @@ def localize(beacons, fm_map, range_m, init_guess):
     # visible_beacon_indices = [symbol("a", j + 1) for j in range(
     #     len(beacons)) if range_m[j] <= max_distance]
     # beacon_ids = [symbol("a", j + 1) for j in range(len(beacons))]
-    visible_beacons = [(j, beacons[j], range_m[j]) for j in range(len(beacons)) if range_m[j] <= max_distance]
+    visible_beacons = [
+        (j, beacons[j], range_m[j])
+        for j in range(len(beacons))
+        if range_m[j] <= max_distance
+    ]
     print(len(visible_beacons))
-    
+
     visible_beacon_indices = [symbol("a", j + 1) for j, _, _ in visible_beacons]
 
     # Fiducial Markers defined with 'f'
@@ -35,40 +40,49 @@ def localize(beacons, fm_map, range_m, init_guess):
     # Add prior on robot's initial position (for stability)
     # Basically the actual position of the robot
     prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 0.2)
-    graph.add(gtsam.PriorFactorPose2(robot_id, Pose2(init_x, init_y, init_guess[2]), prior_noise))
+    graph.add(
+        gtsam.PriorFactorPose2(
+            robot_id, Pose2(init_x, init_y, init_guess[2]), prior_noise
+        )
+    )
 
     # Define noise model for range measurements
     range_noise = gtsam.noiseModel_Isotropic_Sigma(1, 0.5)
 
     # Add range measurement factors to the graph
-    for (j, beacon_pos, measured_range) in visible_beacons:
+    for j, beacon_pos, measured_range in visible_beacons:
         beacon_symbol = symbol("a", j + 1)
-        graph.add(gtsam.RangeFactor2D(robot_id, beacon_symbol, measured_range, range_noise))
-
+        graph.add(
+            gtsam.RangeFactor2D(robot_id, beacon_symbol, measured_range, range_noise)
+        )
 
     # Fix one beacon's position with a very small noise model
     beacon_prior_noise = gtsam.noiseModel_Isotropic_Sigma(2, 0.1)  # Small uncertainty
     _, beacon_pos, _ = visible_beacons[0]
     graph.add(
         gtsam.PriorFactorPoint2(
-            visible_beacon_indices[0], Point2(beacon_pos[0], beacon_pos[1]), beacon_prior_noise
+            visible_beacon_indices[0],
+            Point2(beacon_pos[0], beacon_pos[1]),
+            beacon_prior_noise,
         )
     )
 
     # Create initial values for optimization
     initial_estimates = gtsam.Values()
-    
+
     # Adding Fiducial Markers and their initial estimates
     for i, (x_rel, y_rel, phi) in fms:
         fm_symbol = symbol("f", i + 1)
-        
+
         T_fr = Pose2(x_rel, y_rel, phi)
-        
+
         # Getting the factor between the robot and fiducial marker
         graph.add(BetweenFactorPose2(robot_id, fm_symbol, T_fr, fm_noise))
 
         # Add prior for fiducial marker pose (map-known)
-        T_mf = Pose2(fm_map[i][0], fm_map[i][1], fm_map[i][2])  # assume 0 orientation for now
+        T_mf = Pose2(
+            fm_map[i][0], fm_map[i][1], fm_map[i][2]
+        )  # assume 0 orientation for now
         fm_prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 0.05)
         graph.add(gtsam.PriorFactorPose2(fm_symbol, T_mf, fm_prior_noise))
 
@@ -79,7 +93,9 @@ def localize(beacons, fm_map, range_m, init_guess):
 
     for j, (_, beacon_pos, _) in enumerate(visible_beacons):
         gtsam.insert(
-            initial_estimates, visible_beacon_indices[j], Point2(beacon_pos[0], beacon_pos[1])
+            initial_estimates,
+            visible_beacon_indices[j],
+            Point2(beacon_pos[0], beacon_pos[1]),
         )
 
     # Solve using Levenberg-Marquardt optimizer (more stable)

@@ -5,7 +5,6 @@ import csv
 import numpy as np
 import yaml
 
-from gtsam_wrapper import Pose2
 from simulation import noisy_range
 
 
@@ -45,7 +44,9 @@ class InputData:
         """
         Gives the coordinates of fiducial markers with respect to the map's frame of reference
         """
-        reader = csv.reader(open(f"inputs/{self.data['FM']['fm_map']}", "r"), delimiter=",")
+        reader = csv.reader(
+            open(f"inputs/{self.data['FM']['fm_map']}", "r"), delimiter=","
+        )
         next(reader)
         x = list(reader)
         return np.array(x).astype("float")
@@ -62,7 +63,7 @@ class InputData:
         Gives the name of the map's image
         """
         return f"inputs/{self.data['map']['name']}"
-    
+
     def get_mapSize(self):
         """
         Gives the name of the map's image
@@ -73,7 +74,9 @@ class InputData:
         """
         Gives the trajectory of the robot
         """
-        reader = csv.reader(open(f"inputs/{self.data['trajectory']}", "r"), delimiter=",")
+        reader = csv.reader(
+            open(f"inputs/{self.data['trajectory']}", "r"), delimiter=","
+        )
         next(reader)
         x = list(reader)
         return np.array(x).astype("float")

@@ -3,10 +3,11 @@
 import time
 
 import matplotlib.image as mpimg
-from matplotlib.patches import Polygon
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
+from matplotlib.patches import Polygon
+
 from input_format import InputData
 
 trajectory = []  # Stores estimated positions over time
@@ -42,7 +43,9 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
     ax.scatter(beacons[:, 0], beacons[:, 1], c="blue", marker="o", label="Beacons")
-    ax.scatter(fm_map[:,0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker")
+    ax.scatter(
+        fm_map[:, 0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker"
+    )
 
     # Static ground truth
     ax.plot(g_truth[:, 0], g_truth[:, 1], "b-", label="Ground Truth")
@@ -50,8 +53,11 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     # Dynamic elements (robot trajectory and current position)
     global robot_trajectory, robot_dot, ani
     (robot_trajectory,) = ax.plot([], [], "r-", label="Trajectory")  # Line for path
-    triangle_patch = [ax.add_patch(Polygon([[0, 0], [0, 0], [0, 0]], closed=True, color='black', label="Robot"))]
-
+    triangle_patch = [
+        ax.add_patch(
+            Polygon([[0, 0], [0, 0], [0, 0]], closed=True, color="black", label="Robot")
+        )
+    ]
 
     max_wait_time = 5  # Maximum wait time (seconds)
     start_time = time.time()
@@ -91,20 +97,19 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
 
         # Isosceles triangle parameters
         length = 1.25  # distance from center to tip
-        width = 1.0   # total base width
+        width = 1.0  # total base width
 
         # Triangle points (before rotation): tip, bottom-left, bottom-right
-        points = np.array([
-            [length, 0],               # tip of the triangle
-            [-length * 0.5, -width/2], # bottom left
-            [-length * 0.5, width/2],  # bottom right
-        ])
+        points = np.array(
+            [
+                [length, 0],  # tip of the triangle
+                [-length * 0.5, -width / 2],  # bottom left
+                [-length * 0.5, width / 2],  # bottom right
+            ]
+        )
 
         # Rotation matrix for theta
-        R = np.array([
-            [np.cos(theta), -np.sin(theta)],
-            [np.sin(theta),  np.cos(theta)]
-        ])
+        R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
 
         # Rotate and shift
         rotated_points = points @ R.T + np.array([x, y])
