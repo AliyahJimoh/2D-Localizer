@@ -6,7 +6,7 @@ from input_format import InputData
 
 def test_invalid_yaml(tmp_path):
     """
-    F-IV-01: Ensures invalid YAML input raises an error
+    Ensures invalid YAML input raises an error
     """
     bad_file = tmp_path / "bad.yaml"
     bad_file.write_text("invalid: [unclosed")
