@@ -21,7 +21,7 @@ def main():
 
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
-    # fm_robot = input.get_fmRobot()
+    map_size = input.get_mapSize()
     map = input.get_map()
     range_m = input.get_ranges()
     variances = input.get_variances()
@@ -61,7 +61,7 @@ def main():
 
         time.sleep(0.1)  # Simulate delay between measurements
 
-    plot_localization_live(beacons, fm_map, map, path)
+    plot_localization_live(beacons, fm_map, map, path, map_size)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,9 @@
 
 import time
 
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
+
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,12 +19,10 @@ robot_dot = None
 ani = None
 
 
-def plot_localization_live(beacons, fm_map, map, g_truth):
+def plot_localization_live(beacons, fm_map, map, g_truth,map_size, show =True):
     """
     Creates the plot that shows the robot positions, beacons and fiducial markers live on the map
     """
-    input = InputData()
-    axis = input.get_mapSize()
 
     plt.ion()  # Enable interactive mode
 
@@ -31,14 +32,14 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Set axis limits based on your environment dimensions
-    ax.set_xlim(0, axis[0])  # Adjust this based on real-world map scaling
-    ax.set_ylim(0, axis[1])
+    ax.set_xlim(0, map_size[0])  # Adjust this based on real-world map scaling
+    ax.set_ylim(0, map_size[1])
     ax.set_title("Real-Time Robot Localization on Factory Layout")
     ax.set_xlabel("X Position")
     ax.set_ylabel("Y Position")
 
     # Display the background image (Factory Layout)
-    ax.imshow(img, extent=[0, axis[0], 0, axis[1]], alpha=0.6, aspect="auto")
+    ax.imshow(img, extent=[0, map_size[0], 0, map_size[1]], alpha=0.6, aspect="auto")
 
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
@@ -116,7 +117,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
 
         # Update triangle patch
         triangle_patch[0].set_xy(rotated_points)
-
+    
+    global ani 
     ani = FuncAnimation(
         fig,
         update,
@@ -126,7 +128,14 @@ def plot_localization_live(beacons, fm_map, map, g_truth):
     )
 
     ax.legend()
-    plt.show(block=True)  # Ensures the plot remains open
+    if show:
+        plt.show(block=True)  # Show plot only in GUI mode
+
+        # Wait until user closes the plot
+        while plt.fignum_exists(fig.number):
+            plt.pause(0.1)
+    else:
+        plt.close(fig)  # Avoid lingering or GUI blocking during tests  # Ensures the plot remains open
 
     while plt.fignum_exists(fig.number):
         plt.pause(0.1)

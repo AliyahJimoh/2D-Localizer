@@ -1,5 +1,5 @@
 """Input Format Module: Puts the user input in the correct data structure for the program"""
-
+import os
 import csv
 
 import numpy as np
@@ -15,8 +15,15 @@ class InputData:
 
     def __init__(self, input_file=f"user_input.yaml"):
         self.input_file = input_file
+        self.base_dir = os.path.dirname(os.path.abspath(input_file))
         self.data = self.load_input()
 
+    def _resolve_path(self, path):
+        abs_path = os.path.join(self.base_dir, path)
+        if os.path.exists(abs_path):
+            return abs_path
+        raise FileNotFoundError(f"Cannot resolve path: {abs_path}")
+    
     def load_input(self):
         """
         Loads user input file
@@ -35,34 +42,27 @@ class InputData:
         """
         Gives the coordinates of all beacons mentioned
         """
-        reader = csv.reader(open(f"inputs/{self.data['beacons']}", "r"), delimiter=",")
-        next(reader)
-        x = list(reader)
-        return np.array(x).astype("float")
+        path = self._resolve_path(self.data["beacons"])
+        with open(path, "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader)
+            return np.array(list(reader)).astype("float")
 
     def get_fmMap(self):
         """
         Gives the coordinates of fiducial markers with respect to the map's frame of reference
         """
-        reader = csv.reader(
-            open(f"inputs/{self.data['FM']['fm_map']}", "r"), delimiter=","
-        )
-        next(reader)
-        x = list(reader)
-        return np.array(x).astype("float")
-        # return Pose2(np.array(x).astype("float"))
-
-    # def get_fmRobot(self):
-    #     """
-    #     Gives the coordinates of fiducial markers with respect to the robot's frame of reference
-    #     """
-    #     return Pose2(*self.data["sensor_data"]["camera"])
+        path = self._resolve_path(self.data["FM"]["fm_map"])
+        with open(path, "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader)
+            return np.array(list(reader)).astype("float")
 
     def get_map(self):
         """
         Gives the name of the map's image
         """
-        return f"inputs/{self.data['map']['name']}"
+        return self._resolve_path(self.data["map"]["name"])
 
     def get_mapSize(self):
         """
@@ -74,12 +74,11 @@ class InputData:
         """
         Gives the trajectory of the robot
         """
-        reader = csv.reader(
-            open(f"inputs/{self.data['trajectory']}", "r"), delimiter=","
-        )
-        next(reader)
-        x = list(reader)
-        return np.array(x).astype("float")
+        path = self._resolve_path(self.data["trajectory"])
+        with open(path, "r") as f:
+            reader = csv.reader(f, delimiter=",")
+            next(reader)
+            return np.array(list(reader)).astype("float")
 
     def get_ranges(self):
         """
