@@ -46,7 +46,7 @@ def fm_robot(trajectory, fm_map):
     return (x_local, y_local, phi)
 
 
-def visible_fms(robot_pose, fm_map, max_range=10, fov_angle=np.radians(15)):
+def visible_fms(robot_pose, fm_map, max_range=10, fov_angle=np.radians(30)):
     """
     Filters fiducial markers that are visible to the robot.
     """

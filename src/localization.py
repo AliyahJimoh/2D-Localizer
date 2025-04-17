@@ -1,7 +1,5 @@
 """Localization Module: Mathematically computes the estimate pose with the wrapped GTSAM library"""
 
-from gtsam import BetweenFactorPose2
-
 import gtsam_wrapper as gtsam
 from gtsam_wrapper import Point2, Pose2, symbol
 from simulation import visible_fms
@@ -11,7 +9,7 @@ def localize(beacons, fm_map, range_m, init_guess):
     """
     Gives estimated pose from selected set of measurements for position i
     """
-    max_distance = 15
+    max_distance = 10
     init_x = init_guess[0]
     init_y = init_guess[1]
 
@@ -77,7 +75,7 @@ def localize(beacons, fm_map, range_m, init_guess):
         T_fr = Pose2(x_rel, y_rel, phi)
 
         # Getting the factor between the robot and fiducial marker
-        graph.add(BetweenFactorPose2(robot_id, fm_symbol, T_fr, fm_noise))
+        graph.add(gtsam.BetweenFactor(robot_id, fm_symbol, T_fr, fm_noise))
 
         # Add prior for fiducial marker pose (map-known)
         T_mf = Pose2(
