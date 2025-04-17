@@ -27,3 +27,5 @@ def test_accuracy():
     assert fim.shape == (2, 2)
     assert crlb.shape == (2, 2)
     assert np.all(np.isfinite(crlb)), "CRLB contains non-finite values"
+    
+    # Add an assert for singularity

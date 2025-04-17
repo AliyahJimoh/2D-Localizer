@@ -73,20 +73,28 @@ See SRS Documentation at \url{https://github.com/AliyahJimoh/2D-Localizer/blob/m
     \progname & 2D Localization Solution \\
     CRLB & Cramer-Rao Lower Bound \\
     FIM & Fisher Information Matrix\\
+    FM & Fiducial Markers\\
     map & String of the map image's name \\
     $N$ & Number of beacons used \\
+    $M$ & Number of FMs used \\
     $p$ & Number of positions the robot has in its trajectory \\
+    $\mathbf{path}$ & $\mathbb{R}^{p \times 3}$ matrix of the ground truth trajectory\\
     $\mathbf{a}$ & $\mathbb{R}^{N \times 2}$ matrix of beacon coordinates \\
     $\mathbf{C}$ & $\mathbb{R}^{2 \times2}$ CRLB \\
     $\boldsymbol{\mathcal{I}}(\mathbf{\hat{x}})$ & $\mathbb{R}^{2 \times 2}$ FIM\\
-    $\mathbf{T}_{mf}$ & $\mathbb{R}^3$ pose of fiducial marker in map frame ($x, y, \theta$) \\
+    $\mathbf{T}_{mf}$ & $\mathbb{R}^{M \times 3}$ pose of fiducial marker in map frame ($x, y, \theta$) \\
     $\mathbf{T}_{rf}$ & $\mathbb{R}^3$ pose of fiducial marker in robot frame ($x, y, \theta$) \\
     $\tilde{\mathbf{d}}$ & $\mathbb{R}^N$ vector of a set of range measurements \\
     $\tilde{\mathbf{D}}$ & $\mathbb{R}^{p \times N}$ matrix of range measurements in all positions \\
     $\mathbf{\hat{x}}$ & $\mathbb{R}^3$ estimated robot pose \\
+    $i$ & Index of fiducial marker \\
+    $j$ & Index of beacon \\
+    $t$ & Index of robot position along the trajectory \\
     $x$ & $\mathbb{R}$ x coordinate of robot \\
     $y$ & $\mathbb{R}$ y coordinate of robot \\
     $\theta$ & $\mathbb{R}$ orientation of robot (radians) \\
+    $\eta$ & Gaussian sensor noise \\
+    $\phi$ & Angle of FM relative to robot (used for FOV filtering) \\
     $\boldsymbol{\sigma^2}$ & $\mathbb{R}^N$ vector of range noise variances \\
     \hline
   \end{tabular}
@@ -129,14 +137,13 @@ The following table summarizes the primitive data types used by \progname.
 \toprule 
 \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
 \midrule
+boolean & $\mathbb{B}$ & a true or false value {True, False}  \\
 character & char & a single symbol or digit\\
-factor & Factor & a constraint in a factor graph that relates variables\\
-factor graph & Graph & a collection of factors defining an optimization problem\\
+dictionary & dict & a key-value data structure where keys map to values of different types\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-noise Model & Model & a model that defines uncertainty in a measurement \\
+list & list & An ordered collection of items of different or similar types \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 string & String & more than one symbol put together\\
-values & Values & a container that stores variable estimates in a factor graph\\
 \bottomrule
 \end{tabular} 
 \end{center}
@@ -147,7 +154,7 @@ tuples. Sequences are lists filled with elements of the same data type. Strings
 are sequences of characters. Tuples contain a list of values, potentially of
 different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
-described by giving their type signature followed by their specification. \progname~also uses data types from the Georgia Tech Smoothing and Mapping (GTSAM) library which is used for solving estimation problems using factor graphs. Factor graphs are a way to represent relationships between variables using "factors"(pieces of information gotten from sensors or motion)
+described by giving their type signature followed by their specification.
 
 \section{Module Decomposition}
 
@@ -223,7 +230,9 @@ main& - & - & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-None
+\begin{itemize}
+  \item data\_queue: Queue that stores the estimated pose of the current position and passes it to the Output Module's environmental variable.
+\end{itemize}
 
 \subsubsection{Environment Variables}
 None
@@ -237,7 +246,7 @@ None
 
 \noindent main():
 \begin{itemize}
-\item transition: Modifying data\_queue with each iteration of range measurements as the Plotting and Output modules get updated 
+\item transition: Modifies the shared queue (`data\_queue`) with each set of range and camera measurements.
 % \item output: The control module is the first to be called 
 % \item exception: None
 \end{itemize}
@@ -245,20 +254,20 @@ None
 \noindent \textit{\# Get Data}\\\\
 \noindent input $=$ InputData() \textit{\# Abstract Data Type from Input Format Module}\\\\
 \noindent \textit{\# Start the Output Data}\\\\
-\noindent data\_queue $=$ Queue()\\\\
-\noindent process $=$ Process(target=run\_gui, args$=$(data\_queue,))\\\\
+\noindent data\_queue $=$ Queue() \textit{\# Part of multiprocessing library}\\\\
+\noindent process $=$ Process(target=run\_gui, args$=$[data\_queue]) \textit{\# Runs the GUI (Output Module). It is created with run\_gui as the target function and data\_queue as its input argument.}\\\\
 \noindent process.start()\\\\
 \noindent m = p \textit{\# Number of positions the robot has in the map}\\\\
 \noindent \textit{\# Getting estimated pose for each set of measurements}\\\\
 \noindent for t in range(1,m): \\\\
-\indent $\mathbf{\hat{x}}$:= localize($\mathbf{a}$, $T_{mf}$, $T_{rf}$, $\mathbf{\tilde{D}}[t,:]$)\\\\
+\indent $\mathbf{\hat{x}}$:= localize($\mathbf{a}$, $T_{mf}$, $\mathbf{\tilde{D}}[t,:]$, $\mathbf{path}[t,:]$)\\\\
 \indent \textit{\# Computing FIM \& CRLB} \\\\
 \indent  fim = compute\_fim($\mathbf{\hat{x}}$, $\mathbf{a}$, variances($\boldsymbol{\sigma^2}$))\\\\
 \indent  crlb = compute\_crlb(fim) \textit{\# Will be printed}\\\\
 \indent update\_trajectory($\mathbf{\hat{x}}$)\\\\
 \indent data\_queue.put((t, $\mathbf{\hat{x}}$.x(), $\mathbf{\hat{x}}$.y(), $\mathbf{\hat{x}}$.theta()))\\\\
 \noindent \textit{\# Plot on the map}\\\\
-\noindent plot\_localization\_live($\mathbf{a}$, $T_{mf}$, map)
+\noindent plot\_localization\_live($\mathbf{a}$, $T_{mf}$, map, $\mathbf{path}$, map\_size)
 
 % \noindent Get(user\textunderscore input) variables from user\\\\
 % \noindent load\textunderscore input(user\textunderscore input)\\\\
@@ -292,6 +301,7 @@ None
 % \wss{You can reference SRS labels, such as R\ref{R_In_position}.}
 
 % \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+The GTSAM Module provides wrapper access the Georgia Tech Smoothing and Mapping (GTSAM) library using simplified and consistent Python interfaces. GTSAM is used for solving estimation problems using factor graphs which are a way to represent relationships between variables using "factors"(pieces of information gotten from sensors). More information about the API can be found at \url{https://gtsam.org/doxygen/index.html}
 
 \subsection{Module}
 
@@ -304,6 +314,23 @@ None
 
 \subsubsection{Exported Constants}
 None
+\subsubsection{Exported Types}
+
+\begin{center}
+  \renewcommand{\arraystretch}{1.2}
+  \noindent 
+  \begin{tabular}{l l p{7.5cm}} 
+  \toprule 
+  \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
+  \midrule
+  factor & Factor & a constraint in a factor graph that relates variables\\
+  factor graph & Graph & a collection of factors defining an optimization problem\\
+  noise model & Model & a model that defines uncertainty in a measurement \\
+  values & Values & a container that stores variable estimates in a factor graph\\
+  \bottomrule
+  \end{tabular} 
+  \end{center}
+
 \subsubsection{Exported Access Programs}
 
 \begin{center}
@@ -318,6 +345,7 @@ NonlinearFactorGraph & - & Graph & - \\
 PriorFactorPose2 & $key:\mathbb{Z}, \textbf{pose}: \mathbb{R}^3, noise: Model$ & Factor & - \\
 PriorFactorPoint2 & $key:\mathbb{Z}, \textbf{pose}: \mathbb{R}^2, noise: Model$& Factor& - \\
 RangeFactor2D &  $key1: \mathbb{Z}, key2: \mathbb{Z}, d: \mathbb{R}, noise: Model$  & Factor & - \\
+BetweenFactor &  $key1: \mathbb{Z}, key2: \mathbb{Z}, between: Pose2, noise: Model$  & Factor & - \\
 noiseModel\_Isotropic\_Sigma & $dim: \mathbb{Z}, \sigma: \mathbb{R}$ & Model & - \\
 LevenbergMarquardtOptimizer & $graph: Graph, values: Values$ & Values & - \\
 Values & - & Values & - \\
@@ -384,6 +412,12 @@ Pose2($x, y, \theta$):
     \item exception: None
 \end{itemize}
 
+\noindent BetweenFactor($key_1, key_2, measured, noise\_model$):
+\begin{itemize}
+    \item output: $out:=$ Factor (A factor that enforces a relative transformation between two variables)
+    \item exception: None
+\end{itemize}
+
 \noindent noiseModel\_Isotropic\_Sigma($dim, \sigma$):
 \begin{itemize}
     \item output: $out:=$ Model (An isotropic noise model)
@@ -426,13 +460,6 @@ Pose2($x, y, \theta$):
     \item exception: None
 \end{itemize}
 
-% \wss{A module without environment variables or state variables is unlikely to
-%   have a state transition.  In this case a state transition can only occur if
-%   the module is changing the state of another module.}
-
-% \wss{Modules rarely have both a transition and an output.  In most cases you
-%   will have one or the other.}
-
 \newpage
 
 \section{MIS of Input Format Module} \label{M_Input} 
@@ -468,7 +495,8 @@ These functions are methods of the `InputData' class instance, which must be ini
 load\_input & self & -& FileNotFoundError, ValueError \\
 get\_beacons& self & $\mathbb{R}^{N \times 2}$ & - \\
 get\_fmMap& self & $\mathbb{R}^3$ & - \\
-get\_fmRobots& self & $\mathbb{R}^3$ & - \\
+get\_mapSize& self & $\mathbb{R}^2$ & - \\
+get\_trajectory& self & $\mathbb{R}^{p \times 3}$ & - \\
 get\_map& self & String & - \\
 get\_ranges& self & $\mathbb{R}^N$ & - \\
 get\_variances& self & $\mathbb{R}^N$ & - \\
@@ -480,8 +508,8 @@ get\_variances& self & $\mathbb{R}^N$ & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-  \item input\_file: A string representing the path to the user input file (user\_input.yaml).
-  \item data: A dictionary storing parsed YAML input data.
+  \item input\_file: String (represents the path to the user input file `user\_input.yaml')
+  \item data: dict (storing parsed input data from YAML file).
 \end{itemize}
 
 \subsubsection{Environment Variables}
@@ -508,13 +536,7 @@ None
 
 \noindent get\_fmMap():
 \begin{itemize}
-    \item output: $out:= T_{mf}=Pose2(\mathbb{R}^{3})$
-    \item exception: None
-\end{itemize}
-
-\noindent get\_fmRobot():
-\begin{itemize}
-    \item output: $out:= T_{rf}=Pose2(\mathbb{R}^{3})$
+    \item output: $out:= \mathbb{R}^{M \times 3}$
     \item exception: None
 \end{itemize}
 
@@ -522,6 +544,18 @@ None
 \begin{itemize}
     \item output: out:=  String of picture's name  
     \item exception: None
+\end{itemize}
+
+\noindent get\_mapSize():
+\begin{itemize}
+  \item output: out := [length, width] of map in meters (from user input)
+  \item exception: None
+\end{itemize}
+
+\noindent get\_trajectory():
+\begin{itemize}
+  \item output: $out := \mathbb{R}^{p\times 3}$ matrix containing the robot's full trajectory over each position $(x, y, \theta)$
+  \item exception: None
 \end{itemize}
 
 \noindent get\_ranges():
@@ -555,12 +589,10 @@ None
 
 \subsection{Module}
 
-input\_format
+simulation
 
 \subsection{Uses}
-\begin{itemize}
-  \item Simulation Module (Section \ref{M_Simulate})
-\end{itemize}
+None
 
 \subsection{Syntax}
 
@@ -569,80 +601,96 @@ None
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{3cm} p{2cm} p{2cm} p{4cm}}
-\hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-load\_input & self & -& FileNotFoundError, ValueError \\
-get\_beacons& self & $\mathbb{R}^{N \times 2}$ & - \\
-get\_fmMap& self & $\mathbb{R}^3$ & - \\
-get\_fmRobots& self & $\mathbb{R}^3$ & - \\
-get\_map& self & String & - \\
-get\_ranges& self & $\mathbb{R}^N$ & - \\
-get\_variances& self & $\mathbb{R}^N$ & - \\
-\hline
-\end{tabular}
-\end{center}
+  \begin{tabular}{p{3cm} p{5.5cm} p{2.5cm} p{3cm}}
+  \hline
+  \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+  \hline
+  noisy\_range & 
+  beacons: $\mathbb{R}^{N \times 2}$, 
+  variances: $\mathbb{R}^N$, 
+  trajectory: $\mathbb{R}^{p \times 3}$ & 
+  $\tilde{d}: \mathbb{R}^{p \times N}$ & 
+  None \\
+  
+  fm\_robot & 
+  trajectory: $\mathbb{R}^3$, 
+  fm\_map: $\mathbb{R}^3$ & 
+  $T_{rf} : \mathbb{R}^3$ & 
+  None \\
+  
+  visible\_fms & 
+  robot\_pose:$\mathbb{R}^3$, 
+  fm\_map:$\mathbb{R}^{M \times 3}$ & 
+  list $(i: \mathbb{Z}, T_{rf}:\mathbb{R}^3)$ & 
+  None \\
+  \hline
+  \end{tabular}
+  \end{center}
+  
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-\begin{itemize}
-  \item input\_file: A string representing the path to the user input file (user\_input.yaml).
-  \item data: A dictionary storing parsed YAML input data.
-\end{itemize}
+None
 
 \subsubsection{Environment Variables}
 None
 
 \subsubsection{Assumptions}
-\begin{itemize}
-  \item The module will call on a pre-existing YAML file
-\end{itemize}
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent load\_input():
+\noindent noisy\_range(beacons, variances, trajectory): \\
+
+\noindent \textit{\# extract robot positions} \\
+path := trajectory[:, :2] \textit{\# x, y positions only} \\
+
+\noindent \textit{\# compute distances and apply Gaussian noise} \\
+r = path[:, None, :] - beacons[None, :, :] \\\\
+$\eta$ = $\sqrt{\mathrm{variances}} * \mathcal{N}(0, 1)$ \\\\
+$\tilde{d} = \|r\| + \eta$ 
+
 \begin{itemize}
-  \item transition: Reads the YAML input file and stores it in `self.data`.
-    \item exception: FileNotFoundError if the input file is not detected and ValueError if the YAML file is formatted incorrectly
+  \item output: $out := \tilde{d} \in \mathbb{R}^{p \times N}$ (noisy range measurements from robot to each beacon)
+  \item exception: None
 \end{itemize}
 
-\noindent input.get\_beacons():
+\noindent fm\_robot(trajectory, fm\_map): \\
+
+\noindent \textit{\# extract robot and FM pose in map frame} \\
+$(x_r, y_r, \theta_r) =$ trajectory \\
+$(x_f, y_f, \_) =$ fm\_map \\
+
+\noindent \textit{\# transform FM pose to robot frame} \\
+dx := $x_f - x_r$ \\
+ dy := $y_f - y_r$ \\
+$x_{rel} := \cos(\theta_r) \cdot dx + \sin(\theta_r) \cdot dy$ \\
+$y_{rel} := -\sin(\theta_r) \cdot dx + \cos(\theta_r) \cdot dy$ \\
+$\phi := \arctan2(y_{rel}, x_{rel})$ 
+
 \begin{itemize}
-    \item output: $out:=\mathbf{a}$
-    \item exception: None
+  \item output: $out := T_{rf} \in \mathbb{R}^3$ (relative FM pose in robot frame)
+  \item exception: None
 \end{itemize}
 
-\noindent get\_fmMap():
+
+\noindent visible\_fms(robot\_pose, fm\_map, max\_range, fov\_angle): \\
+
+\noindent \textit{\# initialize list of visible FMs} \\
+visible := [~] \\
+
+\noindent \textit{\# check distance and FOV for each FM} \\
+for each $(i, fm)$ in fm\_map: \\
+\hspace*{1em} $(x_{rel}, y_{rel}, \phi) := fm\_robot(robot\_pose, fm)$ \\\\
+\hspace*{1em} if $\|[x_{rel}, y_{rel}]\| \leq$ max\_range and $0 \leq \phi \leq$ fov\_angle: \\\\
+\hspace*{2em} visible.append((i, $(x_{rel}, y_{rel}, \phi)$)) 
+
 \begin{itemize}
-    \item output: $out:= T_{mf}=Pose2(\mathbb{R}^{3})$
-    \item exception: None
+  \item output: $out :=$ visible of $(\text{index}, T_{rf} \in \mathbb{R}^3)$ (visible FMs in robot frame)
+  \item exception: None
 \end{itemize}
 
-\noindent get\_fmRobot():
-\begin{itemize}
-    \item output: $out:= T_{rf}=Pose2(\mathbb{R}^{3})$
-    \item exception: None
-\end{itemize}
-
-\noindent get\_map():
-\begin{itemize}
-    \item output: out:=  String of picture's name  
-    \item exception: None
-\end{itemize}
-
-\noindent get\_ranges():
-\begin{itemize}
-    \item output: $out:=\mathbf{\tilde{D}}$
-    \item exception: None
-\end{itemize}
-
-\noindent get\_variances():
-\begin{itemize}
-    \item output: $out:=\boldsymbol{\sigma^2}$
-    \item exception: None
-\end{itemize}
 % \wss{A module without environment variables or state variables is unlikely to
 %   have a state transition.  In this case a state transition can only occur if
 %   the module is changing the state of another module.}
@@ -651,7 +699,6 @@ None
 %   will have one or the other.}
 
 \newpage
-
 
 \section{MIS of Localization Module} \label{M_Localize}
 
@@ -662,7 +709,7 @@ localization
 \subsection{Uses}
 \begin{itemize}
   \item GTSAM Module (Section \ref{M_GTSAM})
-  \item Input Format Module (Section \ref{M_Input})
+  \item Simulation Module (Section \ref{M_Simulate})
   
 \end{itemize}
 \subsection{Syntax}
@@ -691,16 +738,43 @@ None
 None
 
 \subsubsection{Assumptions}
-\begin{itemize}
-  \item GTSAM is installed
-\end{itemize}
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent localize($\mathbf{a}$, $\mathbf{T}_{mf}$, $\mathbf{T}_{rf}$, $\mathbf{\tilde{d}}$):
+\noindent localize($\mathbf{a}$, $\mathbf{T}_{mf}$ $\mathbf{\tilde{d}}, \mathrm{initial\_guess}$):\\
+
+\noindent \textit{\# initialize factor graph and robot symbol}\\
+graph = NonlinearFactorGraph()\\
+robot\_id = symbol("x", 1)\\
+
+\noindent \textit{\# add prior on robot pose}\\
+graph.add(PriorFactorPose2(robot\_id, $x_0$, prior\_noise))\\
+
+\noindent \textit{\# add range factors to visible beacons}\\
+for each (j, position, $d_j$) in visible\_beacons:\\
+    graph.add(RangeFactor2D(robot\_id, symbol("a", j+1), $d_j$, range\_noise))\\
+
+\noindent \textit{\# fix one beacon position for stability}\\
+graph.add(PriorFactorPoint2(symbol("a", 1), position\_1, beacon\_noise))\\
+
+\noindent \textit{\# add between factors from visible fiducial markers}\\
+for each fiducial i:\\
+    graph.add(BetweenFactor(robot\_id, symbol("f", i+1), $T_{rf}$, pose\_noise))\\
+    graph.add(PriorFactorPose2(symbol("f", i+1), $T_{mf}$, pose\_noise))\\
+
+\noindent \textit{\# initialize estimates}\\
+insert robot, beacon, and fiducial guesses into Values()\\
+
+\noindent \textit{\# optimize with LM}\\
+result = LevenbergMarquardtOptimizer(graph, initial\_estimates)\\
+$\hat{x}$ := result.atPose2(robot\_id)
+
+
+
 \begin{itemize}
 % \item transition: \wss{if appropriate} 
-\item output: $out:= \mathbf{\hat{x}}$
+\item output: $out:= \mathbf{\hat{x}} \in \mathbb{R}^3$
 \item exception: ValueError if estimation fails or result is not computable
 \end{itemize}
 
@@ -787,6 +861,7 @@ output
 \subsection{Uses}
 \begin{itemize}
   \item Localization Module (Section \ref{M_Localize})
+  \item Python multiprocessing Library (Queue)
 \end{itemize}
 
 \subsection{Syntax}
@@ -810,10 +885,14 @@ run\_gui & queue: Queue & - & - \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-None
+\begin{itemize}
+  \item root: Tkinter root window
+  \item tree: Treeview widget for table display
+  \item data\_queue: Shared queue received from Control Module
+\end{itemize}
 \subsubsection{Environment Variables}
 \begin{itemize}
-  \item date\_queue: A queue storing tuples of estimated pose data (time, x, y, theta).
+  \item data\_queue: A queue storing tuples of estimated pose data (time, x, y, theta).
   \item display\_env: The OS-level display environment variable required to render the Tkinter GUI (e.g., `\$DISPLAY` for Unix-based systems).
 \end{itemize}
 
@@ -832,6 +911,14 @@ None
 \begin{itemize}
     \item transition: Initializes and runs the Tkinter GUI while continuously checking for pose updates.
 \end{itemize}
+
+\noindent \textit{\# Start GUI loop}\\\\
+root = tk.Tk()  \textit{\# Root GUI window}\\\\
+tree = ttk.Treeview(\dots)  \textit{\# Table structure for displaying (pose\_num,$ x, y, \theta$)}\\\\
+
+\noindent \textit{\# Periodically check the shared queue}\\\\
+root.after(100, update\_table)  \textit{\# 100 ms update interval}\\\\
+root.mainloop()
 
 
 % \subsubsection{Local Functions}
@@ -862,7 +949,7 @@ None
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-plot\_localization\_live & $\mathbf{a}: R^{N \times 2}, \mathbf{T}_{mf}: R^3$, map: String  & - & - \\
+plot\_localization\_live & $\mathbf{a}: R^{N \times 2}, \mathbf{T}_{mf}: R^3$, map: String (filepath), show: $\mathbb{B}$  & - & - \\
 \hline
 update\_trajectory &  $\hat{\mathbf{x}}: R^3$ & - & - \\
 \hline
@@ -873,7 +960,7 @@ update\_trajectory &  $\hat{\mathbf{x}}: R^3$ & - & - \\
 
 \subsubsection{State Variables}
 \begin{itemize}
-  \item trajectory: A list storing estimated positions over time as $(x, y, \theta)$.
+  \item trajectory: Global sequence updated by `update\_trajectory()' from Control Module (section \ref{M_Control}).
 \end{itemize}
 
 \subsubsection{Environment Variables}
@@ -891,19 +978,44 @@ update\_trajectory &  $\hat{\mathbf{x}}: R^3$ & - & - \\
 
 \subsubsection{Access Routine Semantics}
 
-\noindent plot\_localization\_live($\mathbf{a}, \mathbf{T}_{mf}$, map):
+\noindent plot\_localization\_live($\mathbf{a}, \mathbf{T}_{mf}$, map, \textbf{path}, map\_size, show=True):
+
+\noindent \textit{\# render map background and plot fixed elements} \\
+img = plt.imread(map) \\
+plt.imshow(img, extent=[0, map\_size[0], 0, map\_size[1]]) \\
+plt.plot(a[:, 0], a[:, 1], 'o') \ \textit{\# beacons} \\
+plt.plot($T_{mf}$[:, 0], $T_{mf}$[:, 1], 'x') \ \textit{\# fiducial markers} \\
+plt.plot(path[:, 0], path[:, 1], '--') \ \textit{\# ground truth trajectory} \\
+
+\noindent \textit{\# initialize plot elements} \\
+robot\_trajectory, = plt.plot([], [], 'r-') \\
+triangle\_patch = Polygon([], closed=True, color='red') \\
+plt.gca().add\_patch(triangle\_patch) \\
+
+\noindent \textit{\# begin animation loop} \\
+ani = FuncAnimation(fig, update, interval=200) \\
+if show: plt.show()
+
 \begin{itemize}
-\item transition: Initializes and continuously updates a real-time localization plot.
+  \item transition: Initializes and continuously updates a real-time localization plot.
+  \item output: None (renders a live plot in Matplotlib)
+  \item exception: RuntimeError if the Matplotlib backend does not support animation
 \end{itemize}
 
 \noindent update\_trajectory($\hat{\mathbf{x}}$):
 \begin{itemize}
-\item transition: Adds the latest estimated pose to the trajectory list for the map.
+\item transition: Called repeatedly by Matplotlib's `FuncAnimation' to retrieve and render the latest estimated pose from the global `trajectory'
 \end{itemize}
 
 
+
 \subsubsection{Local Functions}
-\noindent update(frame):
+\noindent update(frame):\\
+\noindent \textit{\# update robot path and triangle orientation} \\
+$x, y, \theta$ := trajectory[frame] \\
+robot\_trajectory.set\_data(... up to frame ...) \\
+triangle\_patch.set\_xy(...) \textit{\# rotated triangle}
+
 \begin{itemize}
     \item transition: Retrieves the latest estimated pose from the trajectory and updates the visualization.
 \end{itemize}

@@ -9,6 +9,6 @@ User of this program can install the software in the src folder on Linux/macOS
 4. `source .venv/bin/activate` - to activate the environment
 4. Modify the `user_input.yaml` file to desired values
 5. `chmod +x ./run.sh` - to grant permission to execute the run.sh file
-6. `./run.sh` - to execute the program
+6. `./run.sh` - to execute the program (make sure you are in the src folder)
 
 

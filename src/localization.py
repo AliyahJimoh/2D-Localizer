@@ -25,7 +25,7 @@ def localize(beacons, fm_map, range_m, init_guess):
         for j in range(len(beacons))
         if range_m[j] <= max_distance
     ]
-    print(len(visible_beacons))
+    # print(len(visible_beacons))
 
     visible_beacon_indices = [symbol("a", j + 1) for j, _, _ in visible_beacons]
 
