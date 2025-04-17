@@ -47,7 +47,7 @@
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2025/03/19 & 1.0 & Initial Draft\\
-% Date 2 & 1.1 & Notes\\
+2025/04/18 & 1.1 & Implement Feedback\\
 \bottomrule
 \end{tabularx}
 
@@ -162,11 +162,11 @@ change.
 \begin{description}
 \item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the initial input data.
-\item[\refstepcounter{acnum} \actheacnum \label{acLocalize}:] The localization algorithm's accuracy.
+\item[\refstepcounter{acnum} \actheacnum \label{acLocalize}:] The integration of different sensors.
 
 \item[\refstepcounter{acnum} \actheacnum \label{acOutput}:] The format of the visualization method.
 
-\item[\refstepcounter{acnum} \actheacnum \label{acSF}:] The integration of different sensors.
+\item[\refstepcounter{acnum} \actheacnum \label{acSF}:] The types of sensor data used during simulation and testing.
 
 \item[\refstepcounter{acnum} \actheacnum \label{acAccurate}:] The evaluation methods for accuracy and uncertainty estimation.
 
@@ -226,15 +226,16 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & GTSAM Module \\
-& Input Format Module\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module \\
+& Simulation Module\\
 & Output Module\\
 & Localization Module\\
 & Control Module\\
 & Accuracy Evaluation Module\\
 \midrule
 
-{Software Decision Module} & Plotting Module \\
+{Software Decision Module} & GTSAM Module \\
+& Plotting Module \\
 
 \bottomrule
 
@@ -295,15 +296,6 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{GTSAM Module (\mref{mGTSAM})}
-
-\begin{description}
-\item[Secrets:]The Georgia Tech Smoothing and Mapping (GTSAM) library by \cite{gtsam2022}
-\item[Services:]Creates a wrapper for the GTSAM library to be used in \progname
-\item[Implemented By:] \progname
-\item[Type of Module:] Library
-\end{description}
-
 \subsubsection{Input Format Module (\mref{mInput})}
 
 \begin{description}
@@ -314,11 +306,20 @@ to be implemented.
 \item[Type of Module:] Abstract Data Type
 \end{description}
 
+\subsubsection{Simulation Module (\mref{mSimulate})}
+
+\begin{description}
+\item[Secrets:]The simulated variables of the sensor measurements.
+\item[Services:]Computes the beacon and camera based on the coordinates given.
+\item[Implemented By:] \progname
+\item[Type of Module:] Abstract Object
+\end{description}
+
 \subsubsection{Output Module (\mref{mOutput})}
 
 \begin{description}
-\item[Secrets:]The format and structure of the estimated pose (output).
-\item[Services:]Converts the localization and accuracy evaluation data into the data structure that displays the updated pose.
+\item[Secrets:]The display table of the estimated pose (output).
+\item[Services:]Displays and updates the estimated pose on a table.
 \item[Implemented By:] Tkinter
 \item[Type of Module:] Abstract Object
 \end{description}
@@ -367,6 +368,14 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
+\subsubsection{GTSAM Module (\mref{mGTSAM})}
+
+\begin{description}
+\item[Secrets:]The Georgia Tech Smoothing and Mapping (GTSAM) library by \cite{gtsam2022}
+\item[Services:]Creates a wrapper for the GTSAM library to be used in \progname
+\item[Implemented By:] \progname
+\item[Type of Module:] Library
+\end{description}
 
 \subsubsection{Accuracy Evaluation Module (\mref{mAccurate})}
 
@@ -418,7 +427,7 @@ R9 & \mref{mPlot}\\
 \acref{acInput} & \mref{mInput}\\
 \acref{acLocalize} & \mref{mLocalize}\\
 \acref{acOutput} & \mref{mOutput}\\
-\acref{acSF} & \mref{mLocalize}\\
+\acref{acSF} & \mref{m}\\
 \acref{acAccurate} & \mref{mAccurate}\\
 \acref{acControl} & \mref{mC}\\
 \acref{acPlot} & \mref{mPlot}\\
@@ -487,7 +496,7 @@ Table \ref{TblTimeline} shows the schedule of tasks needed to be completed by th
       \hline
       Review modules and present feedback & Domain Expert & March 25, 2025 \\ 
       \hline
-      Modify modules for final documentation & Author & April 11, 2025 \\ 
+      Modify modules for final documentation & Author & April 18, 2025 \\ 
       \hline
   \end{tabular}
   \caption{Module Timeline}
