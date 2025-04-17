@@ -11,7 +11,6 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 from matplotlib.patches import Polygon
 
-
 trajectory = []  # Stores estimated positions over time
 robot_trajectory = None
 robot_dot = None
