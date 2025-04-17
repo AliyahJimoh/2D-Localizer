@@ -1,6 +1,7 @@
 """Input Format Module: Puts the user input in the correct data structure for the program"""
-import os
+
 import csv
+import os
 
 import numpy as np
 import yaml
@@ -23,7 +24,7 @@ class InputData:
         if os.path.exists(abs_path):
             return abs_path
         raise FileNotFoundError(f"Cannot resolve path: {abs_path}")
-    
+
     def load_input(self):
         """
         Loads user input file

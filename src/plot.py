@@ -1,8 +1,8 @@
 """Plotting Module: Used to plot the visual representation of the map"""
 
 import time
-
 import warnings
+
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 
 import matplotlib.image as mpimg
@@ -11,7 +11,6 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 from matplotlib.patches import Polygon
 
-from input_format import InputData
 
 trajectory = []  # Stores estimated positions over time
 robot_trajectory = None
@@ -19,7 +18,7 @@ robot_dot = None
 ani = None
 
 
-def plot_localization_live(beacons, fm_map, map, g_truth,map_size, show =True):
+def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     """
     Creates the plot that shows the robot positions, beacons and fiducial markers live on the map
     """
@@ -117,8 +116,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth,map_size, show =True):
 
         # Update triangle patch
         triangle_patch[0].set_xy(rotated_points)
-    
-    global ani 
+
+    global ani
     ani = FuncAnimation(
         fig,
         update,
@@ -135,7 +134,9 @@ def plot_localization_live(beacons, fm_map, map, g_truth,map_size, show =True):
         while plt.fignum_exists(fig.number):
             plt.pause(0.1)
     else:
-        plt.close(fig)  # Avoid lingering or GUI blocking during tests  # Ensures the plot remains open
+        plt.close(
+            fig
+        )  # Avoid lingering or GUI blocking during tests  # Ensures the plot remains open
 
     while plt.fignum_exists(fig.number):
         plt.pause(0.1)
