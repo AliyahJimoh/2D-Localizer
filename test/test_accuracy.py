@@ -11,7 +11,7 @@ from src.accuracy import compute_fim, compute_crlb
 
 def test_accuracy():
     """
-    F-AC-01: Checks if FIM and CRLB values are computable and well-behaved
+    Checks if FIM and CRLB values are computable and well-behaved
     """
     input = InputData(input_file="test/test_input.yaml")
     beacons = input.get_beacons()

@@ -8,7 +8,7 @@ from src.localization import localize
 
 def test_pose_estimation():
     """
-    F-ES-01: Validates that localize() returns a usable Pose2 estimate
+    Validates that localize() returns a usable Pose2 estimate
     """
     input = InputData(input_file="test/test_input.yaml")
     beacons = input.get_beacons()

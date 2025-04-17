@@ -40,6 +40,8 @@ def test_coordinates():
     
 def test_range_meausrement():
     
+    """Tests if range and trajectory are the correct shape"""
+    
     input = InputData(input_file="test/test_input.yaml")
 
     range_m = input.get_ranges()

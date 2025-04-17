@@ -12,7 +12,7 @@ from src.plot import plot_localization_live
 
 def test_visualization():
     """
-    F-VP-01 / F-RT-01 / F-TR-01: Smoke test for visualization pipeline
+    Test for visualization pipeline
     """
     ind = InputData(input_file="test/test_input.yaml")
     beacons = ind.get_beacons()
