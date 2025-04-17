@@ -54,7 +54,7 @@ urlcolor=cyan          % color of external links
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 2025/03/19 & 1.0 & Initial Draft\\
-% Date 2 & 1.1 & Notes\\
+2025/04/18 & 1.1 & Implement Feedback\\
 \bottomrule
 \end{tabularx}
 
@@ -62,7 +62,37 @@ urlcolor=cyan          % color of external links
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \url{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}
+See SRS Documentation at \url{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}. The symbols used in this document are mentioned below.
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{l l}
+    \hline
+    \textbf{Symbol} & \textbf{Description} \\
+    \hline
+    \progname & 2D Localization Solution \\
+    CRLB & Cramer-Rao Lower Bound \\
+    FIM & Fisher Information Matrix\\
+    map & String of the map image's name \\
+    $N$ & Number of beacons used \\
+    $p$ & Number of positions the robot has in its trajectory \\
+    $\mathbf{a}$ & $\mathbb{R}^{N \times 2}$ matrix of beacon coordinates \\
+    $\mathbf{C}$ & $\mathbb{R}^{2 \times2}$ CRLB \\
+    $\boldsymbol{\mathcal{I}}(\mathbf{\hat{x}})$ & $\mathbb{R}^{2 \times 2}$ FIM\\
+    $\mathbf{T}_{mf}$ & $\mathbb{R}^3$ pose of fiducial marker in map frame ($x, y, \theta$) \\
+    $\mathbf{T}_{rf}$ & $\mathbb{R}^3$ pose of fiducial marker in robot frame ($x, y, \theta$) \\
+    $\tilde{\mathbf{d}}$ & $\mathbb{R}^N$ vector of a set of range measurements \\
+    $\tilde{\mathbf{D}}$ & $\mathbb{R}^{p \times N}$ matrix of range measurements in all positions \\
+    $\mathbf{\hat{x}}$ & $\mathbb{R}^3$ estimated robot pose \\
+    $x$ & $\mathbb{R}$ x coordinate of robot \\
+    $y$ & $\mathbb{R}$ y coordinate of robot \\
+    $\theta$ & $\mathbb{R}$ orientation of robot (radians) \\
+    $\boldsymbol{\sigma^2}$ & $\mathbb{R}^N$ vector of range noise variances \\
+    \hline
+  \end{tabular}
+  \caption{Symbol Definitions Used in Access Routines}
+  \end{table}
+  
 
 
 \newpage
@@ -103,7 +133,6 @@ character & char & a single symbol or digit\\
 factor & Factor & a constraint in a factor graph that relates variables\\
 factor graph & Graph & a collection of factors defining an optimization problem\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
-natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 noise Model & Model & a model that defines uncertainty in a measurement \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 string & String & more than one symbol put together\\
@@ -134,16 +163,17 @@ The following table is taken directly from the Module Guide document for this pr
   {Hardware-Hiding Module} & ~ \\
   \midrule
   
-  \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & GTSAM Module \\
-  & Input Format Module\\
+  \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Format Module \\
+  & Simulation Module\\
   & Output Module\\
   & Localization Module\\
   & Control Module\\
   & Accuracy Evaluation Module\\
   \midrule
   
-  {Software Decision Module} & Plotting Module \\
-  
+  {Software Decision Module} & GTSAM Module \\
+  & Plotting Module \\
+ 
   \bottomrule
   
   \end{tabular}
@@ -171,6 +201,7 @@ main
   \item Accuracy Evaluation Module (Section \ref{M_Accurate})
   \item Plotting Module (Section \ref{M_Plotting})
   \item Output Module (Section \ref{M_Output})
+  \item Python multiprocessing Library (Queue, Process)
 \end{itemize}
 
 
@@ -195,16 +226,14 @@ main& - & - & - \\
 None
 
 \subsubsection{Environment Variables}
-\begin{itemize}
-  \item date\_queue: A queue storing tuples of estimated pose data (time, x, y, theta). 
-\end{itemize}
+None
 
 \subsubsection{Assumptions}
 None
 % \begin{itemize}
   
 % \end{itemize}
-\subsubsection{Access Routine Semantics}
+\subsubsection{Access Routine Semantics} \label{main_code}
 
 \noindent main():
 \begin{itemize}
@@ -214,12 +243,12 @@ None
 \end{itemize}
 
 \noindent \textit{\# Get Data}\\\\
-\noindent input $=$ InputData()\\\\
+\noindent input $=$ InputData() \textit{\# Abstract Data Type from Input Format Module}\\\\
 \noindent \textit{\# Start the Output Data}\\\\
 \noindent data\_queue $=$ Queue()\\\\
 \noindent process $=$ Process(target=run\_gui, args$=$(data\_queue,))\\\\
 \noindent process.start()\\\\
-\noindent m = np.size($\mathbf{\tilde{D}}$, 0)\\\\
+\noindent m = p \textit{\# Number of positions the robot has in the map}\\\\
 \noindent \textit{\# Getting estimated pose for each set of measurements}\\\\
 \noindent for t in range(1,m): \\\\
 \indent $\mathbf{\hat{x}}$:= localize($\mathbf{a}$, $T_{mf}$, $T_{rf}$, $\mathbf{\tilde{D}}[t,:]$)\\\\
@@ -420,7 +449,117 @@ input\_format
 
 \subsection{Uses}
 \begin{itemize}
-  \item GTSAM Module (Section \ref{M_GTSAM})
+  \item Simulation Module (Section \ref{M_Simulate})
+\end{itemize}
+
+\subsection{Syntax}
+
+\subsubsection{Exported Constants}
+None
+\subsubsection{Exported Access Programs}
+
+These functions are methods of the `InputData' class instance, which must be initialized before use (example shown in section \ref{main_code}).
+
+\begin{center}
+\begin{tabular}{p{3cm} p{2cm} p{2cm} p{4cm}}
+\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+\hline
+load\_input & self & -& FileNotFoundError, ValueError \\
+get\_beacons& self & $\mathbb{R}^{N \times 2}$ & - \\
+get\_fmMap& self & $\mathbb{R}^3$ & - \\
+get\_fmRobots& self & $\mathbb{R}^3$ & - \\
+get\_map& self & String & - \\
+get\_ranges& self & $\mathbb{R}^N$ & - \\
+get\_variances& self & $\mathbb{R}^N$ & - \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+\begin{itemize}
+  \item input\_file: A string representing the path to the user input file (user\_input.yaml).
+  \item data: A dictionary storing parsed YAML input data.
+\end{itemize}
+
+\subsubsection{Environment Variables}
+None
+
+\subsubsection{Assumptions}
+\begin{itemize}
+  \item The module will call on a pre-existing YAML file
+\end{itemize}
+
+\subsubsection{Access Routine Semantics}
+
+\noindent load\_input():
+\begin{itemize}
+  \item transition: Reads the YAML input file and stores it in `self.data`.
+    \item exception: FileNotFoundError if the input file is not detected and ValueError if the YAML file is formatted incorrectly
+\end{itemize}
+
+\noindent input.get\_beacons():
+\begin{itemize}
+    \item output: $out:=\mathbf{a}$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_fmMap():
+\begin{itemize}
+    \item output: $out:= T_{mf}=Pose2(\mathbb{R}^{3})$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_fmRobot():
+\begin{itemize}
+    \item output: $out:= T_{rf}=Pose2(\mathbb{R}^{3})$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_map():
+\begin{itemize}
+    \item output: out:=  String of picture's name  
+    \item exception: None
+\end{itemize}
+
+\noindent get\_ranges():
+\begin{itemize}
+    \item output: $out:=\mathbf{\tilde{D}}$
+    \item exception: None
+\end{itemize}
+
+\noindent get\_variances():
+\begin{itemize}
+    \item output: $out:=\boldsymbol{\sigma^2}$
+    \item exception: None
+\end{itemize}
+% \wss{A module without environment variables or state variables is unlikely to
+%   have a state transition.  In this case a state transition can only occur if
+%   the module is changing the state of another module.}
+
+% \wss{Modules rarely have both a transition and an output.  In most cases you
+%   will have one or the other.}
+
+\newpage
+
+\section{MIS of Simulation Module} \label{M_Simulate} 
+
+% \wss{Use labels for
+%   cross-referencing}
+
+% \wss{You can reference SRS labels, such as R\ref{R_In_position}.}
+
+% \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
+
+\subsection{Module}
+
+input\_format
+
+\subsection{Uses}
+\begin{itemize}
+  \item Simulation Module (Section \ref{M_Simulate})
 \end{itemize}
 
 \subsection{Syntax}
@@ -513,6 +652,7 @@ None
 
 \newpage
 
+
 \section{MIS of Localization Module} \label{M_Localize}
 
 \subsection{Module}
@@ -561,7 +701,7 @@ None
 \begin{itemize}
 % \item transition: \wss{if appropriate} 
 \item output: $out:= \mathbf{\hat{x}}$
-\item exception: None
+\item exception: ValueError if estimation fails or result is not computable
 \end{itemize}
 
 % \subsubsection{Local Functions}
@@ -620,6 +760,7 @@ None
 \[
 \mathcal{I}(\hat{\mathbf{x}}) = \sum_{j=1}^{N} \frac{1}{\sigma_j^2} \frac{(\hat{\mathbf{x}} - \mathbf{a}_j)(\hat{\mathbf{x}} - \mathbf{a}_j)^T}{\|\hat{\mathbf{x}} - \mathbf{a}_j\|^2}
 \]
+where $\mathbf{\hat{x}}$ only contains $x$ and $y$ (making it $\mathbb{R}^2$ so it can subtract)
 \item exception: None
 \end{itemize}
 
@@ -673,6 +814,7 @@ None
 \subsubsection{Environment Variables}
 \begin{itemize}
   \item date\_queue: A queue storing tuples of estimated pose data (time, x, y, theta).
+  \item display\_env: The OS-level display environment variable required to render the Tkinter GUI (e.g., `\$DISPLAY` for Unix-based systems).
 \end{itemize}
 
 \subsubsection{Assumptions}
@@ -735,12 +877,16 @@ update\_trajectory &  $\hat{\mathbf{x}}: R^3$ & - & - \\
 \end{itemize}
 
 \subsubsection{Environment Variables}
-None
+\begin{itemize}
+  \item plot\_env: The Matplotlib interactive rendering backend required to run real-time plotting.
+\end{itemize}
 
 \subsubsection{Assumptions}
 \begin{itemize}
   \item \lq plot\_localization\_live()\rq~is run in an interactive Matplotlib session.
   \item \lq update\_trajectory()\rq~is only called when valid estimated poses exist.
+  \item `plot\_env' supports `plt.ion()' and `plt.pause()' for animation updates.
+  \item localize()(Section \ref{M_Localize}) either returns a valid pose or raises an exception.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
