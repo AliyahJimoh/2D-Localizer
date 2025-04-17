@@ -30,7 +30,8 @@ def PriorFactorPoint2(key, point, noise_model):
 def RangeFactor2D(key1, key2, measured, noise_model):
     return gtsam.RangeFactor2D(key1, key2, measured, noise_model)
 
-def BetweenFactor(key1,key2,between, noise_model):
+
+def BetweenFactor(key1, key2, between, noise_model):
     return gtsam.BetweenFactorPose2(key1, key2, between, noise_model)
 
 
