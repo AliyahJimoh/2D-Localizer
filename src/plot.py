@@ -1,15 +1,15 @@
 """Plotting Module: Used to plot the visual representation of the map"""
 
+from matplotlib.patches import Polygon
+from matplotlib.animation import FuncAnimation
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 import time
 import warnings
 
 warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
 
-import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib.animation import FuncAnimation
-from matplotlib.patches import Polygon
 
 trajectory = []  # Stores estimated positions over time
 robot_trajectory = None
@@ -37,11 +37,13 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     ax.set_ylabel("Y Position")
 
     # Display the background image (Factory Layout)
-    ax.imshow(img, extent=[0, map_size[0], 0, map_size[1]], alpha=0.6, aspect="auto")
+    ax.imshow(img, extent=[0, map_size[0], 0,
+              map_size[1]], alpha=0.6, aspect="auto")
 
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
-    ax.scatter(beacons[:, 0], beacons[:, 1], c="blue", marker="o", label="Beacons")
+    ax.scatter(beacons[:, 0], beacons[:, 1],
+               c="blue", marker="o", label="Beacons")
     ax.scatter(
         fm_map[:, 0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker"
     )
@@ -54,7 +56,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     (robot_trajectory,) = ax.plot([], [], "r-", label="Trajectory")  # Line for path
     triangle_patch = [
         ax.add_patch(
-            Polygon([[0, 0], [0, 0], [0, 0]], closed=True, color="black", label="Robot")
+            Polygon([[0, 0], [0, 0], [0, 0]], closed=True,
+                    color="black", label="Robot", zorder=10)
         )
     ]
 
@@ -108,7 +111,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
         )
 
         # Rotation matrix for theta
-        R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+        R = np.array([[np.cos(theta), -np.sin(theta)],
+                     [np.sin(theta), np.cos(theta)]])
 
         # Rotate and shift
         rotated_points = points @ R.T + np.array([x, y])
@@ -145,4 +149,5 @@ def update_trajectory(estimated_pose):
     """
     Stores the latest estimated pose for visualization.
     """
-    trajectory.append((estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    trajectory.append(
+        (estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
