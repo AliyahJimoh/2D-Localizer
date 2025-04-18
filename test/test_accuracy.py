@@ -1,12 +1,14 @@
-import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 import numpy as np
 
+from src.accuracy import compute_crlb, compute_fim
 from src.input_format import InputData
 from src.localization import localize
-from src.accuracy import compute_fim, compute_crlb
+
 
 def test_accuracy():
     """

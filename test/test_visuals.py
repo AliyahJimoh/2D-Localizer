@@ -1,14 +1,15 @@
-import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+import sys
 
-import numpy as np
-import pytest
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+
 import matplotlib
+
 matplotlib.use("Agg")
 
 from src.input_format import InputData
 from src.plot import plot_localization_live
+
 
 def test_visualization():
     """
@@ -23,6 +24,6 @@ def test_visualization():
     gt = ind.get_trajectory()
 
     try:
-        plot_localization_live(beacons, fm_map, map_file, gt,map_size, show=False)
+        plot_localization_live(beacons, fm_map, map_file, gt, map_size, show=False)
     except Exception as e:
         assert False, f"Visualization crashed: {e}"

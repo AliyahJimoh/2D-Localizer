@@ -1,22 +1,25 @@
-import numpy as np
-import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
+import sys
 
+import numpy as np
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+
+from src import simulation
 from src.input_format import InputData
 from src.localization import localize
-from src import simulation
-    
+
+
 def test_range_only(monkeypatch):
     """
-    F-RO-01: Verifies pose estimation using only range measurements 
+    F-RO-01: Verifies pose estimation using only range measurements
     """
-    
+
     def no_fms(*args, **kwargs):
-        return[] # Force no FMs
-    
+        return []  # Force no FMs
+
     monkeypatch.setattr(simulation, "visible_fms", no_fms)
-    
+
     input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
@@ -26,12 +29,13 @@ def test_range_only(monkeypatch):
     pose = localize(beacons, fm_map, range_m[0, :], trajectory[0, :])
 
     assert np.isfinite(pose.x()) and np.isfinite(pose.y()), "Pose has NaN or inf"
-    
+
+
 def test_fiducials():
     """
     F-SE2-01: Verifies pose estimation using only range measurements
     """
-    
+
     input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
@@ -39,9 +43,12 @@ def test_fiducials():
     trajectory = input.get_trajectory()
 
     pose = localize(beacons, fm_map, range_m[10, :], trajectory[10, :])
-    
-    assert abs(pose.theta()) > 0.01, "Pose theta too small — possible FM transform not influencing result"
-    
+
+    assert (
+        abs(pose.theta()) > 0.01
+    ), "Pose theta too small — possible FM transform not influencing result"
+
+
 def test_sensor_fusion(monkeypatch):
     """
     F-SF-01: Verifies that combining range and fiducial data results in a pose shift.

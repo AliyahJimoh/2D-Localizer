@@ -1,7 +1,7 @@
-import os
-import pytest
-import subprocess
 import datetime
+import os
+import subprocess
+
 
 # Set up folders
 results_dir = "../test/results"
@@ -14,7 +14,9 @@ os.makedirs(session_dir)
 
 # Gather all test files
 test_dir = "../test"
-test_files = sorted([f for f in os.listdir(test_dir) if f.startswith("test_") and f.endswith(".py")])
+test_files = sorted(
+    [f for f in os.listdir(test_dir) if f.startswith("test_") and f.endswith(".py")]
+)
 
 # Track results
 summary = []
@@ -26,7 +28,9 @@ for test_file in test_files:
 
     try:
         with open(result_file, "w") as f:
-            proc = subprocess.run(["pytest", test_path, "-v"], stdout=f, stderr=subprocess.STDOUT)
+            proc = subprocess.run(
+                ["pytest", test_path, "-v"], stdout=f, stderr=subprocess.STDOUT
+            )
             passed = proc.returncode == 0
             result = "PASSED" if passed else "FAILED"
     except Exception as e:
@@ -38,5 +42,3 @@ for test_file in test_files:
 print("\n--- Test Summary ---")
 for file, status, path in summary:
     print(f"{file}: {status} (results saved to: {path})")
-    
-
