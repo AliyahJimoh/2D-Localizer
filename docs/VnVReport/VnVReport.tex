@@ -50,11 +50,12 @@
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
+  FM & Fiducial Marker\\
   T & Test\\
+  SRS & Software Requirement Specification\\
+  VnV & Verification and Validation\\
   \bottomrule
 \end{tabular}\\
-
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
 
 \newpage
 
@@ -211,13 +212,94 @@ All unit and system tests were written using the \texttt{pytest} framework. Test
 
 		
 \section{Trace to Requirements}
+\begin{table}[H]
+  \begin{center}
+    \resizebox{1.1\textwidth}{!}{ 
+
+    \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    \multicolumn{1}{|c|}{\textbf{Test Case}} &
+      \textbf{R1} &
+      \textbf{R2} &
+      \textbf{R3} &
+      \textbf{R4} &
+      \textbf{R5} &
+      \textbf{R6} &
+      \textbf{R7} &
+      \textbf{R8} &
+      \textbf{R9} &
+      \textbf{NFR1} \\ \hline
+    test\_invalid\_yaml       &   &   &   & X &   &   &   &   &   &   \\
+    test\_map\_image          & X &   &   &   &   &   &   &   &   &   \\
+    test\_coordinates         &   & X &   &   &   &   &   &   &   &   \\
+    test\_range\_measurements &   &   & X &   &   &   &   &   &   &   \\ \hline
+    test\_range\_only         &   &   & X &   &   &   &   &   &   &   \\
+    test\_fiducials           &   & X &   &   &   &   &   &   &   &   \\
+    test\_sensor\_fusion      &   & X & X &   & X &   &   &   &   &   \\ \hline
+    test\_visualization       &   &   &   &   &   &   & X & X & X &   \\ \hline
+    test\_accuracy            &   &   &   &   &   & X &   &   &   & X \\ \hline
+    \end{tabular}
+  }
+  \caption{Tracibility Matrix Between the Test Cases \& Requirements}
+  \end{center}
+  \end{table}
 		
-\section{Trace to Modules}		
+\section{Trace to Modules}	
+\begin{table}[H]
+  \centering
+  \resizebox{1.1\textwidth}{!}{
+    \begin{tabular}{|l|c|c|c|c|}
+      \hline
+      \multicolumn{1}{|c|}{\textbf{Test Case}} & \textbf{localization.py} & \textbf{input\_format.py} & \textbf{accuraccy.py} & \textbf{plot.py} \\ \hline
+      test\_invalid\_yaml       &   & X &   &   \\ \hline
+      test\_map\_image          &   & X &   &   \\ \hline
+      test\_coordinates         &   & X &   &   \\ \hline
+      test\_range\_measurements &   & X &   &   \\ \hline
+      test\_range\_only         & X &   &   &   \\ \hline
+      test\_fiducials           & X &   &   &   \\ \hline
+      test\_sensor\_fusion      & X &   &   &   \\ \hline
+      test\_visualization       &   &   &   & X \\ \hline
+      test\_accuracy            &   &   & X &   \\ \hline
+    \end{tabular}
+  }
+  \caption{Tracibility Matrix Between the Test Cases \& Modules}
+  \end{table}	
 
 \section{Code Coverage Metrics}
 
-As mentioned in the 
+As mentioned in the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan}, there were some modules that were justified for not having any unit tests resulting in their coverage being 0\%. Due to this, the main focus will be the coverage:
+\begin{itemize}
+  \item Input Format Module (M3)
+  \item Localization Module (M6)
+  \item Plotting Module (M8)
+  \item Accuracy Evaluation Module (M9)
+\end{itemize}
 
+\begin{table}[H]
+  \begin{center}
+  \begin{tabular}{ |c|c|c|c| }
+  \hline
+   \textbf{Name} &  \textbf{Stmts} &  \textbf{Miss} &  \textbf{Coverage}\\ 
+  \hline
+  
+      accuracy.py & 15 & 0 & 100\% \\ 
+      \hline
+      input\_format.py & 52 & 2 & 92\% \\
+      \hline
+      localization.py & 38 & 0 & 100\% \\ 
+      \hline
+      plot.py & 62 & 20 & 68\% \\
+  \hline
+  \end{tabular}
+  \caption{Code Coverage Metric for the Unit Tested Modules}
+\label{tab:code-coverage-metrics}
+\end{center}
+\end{table}
+
+From what is being prioritized, all modules have a with over 60\%. The rationale for the Plotting Module being relatively low is due to the unit test not showing the plot but rather confirming that it can display and update itself.
+
+
+\newpage
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
 
