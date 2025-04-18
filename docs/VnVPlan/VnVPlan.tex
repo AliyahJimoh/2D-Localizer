@@ -3,6 +3,11 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{xr}
 \hypersetup{
     colorlinks,
     citecolor=blue,
@@ -20,7 +25,7 @@
 
 \begin{document}
 
-\title{System Verification and Validation Plan for 2D Localizer} 
+\title{System Verification and Validation Plan for \progname} 
 \author{Aliyah Jimoh}
 \date{\today}
 	
@@ -59,7 +64,7 @@
   \textbf{Symbol} & \textbf{Description}\\
   \midrule 
   2D & Two-Dimensional \\
-  2D Localizer & 2D Localization Solution\\
+  \progname & 2D Localization Solution\\
   CRLB & Cram\'er-Rao Lower Bound\\
   FM & Fiducial Marker \\
   GTSAM & Georgia Tech Smoothing and Mapping\\
@@ -67,10 +72,16 @@
   MIS & Module Interface Specification \\
   MLE & Maximum Likelihood Estimation\\
   PEP8 & Python Enhancement Proposal 8 \\
-  SE(2) & Special Euclidean Group in 2D \\
+  RMSE & Root Mean Squared Error\\
   SRS & Software Requirements Specification\\
   T & Test\\
   VnV & Verification and Validation\\
+  $N$ & Number of beacons used \\
+  $\mathbf{\hat{x}}$ & estimated robot pose ($x, y, \theta$)\\
+  $\tilde{\mathbf{d}}$ & $\mathbb{R}^N$ vector of a set of range measurements\\
+  $\mathbf{T}_{wf}$ & pose of fiducial marker in worlds frame \\
+  $\mathbf{T}_{fr}$ & pose of fiducial marker in robot frame  \\
+  $\mathbf{T}_{wr}$ & pose of robot in world frame  \\
   \bottomrule
 \end{tabular}\\
 
@@ -80,7 +91,7 @@ For a full list of symbols, abbreviations, and acronyms used, refer to section 1
 
 \pagenumbering{arabic}
 
-This document shows the verification and validation plan of the 2D Localizer program. This plan starts with general information that talks about 2D Localizer in section \ref{sec_general}. The plan and system tests involved with this software is explained in sections \ref{sec_plan} and \ref{sec_sys-tests}.
+This document shows the verification and validation plan of the \progname~program. This plan starts with general information that talks about \progname~in section \ref{sec_general}. The plan and system tests involved with this software is explained in sections \ref{sec_plan} and \ref{sec_sys-tests}.
 
 
 
@@ -88,7 +99,7 @@ This document shows the verification and validation plan of the 2D Localizer pro
 
 \subsection{Summary}
 
-This document examines the verification and validation plan of 2D Localizer. This software is used to help accurately locate mobile robots in a provided 2D map given the measurements and coordinates of the sensors and fiducial markers (FMs).
+This document examines the verification and validation plan of \progname. This software is used to help accurately locate mobile robots in a provided 2D map given the measurements and coordinates of the sensors and fiducial markers (FMs).
 
 \subsection{Objectives}
 
@@ -142,11 +153,11 @@ This system has an advanced research level which can be seen from the implementa
 % \wss{Don't just list the other documents.  You should explain why they are relevant and 
 % how they relate to your VnV efforts.}
 
-The documentation relevant to the 2D Localizer includes the Problem Statement since it explains the proposed software, the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS} which talks about the requirements needed to properly use the system, the Verification and Validation (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVReport/VnVReport.pdf}{VnV}) report that goes through the tests and plans for the system, and the Module Guide (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftArchitecture/MG.pdf}{MG}) and Module Interface Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{MIS}) for the design.
+The documentation relevant to the \progname~includes the Problem Statement since it explains the proposed software, the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS} which talks about the requirements needed to properly use the system, the Verification and Validation (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVReport/VnVReport.pdf}{VnV}) report that goes through the tests and plans for the system, and the Module Guide (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftArchitecture/MG.pdf}{MG}) and Module Interface Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{MIS}) for the design.
 
 \section{Plan}\label{sec_plan}
 
-This section describes the tests made for the 2D Localizer system. This begins by mentioning the VnV team in section~\ref{vnv_team}, then followed by the SRS Verification Plan in~\ref{plan_SRS}, the Design Verification Plan in section~\ref{plan_design},the VnV Plan Verification Plan in section~\ref{plan_verification}, the Implementation Verification Plan in section~\ref{plan_implement}, the Automated Testing and Verification tools in section~\ref{plan_auto}, and the Software Validation Plan in section~\ref{plan_software}.
+This section describes the tests made for the \progname~system. This begins by mentioning the VnV team in section~\ref{vnv_team}, then followed by the SRS Verification Plan in~\ref{plan_SRS}, the Design Verification Plan in section~\ref{plan_design},the VnV Plan Verification Plan in section~\ref{plan_verification}, the Implementation Verification Plan in section~\ref{plan_implement}, the Automated Testing and Verification tools in section~\ref{plan_auto}, and the Software Validation Plan in section~\ref{plan_software}.
 
 \subsection{Verification and Validation Team}\label{vnv_team}
 
@@ -182,7 +193,7 @@ This section shows the members of the VnV team. They are shown in Table \ref{tab
 
 \subsection{SRS Verification Plan}\label{plan_SRS}
 
-The SRS document for 2D Localizer will be verified through the following steps:
+The SRS document for \progname~will be verified through the following steps:
 \begin{enumerate}
   \item The initial review will be performed by the assigned reviewers (Dr.~Spencer Smith and Kiran Singh) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} as a guide.
   \item The reviewers will give feedback through creating issues in the GitHub repository.
@@ -199,7 +210,7 @@ The SRS document for 2D Localizer will be verified through the following steps:
 % \wss{Maybe create an SRS checklist?}
 
 \subsection{Design Verification Plan}\label{plan_design}
-The design for 2D Localizer will be verified through the following steps:
+The design for \progname~will be verified through the following steps:
 \begin{enumerate}
   \item The design documents, the MG and MIS, will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use both checklists (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MG-Checklist.pdf}{MG Checklist} and \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MIS-Checklist.pdf}{MIS Checklist}) as a guide.
   \item The reviewers will give feedback through creating issues in the GitHub repository.
@@ -214,7 +225,7 @@ The design for 2D Localizer will be verified through the following steps:
 
 \subsection{Verification and Validation Plan Verification Plan}\label{plan_verification}
 
-The VnV plan for 2D Localizer will be verified through the following steps:
+The VnV plan for \progname~will be verified through the following steps:
 \begin{enumerate}
   \item The VnV plan will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/VnV-Checklist.pdf}{VnV Checklist} as a guide.
   \item The reviewers will give feedback through creating issues in the GitHub repository.
@@ -234,7 +245,7 @@ The implementation of \progname~will be verified be the following techniques:
 \begin{itemize}
   \item \textbf{Static Verification}
   \newline  
-    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a user test case in a presentation while explaining the tests made and performed. Section \ref{sec_sys-tests} describes system-level tests derived from SRS functional requirements that are implemented through code in Section \ref{unit-test} and validated through dynamic testing.
+    The author will perform a user demonstration to the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a user test case in a presentation while explaining the tests made and performed. Section \ref{sec_sys-tests} describes system-level tests derived from SRS functional requirements that are implemented through code in Section \ref{unit-test} and validated through dynamic testing.
 
   \item \textbf{Dynamic Testing}
   \newline
@@ -259,7 +270,10 @@ The implementation of \progname~will be verified be the following techniques:
 For Python implementation, the 2D Localization software will follow the coding style guidelines outlined in Python Enhancement Proposal 8 (PEP8). To enforce this, the Flake8 linter will be used to ensure that code meets PEP8's guidelines and for continuous integration in GitHub Actions.
 
 \subsubsection{GTSAM Integration}
-Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) by~\cite{gtsam2022} is a library that implements sensor fusion for robotics using factor graphs. These graphs consist of two types of nodes: variables (e.g., robot poses and sensor measurements) and factors, which represent probabilistic constraints between them. 2D Localizer will be using this library as a modelling language and would need to run unit tests to verify if GTSAM is properly integrated.
+Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSAM}) by~\cite{gtsam2022} is a library that implements sensor fusion for robotics using factor graphs. These graphs consist of two types of nodes: variables (e.g., robot poses and sensor measurements) and factors, which represent probabilistic constraints between them. \progname~will be using this library as a modelling language and would need to run unit tests to verify if GTSAM is properly integrated.
+
+\subsubsection{Automated Testing}
+Unit testing for \progname~is implemented using the \texttt{pytest} framework. This tool enables automatic test discovery, detailed failure reporting, and integration with coverage tools. These tests verify functional and nonfunctional requirements dynamically and are executed regularly through continuous integration.
 
 \begin{figure}[h!]
   \begin{center}
@@ -286,7 +300,7 @@ Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSA
 
 \subsection{Software Validation Plan}\label{plan_software}
 
-To help validate the accuracy of the localization algorithm, 2D Localizer will use 2D data sets to test. If a data set cannot be found, alternative test cases and feedback will be discussed with the supervisor.
+To help validate the accuracy of the localization algorithm, \progname~will use predefined 2D trajectory data in CSV format. These files contain ground truth positions that are used to compare against estimated poses generated by the system. If suitable datasets are not available, alternate test cases and validation procedures will be discussed with the supervisor.
 
 % \wss{If there is any external data that can be used for validation, you should
 %   point to it here.  If there are no plans for validation, you should state that
@@ -300,7 +314,7 @@ To help validate the accuracy of the localization algorithm, 2D Localizer will u
 
 \section{System Tests}\label{sec_sys-tests}
 
-This section goes over the different system tests 2D Localizer will go through to satisfy its requirements.
+This section goes over the different system tests \progname~will go through to satisfy its requirements.
 
 % \wss{There should be text between all headings, even if it is just a roadmap of
 % the contents of the subsections.}
@@ -401,13 +415,14 @@ Initial State:
 					
 Input: Range measurements + SE(2) transformation constraints
 
-Output: Estimated pose $T_{wr}$ and $\hat{x}$
+Output: Estimated pose $T_{wr}$ and $\hat{x}$. RMSE and CRLB metrics are used to assess accuracy improvement over range-only estimation.
 
 Test Case Derivation: F-RO-01 and F-SE2-01
 
-How test will be performed: The tester will provide input files with both fiducial and range data, and compare the results against a previous run using only range data. The test passes if:
+How test will be performed: The tester will provide input files with both fiducial and range data, and compare the results against a previous run using only range data. The factor graph includes range-based constraints (on distance to beacons) and FM based constraints, represented as BetweenFactors on pose nodes. The test passes if:
 \begin{itemize}
   \item The fused system produces a pose estimate without failure
+  \item The test compares differences in estimated pose between range-only and fused approaches, quantified by RMSE and CRLB.
   \item Accuracy improves or remains consistent as measured by the CRLB matrix.
 \end{itemize}
 
@@ -566,15 +581,20 @@ Output/Result:
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}{|c|c|c|c|c|c|}
+  \begin{tabular}{|c|c|c|c|c|c|c|}
   \hline
-    & F-RO-01 & F-SE2-01 & F-SF-01 & F-MO-01 & NF-ACC-01 \\
+    & F-RO-01 & F-SE2-01 & F-SF-01 & F-IN-01 & F-MO-01 & NF-ACC-01 \\
   \hline
-  R1          &X &X &X & X& \\ \hline
-  R2           &X & &X & &X \\ \hline
-  R3         &X & &X & & \\ \hline
-  R4   & & & & & \\ \hline
-  R5      & & & &X & \\
+  R1      & & & &X &X & \\ \hline
+  R2      & &X & &X & & \\ \hline
+  R3      &X & & &X & & \\ \hline
+  R4      & & & &X & & \\ \hline
+  R5      &X &X &X & & & \\ \hline
+  R6      & & &X & & &X \\ \hline
+  R7      & & & & &X & \\ \hline
+  R8      & & & & &X & \\ \hline
+  R9      & & & & &X & \\ \hline
+  NFR1      & & & & & &X \\ 
   \hline
   \end{tabular}
   \caption{Traceability Matrix Showing the Connections Between Requirements and System Tests}
@@ -753,7 +773,7 @@ Module 8 handles visual output of the localization process. The test checks that
             
   Output: RMSE scalar, FIM matrix, and CRLB matrix
   
-  Test Case Derivation: From NFR1 and TM2 in the SRS
+  Test Case Derivation: From R7 and R9 – visualization must reflect estimated results in real-time and overlay trajectories.
   
   How test will be performed: Automatic test using PyTest
 \end{enumerate}
@@ -826,7 +846,23 @@ Module 9 evaluates estimation accuracy using FIM and CRLB metrics. Tests check n
 
 \subsection{Traceability Between Test Cases and Modules}
 
-\wss{Provide evidence that all of the modules have been considered.}
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \multicolumn{1}{|c|}{\textbf{Test Case}} & \textbf{M1} & \textbf{M2} & \textbf{M3} & \textbf{M4} & \textbf{M5} & \textbf{M6} & \textbf{M7} & \textbf{M8} & \textbf{M9} \\ \hline
+  test\_invalid\_yaml       & - & - & X & - & - &   & - &   &   \\
+  test\_map\_image          & - & - & X & - & - &   & - &   &   \\
+  test\_coordinates         & - & - & X & - & - &   & - &   &   \\
+  test\_range\_measurements & - & - & X & - & - &   & - &   &   \\ \hline
+  test\_range\_only         & - & - &   & - & - & X & - &   &   \\
+  test\_fiducials           & - & - &   & - & - & X & - &   &   \\
+  test\_sensor\_fusion      & - & - &   & - & - & X & - &   &   \\ \hline
+  test\_visualization       & - & - &   & - & - &   & - & X &   \\ \hline
+  test\_accuracy            & - & - &   & - & - &  & - &   & X \\ \hline
+  \end{tabular}
+  \caption{Traceability Matrix Showing the Connections Between Test Cases and Modules}
+  \end{table}
 
 				
 \bibliographystyle{plainnat}
