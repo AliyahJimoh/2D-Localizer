@@ -92,7 +92,7 @@ This document examines the verification and validation plan of 2D Localizer. Thi
 
 \subsection{Objectives}
 
-The objective of this plan is to validate the accuracy of this program to build confidence in the software's reliability and performance. This plan also aims to satisfy all the requirements the System Requirements Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS}) document outlined.  
+The objective of this plan is to validate the accuracy of this program to build confidence in the software's reliability and performance. This plan also aims to satisfy all the requirements from the System Requirements Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS}).  
 
 % \wss{State what is intended to be accomplished.  The objective will be around
 %   the qualities that are most important for your project.  You might have
@@ -113,7 +113,7 @@ The objective of this plan is to validate the accuracy of this program to build 
 
 \subsection{Challenge Level and Extras}
 
-This system has an advanced research level which can be seen from the implementation and the topic. Setting up the robot's movement, accurately displaying the trajectory, coordinating the sensors' measurements, and finding a way to animate the output would definitely add difficulty to this system, however, this is not a niche topic meaning that there are papers or libraries available to draw inspiration from.
+This system has an advanced research level which can be seen from the implementation and the topic. Setting up the robot’s movement, accurately displaying the trajectory, and coordinating sensor measurements each introduce their own level of complexity. Additionally, finding a way to animate the output adds further difficulty to the system. However, the topic is not niche meaning that there are papers and libraries available that can be used for guidance and inspiration.
 
 % \wss{State the challenge level (advanced, general, basic) for your project.
 % Your challenge level should exactly match what is included in your problem
@@ -167,6 +167,8 @@ This section shows the members of the VnV team. They are shown in Table \ref{tab
         \hline
         Kiran Singh & SRS & Domain Expert\\
                     & VnV & Reviewer      \\
+                    & MG &       \\
+                    & MIS &       \\
         \hline
         Dr.~Matthew Giamou & Problem Statement & Supervisor \\
                            &                   & Reviewer \\
@@ -609,7 +611,7 @@ All test cases can be found in the \hyperlink{https://github.com/AliyahJimoh/2D-
 
 The focus of unit testing is on modules M3 (Input Format), M6 (Localization), M8 (Plotting), and M9 (Accuracy Evaluation).
 
-Modules like M2 (GTSAM) and M7 (Control Module) are not explicitly tested at the unit level since they act primarily as libraries or orchestration logic.
+Modules like M2 (GTSAM) and M7 (Control Module) are not explicitly tested at the unit level since they act primarily as libraries or orchestration logic. M4 (Simulation) as its output's behaviour is indirectly validated through localization, accuracy and visualization tests M5 (Output Format) is not unit-tested because it primarily writes to a GUI table which is a side-effect operation better validated through manual inspection or system-level tests.
 
 \subsection{Tests for Functional Requirements}
 
@@ -675,7 +677,7 @@ Type: Functional, Dynamic, Automatic
 					
 Initial State: Range matrix and trajectory arrays provided
 					
-Input: 2D range array (T × B), trajectory array (T × 3)
+Input: 2D range array ($\mathbf{\tilde{d}_j}$), trajectory
 					
 Output: Dimensions and type validity confirmed
 
@@ -685,53 +687,142 @@ How test will be performed: Automatic test using PyTest
     
 \end{enumerate}
 
-\subsubsection{Module 2}
+\subsubsection{Module 6: Localization}
 
-...
+Module 6 implements the pose estimation logic using range and fiducial data. Tests validate localization output under different sensor configurations through both structural and behavioural checks.
+
+\begin{enumerate}
+  \item{test\_range\_only (from \texttt{test\_estimated\_position.py})}
+
+  Type: Functional, Dynamic, Automatic
+            
+  Initial State:  
+  \begin{itemize}
+    \item Robot pose is unknown.
+    \item Only beacon data is used.
+  \end{itemize}
+            
+  Input: Range measurements from beacons
+            
+  Output: Estimated pose $(x, y, \theta)$
+  
+  Test Case Derivation: IM2 from SRS
+  
+  How test will be performed: Automatic test using PyTest
+            
+  \item{test\_fiducials (from \texttt{test\_estimated\_position.py})}
+  
+  Type: Functional, Dynamic, Automatic
+            
+  Initial State: Robot starts near FMs
+            
+  Input: Relative SE(2) transformations to FMs
+            
+  Output: Refined pose using FM constraints
+  
+  Test Case Derivation: IM3 from SRS
+  
+  How test will be performed: Automatic test using PyTest
+  
+  \item{test\_sensor\_fusion (from \texttt{test\_estimated\_position.py})}
+  
+  Type: Functional, Dynamic, Automatic
+            
+  Initial State: Robot has access to both range and fiducial data
+            
+  Input: Combined measurements
+            
+  Output: Pose with both contributions
+  
+  Test Case Derivation: Merged result of IM2 + IM3 from SRS
+  
+  How test will be performed: Automatic test using PyTest
+\end{enumerate}
+
+\subsubsection{Module 8: Plotting}
+Module 8 handles visual output of the localization process. The test checks that visualization completes without crashing and overlays are displayed. The unit test ensures plotting functions render without error and support diagnostic overlays.
+
+\begin{enumerate}
+  \item {\texttt{test\_visualization()} (from \texttt{test\_visuals.py})}
+  
+  Type: Functional, Dynamic, Automatic
+            
+  Initial State: Estimated pose is computed using GTSAM
+            
+  Input: Robot pose estimate, beacon layout, noise variances, and ground truth trajectory
+            
+  Output: RMSE scalar, FIM matrix, and CRLB matrix
+  
+  Test Case Derivation: From NFR1 and TM2 in the SRS
+  
+  How test will be performed: Automatic test using PyTest
+\end{enumerate}
+
+
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
+% \wss{If there is a module that needs to be independently assessed for
+%   performance, those test cases can go here.  In some projects, planning for
+%   nonfunctional tests of units will not be that relevant.}
 
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
+% \wss{These tests may involve collecting performance data from previously
+%   mentioned functional tests.}
 
-\subsubsection{Module ?}
-		
+\subsubsection{Module 9: Accuracy Evaluation}
+Module 9 evaluates estimation accuracy using FIM and CRLB metrics. Tests check numerical soundness and compliance with statistical requirements.
+
 \begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
+  \item {\texttt{test\_accuracy()} (from \texttt{test\_accuracy.py})}
+  
+  Type: Functional, Dynamic, Automatic
+            
+  Initial State: Estimated pose is computed using GTSAM
+            
+  Input: Robot pose estimate, beacon layout, noise variances, and ground truth trajectory
+            
+  Output: RMSE scalar, FIM matrix, and CRLB matrix
+  
+  Test Case Derivation: From NFR1 and TM2 in the SRS
+  
+  How test will be performed: Automatic test using PyTest
 \end{enumerate}
 
-\subsubsection{Module ?}
 
-...
+% \subsubsection{Module ?}
+		
+% \begin{enumerate}
+
+% \item{test-id1\\}
+
+% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+%   be automatic}
+					
+% Initial State: 
+					
+% Input/Condition: 
+					
+% Output/Result: 
+					
+% How test will be performed: 
+					
+% \item{test-id2\\}
+
+% Type: Functional, Dynamic, Manual, Static etc.
+					
+% Initial State: 
+					
+% Input: 
+					
+% Output: 
+					
+% How test will be performed: 
+
+% \end{enumerate}
+
+% \subsubsection{Module ?}
+
+% ...
 
 \subsection{Traceability Between Test Cases and Modules}
 
@@ -745,8 +836,7 @@ How test will be performed:
 \newpage
 
 \section{Appendix}\label{sec_appendix}
-
-This is where you can place additional information.
+ Not Applicable
 
 \subsection{Symbolic Parameters}
 
