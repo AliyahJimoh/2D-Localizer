@@ -3,7 +3,6 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
-import numpy as np
 
 from input_format import InputData
 
@@ -21,4 +20,3 @@ def test_invalid_yaml(tmp_path):
         assert "Invalid YAML" in str(e)
     else:
         assert False, "Expected ValueError for invalid YAML"
-
