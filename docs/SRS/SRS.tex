@@ -198,6 +198,8 @@ $\mathbf{\tilde{d}}$ & \si[per-mode=symbol] {\metre} & Set of range measurements
 \\ 
 $\tilde{d_j}$ & \si[per-mode=symbol] {\metre} & Measured range with noise from beacon $j$
 \\
+$\mathbf{f}_k$  & \si[per-mode=symbol] {\metre} & position for fiducial marker $k$
+\\
 $g_j(\mathbf{x_i})$ & \si[per-mode=symbol] {\metre} & Noisy range measurement of robot's position $i$ taken from beacon $j$
 \\
 $\boldsymbol{\mathcal{I}}$ & \si[per-mode=symbol] {\per\square\metre} & Total Fisher Information Matrix
@@ -205,6 +207,8 @@ $\boldsymbol{\mathcal{I}}$ & \si[per-mode=symbol] {\per\square\metre} & Total Fi
 $i$ & \si[per-mode=symbol] {-} & Index for robot's positions
 \\
 $j$ & \si[per-mode=symbol] {-} & Index for number of beacons
+\\ 
+$k$ & \si[per-mode=symbol] {-} & Index for number of fiducial markers
 \\ 
 $map\_size$ & \si[per-mode=symbol] {\metre} & Length($x$) and width($y$) of the map
 \\ 
@@ -264,8 +268,7 @@ $\sigma^2_j$ & \si[per-mode=symbol] {\metre} & Noise variance for $j$
 
 
 \subsection{Mathematical Notation}
-Throughout this document, there will be typographic conventions as 
-well as mathematical operators that are used to distinguish different variables and operations.
+Throughout this document, there will be typographic conventions as well as mathematical operators that are used to distinguish different variables and operations.
 ~\newline
 
 \renewcommand{\arraystretch}{1.2}
@@ -331,7 +334,7 @@ The system context is displayed in Figure~\ref{Fig_SystemContext} below. The cir
 \item Provide inputs including the coordinates of each environmental sensor and the measurements taken from them.
 \item Evaluate the inputs to ensure all are their respective types.
 \end{itemize}
-\item \progname Responsibilities:
+\item \progname~Responsibilities:
 \begin{itemize} 
 \item Detect data type mismatch, such as a string of characters instead of a
   floating point number.
@@ -342,7 +345,7 @@ The system context is displayed in Figure~\ref{Fig_SystemContext} below. The cir
 
 \subsection{User Characteristics}\label{SecUserCharacteristics}
 
-The end user of \progname should have some familiarity with types of range sensors (e.i., similar to ultra-wideband range sensors) along with how to read and collect their data. They should also have basic experience with programming.
+The end user of \progname~should have some familiarity with types of range sensors (e.i., similar to ultra-wideband range sensors) along with how to read and collect their data. They should also have basic experience with programming.
 
 \subsection{System Constraints}
 
@@ -357,7 +360,7 @@ the instance models.
 
 \subsection{Problem Description}\label{Sec_pd}
 
-\progname is intended to help keep track of mobile robots while carrying out their tasks.
+\progname~is intended to help keep track of mobile robots while carrying out their tasks.
 
 \subsubsection{Terminology and  Definitions}
 
@@ -972,7 +975,7 @@ the assumptions.
 \label{Table:trace}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -996,7 +999,7 @@ the assumptions.
 \label{Table:R_trace}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
