@@ -182,7 +182,7 @@ This section shows the members of the VnV team. They are shown in Table \ref{tab
 
 The SRS document for 2D Localizer will be verified through the following steps:
 \begin{enumerate}
-  \item The initial review will be preformed by the assigned reviewers (Dr.~Spencer Smith and Kiran Singh) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} as a guide.
+  \item The initial review will be performed by the assigned reviewers (Dr.~Spencer Smith and Kiran Singh) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} as a guide.
   \item The reviewers will give feedback through creating issues in the GitHub repository.
   \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
   \item The author will discuss with the supervisor (Dr.~Matthew Giamou) and ask for their input.
@@ -228,15 +228,15 @@ The VnV plan for 2D Localizer will be verified through the following steps:
 
 \subsection{Implementation Verification Plan}\label{plan_implement}
 
-The implementation of 2D Localizer will be verified be the following techniques:
+The implementation of \progname~will be verified be the following techniques:
 \begin{itemize}
   \item \textbf{Static Verification}
   \newline  
-    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a walkthrough in a presentation while explaining the tests made and performed. 
+    The author will perform a code walkthrough the domain expert (Kiran Singh) and go through different tests to check the accuracy. The author will then do a user test case in a presentation while explaining the tests made and performed. Section \ref{sec_sys-tests} describes system-level tests derived from SRS functional requirements that are implemented through code in Section \ref{unit-test} and validated through dynamic testing.
 
   \item \textbf{Dynamic Testing}
   \newline
-  The unit tests for 2D Localizer are discussed in section \ref{unit-test} 
+  The unit tests for \progname~are discussed in section \ref{unit-test} 
 
 \end{itemize}
 
@@ -321,34 +321,34 @@ This subsection looks at the system tests that will help satisfy the functional 
 %   covers tests for input constraints, you should reference the data constraints
 %   table in the SRS.}
 
-  These tests cover the requirements R1 to R3
+  % These tests cover the requirements R1 to R3
 		
 \paragraph{Range-Only Pose Estimation}
 
 \begin{enumerate}
 
-\item{F-RO-01\\}
+\item{\textbf{F-RO-01}}
 
-Control: Automatic
+\textbf{Requirements Addressed:} R3, R5\\
+\textbf{Control:} Automatic
 					
-Initial State: 
+\textbf{Initial State: }
 \begin{itemize}
   \item Known beacon positions
   \item Robot starts at unknown location
 \end{itemize}
 					
-Input: Range measurements $\tilde{d}_j$ from beacons with noise
+\textbf{Input:} A set of noisy range measurements $\mathbf{\tilde{d}_j}$ with each set containing the number of beacons that whose range detected it. The map size is given along with the initial estimate position of the robot. All inputs are derived from a predefined YAML configuration file.
 
-Output: The estimated robot pose $\hat{x}$, as defined in the SRS (Section 5.1, Requirement R3).
+\textbf{Output:} The estimated robot pose $\mathbf{\hat{x}}$ represented by $(x,y,\theta)$, corresponding to the robot's position and heading in the environment.
  
 
-Test Case Derivation: SRS Section IM2
+\textbf{Test Case Derivation:} SRS Section IM2
 					
-How test will be performed: 
+\textbf{How test will be performed:} The tester will run the program with a valid input YAML file containing beacon positions, trajectory data, and noise configuration. The system will estimate a pose using only range measurements. The test is considered a pass if:
 \begin{itemize}
-  \item Use 2D dataset
-  \item Run GTSAM-based factor graph optimization to estimate $\hat{x}$
-  \item Verify the estimated error bounds align with FIM-derived uncertainty
+  \item A valid pose estimate is returned (finite values)
+  \item The pose lies within the bounds of the map dimensions
 \end{itemize}
 
 \end{enumerate}
@@ -356,37 +356,40 @@ How test will be performed:
 
 \paragraph{SE(2) Transformation Estimation}
 \begin{enumerate}					
-\item{F-SE2-01\\}
+\item{F-SE2-01}
 
-Control: Automatic
+\textbf{Requirements Addressed:} R2, R5\\
+\textbf{Control:} Automatic
 					
 Initial State: 
 \begin{itemize}
-  \item Robot starts with a known pose $T_{wf}$
-  \item Fiducial markers are placed at fixed positions
+  \item Robot starts with a known pose $T_{wr}$
+  \item Fiducial markers are placed at fixed positions $T_{wf}$
 \end{itemize}
 					
-Input: Transformation matrices $T_{wf}, T_{br}$ 
+Input: Transformation matrices $T_{wf}, T_{fr}$ 
 
 Output: Computed transformation must satisfy:
 \[
 T_{wr} = T_{wf} T_{fr}
 \]
 
-Test Case Derivation: The transformation matrix $T_{wr}$ is computed using the rigid-body transformation rule in SE(2), which is required to maintain the system’s geometric consistency (SRS Section TM3)
+Test Case Derivation: SRS Section IM3
 
-How test will be performed: 
+How test will be performed: The tester will configure an input YAML file where the robot has line-of-sight to fiducial markers (FMs). The system will use this to refine its pose estimate. The test passes if:
 \begin{itemize}
-  \item Compute $T_{wr}$ using both analytical and numerical methods
-  \item Compare GTSAM-computed pose with theoretical SE(2) output
+  \item A pose is returned without error
+  \item Estimated heading shows consistent improvement compared to range-only results
+  \item The result remains finite and within bounds
 \end{itemize}
 \end{enumerate}
 
 \paragraph{Range + SE(2) Sensor Fusion Test}
 \begin{enumerate}
-\item{F-SF-01\\}
+\item{F-SF-01}
 
-Control: Automatic
+\textbf{Requirements Addressed:} R5, R6\\
+\textbf{Control:} Automatic
 					
 Initial State: 
 \begin{itemize}
@@ -400,25 +403,52 @@ Output: Estimated pose $T_{wr}$ and $\hat{x}$
 
 Test Case Derivation: F-RO-01 and F-SE2-01
 
-How test will be performed: 
+How test will be performed: The tester will provide input files with both fiducial and range data, and compare the results against a previous run using only range data. The test passes if:
 \begin{itemize}
-  \item Construct factor graph in GTSAM
-  \item Run optimization twice (once with range only, once with full fusion)
-  \item Compare error reductions
+  \item The fused system produces a pose estimate without failure
+  \item Accuracy improves or remains consistent as measured by the CRLB matrix.
+\end{itemize}
+
+\end{enumerate}
+
+\subsubsection{Input Testing}
+\paragraph{Input Validation}
+
+\begin{enumerate}
+
+\item{\textbf{F-IN-01}}
+
+\textbf{Requirements Addressed:} R4\\
+\textbf{Control:} Automatic
+					
+\textbf{Initial State: }
+\begin{itemize}
+  \item Uninitialized or corrupted input files.
+\end{itemize}
+					
+\textbf{Input:} Malformed YAML or invalid numeric data in CSV files.
+
+\textbf{Output:} System-generated error message or exception
+					
+\textbf{How test will be performed:} The tester will intentionally modify the input YAML and/or CSV files to introduce syntax errors, negative or NaN values, or structurally invalid fields. The system should raise an error and refuse to proceed. The test passes if:
+\begin{itemize}
+  \item An informative error is shown
+  \item The system halts without crashing or proceeding with incorrect data
 \end{itemize}
 
 \end{enumerate}
 
 \subsubsection{Visual Testing}
-This test covers the requirement R5
+% This test covers the requirement R5
 
 \paragraph{2D Map Overlay of Estimated Poses}
 \begin{enumerate}					
-\item{F-MO-01\\}
+\item{F-MO-01}
 
-Control: Automatic
+\textbf{Requirements Addressed:} R1, R2, R7, R9\\
+\textbf{Control:} Automatic
 					
-Initial State: 
+\textbf{Initial State: }
 \begin{itemize}
   \item Environment 2D map and sensor locations (beacons, fiducials) are known.
   \item Robot follows a predefined trajectory.
@@ -438,11 +468,36 @@ Output: The visualization correctly displays:
 
 Test Case Derivation: The estimated pose $\hat{x}$ is computed using Maximum Likelihood Estimation (MLE), as described in SRS Section IM2.
 
-How test will be performed: 
+\textbf{How test will be performed:} The tester will launch the visualization after localization completes. The test passes if:
 \begin{itemize}
-  \item Run GTSAM-based localization and extract optimized poses $\hat{x}$.
-  \item Generate a visualization overlaying $\hat{x}$ on the environment map.
-  \item Compare the generated visualization with an expected ground-truth image.
+  \item The map is displayed without error
+  \item All landmarks are plotted correctly
+  \item The trajectory follows the expected path smoothly
+  \item The robot's position updates dynamically.
+\end{itemize}
+
+\end{enumerate}
+
+\paragraph{Real-Time Pose Display}
+
+\begin{enumerate}
+
+\item{\textbf{F-RT-01}}
+
+\textbf{Requirements Addressed:} R8\\
+\textbf{Control:} Manual
+					
+\textbf{Initial State: }Live localization process is running 
+					
+\textbf{Input:} Pose estimates that are generated over time
+
+\textbf{Output:} Updated GUI table showing ($x, y, \theta$) at each position.
+					
+\textbf{How test will be performed:} The tester will observe the GUI during runtime. The test passes if:
+\begin{itemize}
+  \item The table updates with each new pose
+  \item Updates occur at consistent intervals
+  \item No freezes or lag are observed
 \end{itemize}
 
 \end{enumerate}
@@ -476,21 +531,18 @@ How test will be performed:
 
 \begin{enumerate}
 
-\item{NF-ACC-01\\}
+\item{\textbf{NF-ACC-01}}
 
-Type: Nonfunctional, Dynamic, Automatic
+\textbf{Requirements Addressed:} R6, NFR1\\
+\textbf{Type:} Nonfunctional, Dynamic, Automatic
 					
-Initial State: 
-\begin{itemize}
-  \item The system has access to ground truth robot poses $\bar{x}$.
-  \item Sensor measurements (range, fiducial marker detections) are available.
-\end{itemize}
+Initial State: Final pose estimate has been computed
 					
 Input/Condition: 
 \begin{itemize}
-  \item Synthetic and real-world sensor data.
+  \item Sensor data (real or simulated).
   \item Estimated robot poses $\hat{x}$, generated using a GTSAM-based factor graph optimization.
-  \item Ground truth robot trajectory.
+  \item Ground truth trajectory.
 \end{itemize}
 					
 Output/Result: 
@@ -499,12 +551,10 @@ Output/Result:
   \item The estimated pose covariance must not exceed the theoretical Cram\'er-Rao Lower Bound (CRLB) (SRS Section TM2).
 \end{itemize}
 					
-How test will be performed: 
+\textbf{How test will be performed:} The tester will run the system with a test configuration containing known ground truth data and noise-defined sensor measurements. The system will estimate poses using factor graph optimization.
 \begin{itemize}
-  \item Generate test cases with ground-truth trajectory $\bar{x}$.
-  \item Compute estimated poses $\hat{x}$ using GTSAM factor graph optimization.
-  \item Evaluate RMSE between $\hat{x}$ and $\bar{x}$:
-  \item Compare estimated variance to the CRLB (TM3)
+  \item RMSE satisfies the required accuracy threshold
+  \item The CRLB matrix is finite and does not exceed the expected theoretical bound.
 \end{itemize}
 
 \end{enumerate}
@@ -531,74 +581,107 @@ How test will be performed:
 
 \section{Unit Test Description}\label{unit-test}
 
-\wss{This section should not be filled in until after the MIS (detailed design
-  document) has been completed.}
+% \wss{This section should not be filled in until after the MIS (detailed design
+%   document) has been completed.}
 
-\wss{Reference your MIS (detailed design document) and explain your overall
-philosophy for test case selection.}  
+% \wss{Reference your MIS (detailed design document) and explain your overall
+% philosophy for test case selection.}  
 
-\wss{To save space and time, it may be an option to provide less detail in this section.  
-For the unit tests you can potentially layout your testing strategy here.  That is, you 
-can explain how tests will be selected for each module.  For instance, your test building 
-approach could be test cases for each access program, including one test for normal behaviour 
-and as many tests as needed for edge cases.  Rather than create the details of the input 
-and output here, you could point to the unit testing code.  For this to work, you code 
-needs to be well-documented, with meaningful names for all of the tests.}
+% \wss{To save space and time, it may be an option to provide less detail in this section.  
+% For the unit tests you can potentially layout your testing strategy here.  That is, you 
+% can explain how tests will be selected for each module.  For instance, your test building 
+% approach could be test cases for each access program, including one test for normal behaviour 
+% and as many tests as needed for edge cases.  Rather than create the details of the input 
+% and output here, you could point to the unit testing code.  For this to work, you code 
+% needs to be well-documented, with meaningful names for all of the tests.}
+
+This section describes how the unit tests verify software components in \progname~as described in the MIS. Unit testing is conducted dynamically using the pytest framework and is focused on verifying that each function behaves correctly under normal and invalid conditions. Each test corresponds to one or more functional or nonfunctional requirements described in the SRS.
+
+All test cases can be found in the \hyperlink{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test}{test} directory of the repository, with descriptive names and in-code docstrings referencing their Test IDs.
 
 \subsection{Unit Testing Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+% \wss{What modules are outside of the scope.  If there are modules that are
+%   developed by someone else, then you would say here if you aren't planning on
+%   verifying them.  There may also be modules that are part of your software, but
+%   have a lower priority for verification than others.  If this is the case,
+%   explain your rationale for the ranking of module importance.}
+
+The focus of unit testing is on modules M3 (Input Format), M6 (Localization), M8 (Plotting), and M9 (Accuracy Evaluation).
+
+Modules like M2 (GTSAM) and M7 (Control Module) are not explicitly tested at the unit level since they act primarily as libraries or orchestration logic.
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+% \wss{Most of the verification will be through automated unit testing.  If
+%   appropriate specific modules can be verified by a non-testing based
+%   technique.  That can also be documented in this section.}
 
-\subsubsection{Module 1}
+\subsubsection{Module 3: Input Format}
 
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+% \wss{Include a blurb here to explain why the subsections below cover the module.
+%   References to the MIS would be good.  You will want tests from a black box
+%   perspective and from a white box perspective.  Explain to the reader how the
+%   tests were selected.}
+Module 3 handles parsing and validation of user-provided inputs, including YAML files, sensor positions, and measurement arrays. Tests confirm input correctness, formatting, and rejection of invalid files using both black-box and white-box strategies.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{test\_invalid\_yaml (from \texttt{test\_input\_file.py})\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Functional, Dynamic, Automatic
 					
-Initial State: 
+Initial State: User provides a malformed input file (e.g., YAML with syntax error or NaNs in CSV)
 					
-Input: 
+Input: Invalid YAML or malformed CSV file
 					
-Output: \wss{The expected result for the given inputs}
+Output: Raised exception or error message
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: From R4 - the system must reject malformed files
 
-How test will be performed: 
+How test will be performed: Automatic test using PyTest
 					
-\item{test-id2\\}
+\item{test\_map\_image (from \texttt{test\_inputs.py})\\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Functional, Dynamic, Automatic
 					
-Initial State: 
+Initial State: User provides a YAML file with a valid map path
 					
-Input: 
+Input: Valid YAML file referencing a .png or .jpg map
 					
-Output: \wss{The expected result for the given inputs}
+Output: File existence confirmed
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: From R4 - the system must reject malformed files
 
-How test will be performed: 
+How test will be performed: Automatic test using PyTest
 
-\item{...\\}
+\item{test\_coordinates (from \texttt{test\_inputs.py})\\}
+
+Type: Functional, Dynamic, Automatic
+					
+Initial State: YAML and CSV files include sensor coordinates
+					
+Input: 2D coordinate arrays
+					
+Output: Parsed as float arrays of shape (N, 2)
+
+Test Case Derivation: From R2
+
+How test will be performed: Automatic test using PyTest
+
+\item{test\_range\_measurements (from \texttt{test\_inputs.py})\\}
+
+Type: Functional, Dynamic, Automatic
+					
+Initial State: Range matrix and trajectory arrays provided
+					
+Input: 2D range array (T × B), trajectory array (T × 3)
+					
+Output: Dimensions and type validity confirmed
+
+Test Case Derivation: From R3
+
+How test will be performed: Automatic test using PyTest
     
 \end{enumerate}
 

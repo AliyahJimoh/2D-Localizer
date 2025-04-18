@@ -9,10 +9,14 @@ matplotlib.use("Agg")
 
 from src.input_format import InputData
 
-"""Testing that the inputs are valid"""
+"""
+Testing that the inputs are valid
+"""
 
 def test_map_image():
-    """Tests to see if image is valid for map -> R1"""
+    """
+    F-MO-01: Verifies existence of map image file. (R1)
+    """
     input = InputData(input_file="test/test_input.yaml")
     
     map_path = input.get_map()
@@ -20,8 +24,9 @@ def test_map_image():
     
     
 def test_coordinates():
-    """Tests to check if coordinates are valid inputs -> R2"""
-    
+    """
+    F-IN-01: Verifies coordinate shape, type, and validity. (R2)
+    """
     input = InputData(input_file="test/test_input.yaml")
 
     beacons = input.get_beacons()
@@ -39,9 +44,10 @@ def test_coordinates():
     assert np.all(np.isfinite(fm_map)), "FM map contains NaN or inf"
     
 def test_range_meausrement():
-    
-    """Tests if range and trajectory are the correct shape"""
-    
+    """
+    F-IN-01: Checks shape and format of range data relative to trajectory and beacon set. (R3)
+    """
+
     input = InputData(input_file="test/test_input.yaml")
 
     range_m = input.get_ranges()

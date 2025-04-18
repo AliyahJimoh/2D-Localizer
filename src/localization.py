@@ -9,17 +9,13 @@ def localize(beacons, fm_map, range_m, init_guess):
     """
     Gives estimated pose from selected set of measurements for position i
     """
-    max_distance = 10
+    max_distance = 15
     init_x = init_guess[0]
     init_y = init_guess[1]
 
     # Robot position (MLE will estimate this) defined with 'x'
     robot_id = symbol("x", 1)  # Robot variable in factor graph
 
-    # Beacon symbols defined with 'a'
-    # visible_beacon_indices = [symbol("a", j + 1) for j in range(
-    #     len(beacons)) if range_m[j] <= max_distance]
-    # beacon_ids = [symbol("a", j + 1) for j in range(len(beacons))]
     visible_beacons = [
         (j, beacons[j], range_m[j])
         for j in range(len(beacons))

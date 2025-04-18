@@ -12,7 +12,8 @@ from src.plot import plot_localization_live
 
 def test_visualization():
     """
-    Test for visualization pipeline
+    F-MO-01: Confirms the map and localization overlays render successfully without crashing.
+    Includes beacons, FMs, robot heading and trajectory.
     """
     ind = InputData(input_file="test/test_input.yaml")
     beacons = ind.get_beacons()

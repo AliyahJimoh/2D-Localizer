@@ -291,5 +291,8 @@ src/.venv/*
 
 # Flake8 configuration files
 .config/flake8
+
+# Test files
 src/test.py
 .coverage
+test/results/*
