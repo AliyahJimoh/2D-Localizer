@@ -206,9 +206,17 @@ $i$ & \si[per-mode=symbol] {-} & Index for robot's positions
 \\
 $j$ & \si[per-mode=symbol] {-} & Index for number of beacons
 \\ 
+$map\_size$ & \si[per-mode=symbol] {\metre} & Length($x$) and width($y$) of the map
+\\ 
 $N$ & \si[per-mode=symbol] {-} & Total number of beacons used
 \\
 $\mathbf{T_{robot}}$ & \si[per-mode=symbol] {\metre} & Pose of robot
+\\ 
+$\mathbf{T}_{mr}$ & \si[per-mode=symbol] {\metre} & Pose of the robot with respect to the map's frame of reference
+\\ 
+$\mathbf{T}_{mf}$ & \si[per-mode=symbol] {\metre} & Pose of the frame with respect to the map's frame of reference
+\\ 
+$\mathbf{T}_{fr}$ & \si[per-mode=symbol] {\metre} & Pose of the robot with respect to the frame's frame of reference
 \\ 
 $\mathbf{x_i}$ & \si[per-mode=symbol] {\metre} & Unknown Position $i$th 
 \\ 
@@ -222,7 +230,7 @@ $\sigma^2_j$ & \si[per-mode=symbol] {\metre} & Noise variance for $j$
 \\
 \bottomrule
 \end{longtable*}
-\plt{Remember to update table for IM3}
+
 ~\newline
 
 \subsection{Abbreviations and Acronyms}
@@ -334,7 +342,7 @@ The system context is displayed in Figure~\ref{Fig_SystemContext} below. The cir
 
 \subsection{User Characteristics}\label{SecUserCharacteristics}
 
-The end user of \progname should have some familiarity with types of range sensors along with how to read and collect their data. They should also have basic experience with programming.
+The end user of \progname should have some familiarity with types of range sensors (e.i., similar to ultra-wideband range sensors) along with how to read and collect their data. They should also have basic experience with programming.
 
 \subsection{System Constraints}
 
@@ -392,18 +400,18 @@ The physical system of the localizer includes the following elements:
 
 \subsubsection{Goal Statements}
 
-\noindent Given the imported 2D map, coordinates of all sensors and fiducial markers in the environment, and the noisy measurements of the sensors, the goal statements are:
+\noindent Given the imported 2D map (with its size), coordinates of all sensors and fiducial markers in the environment, and the noisy measurements of the sensors, the goal statements are:
 
 \begin{itemize}
 
 \item[GS\refstepcounter{goalnum}1\label{GS1}:] Calculate the estimated pose and error of the robot throughout its trajectory from sensors in the environment and on the robot.
-\item[GS\refstepcounter{goalnum}2\label{GS2}:] Display a visual representation of the robot traversing the 2-D map with the sensors placed.
+\item[GS\refstepcounter{goalnum}2\label{GS2}:] Display a visual representation of the robot traversing the 2-D map with the sensors placed through generating a plot.
 
 \end{itemize}
 
 \subsection{Solution Characteristics Specification}
 
-The instance models that govern 2D Localizer are presented in
+The instance models that govern \progname~are presented in
 Subsection~\ref{sec_instance}.  The information to understand the meaning of the
 instance models and their derivation is also presented, so that the instance
 models can be verified.
@@ -634,8 +642,6 @@ Number& GD\refstepcounter{defnum}\thedefnum\label{GD_PDF}\\
 \hline
 Label &\bf Probability Density Function (PDF)\\
 \hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
 SI Units&\si{\per\metre}\\
 \hline
 Equation&\begin{displaymath}
@@ -691,26 +697,6 @@ Symbol &$\tilde{d_j}$\\
   \hline
 \end{tabular}
 \end{minipage}\\
-
-% ~\newline
-
-% \noindent
-% \begin{minipage}{\textwidth}
-% \renewcommand*{\arraystretch}{1.5}
-% \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-%   \hline
-%   \rowcolor[gray]{0.9}
-%   Type Name & Name for Type\\
-%   \hline
-%   Type Def & mathematical definition of the type\\
-%   \hline
-%   Description & description here
-%   \\
-%   \hline
-%   Sources & Citation here, if the type is borrowed from another source\\
-%   \hline
-% \end{tabular}
-% \end{minipage}\\
 
 \subsubsection{Instance Models}\label{sec_instance}    
 This section transforms the problem defined in Section~\ref{Sec_pd} into 
@@ -799,17 +785,17 @@ The goal \gsref{GS1} is solved by \iref{IM_like} and \iref{IM_MLE}.
   \hline
   Label& \bf Estimated Pose \\
   \hline
-  Input&$\mathbf{T_{mf}}$, $\mathbf{T_{fr}}$\\
+  Input&$\mathbf{T}_{mf}$, $\mathbf{T}_{fr}$\\
   \hline
-  Output& $\mathbf{T_{mr}}$\\
+  Output& $\mathbf{T}_{mr}$\\
   \hline
   Equation&\begin{displaymath}
-    \mathbf{T_{mr}} = \mathbf{T_{mf}} \cdot \mathbf{T_{fr}}
+    \mathbf{T}_{mr} = \mathbf{T}_{mf} \cdot \mathbf{T}_{fr}
   \end{displaymath}\\
   \hline
-  Description& This equation uses the structure of the SE(2) transformation defined in \tref{T_SE} to calculate the pose of the robot with respect to the map's frame of reference $\mathbf{T_{mr}}$ \\
-  & $\mathbf{T_{mf}}$ is the pose of the fiducial marker with respect to the map's frame of reference. This pose should be known as the fiducial marker is placed by the user (A\ref{A_controlled})\\
-  & $\mathbf{T_{fr}}$ is the pose of the robot with respect to the fiducial marker.\\
+  Description& This equation uses the structure of the SE(2) transformation defined in \tref{T_SE} to calculate the pose of the robot with respect to the map's frame of reference $\mathbf{T}_{mr}$ \\
+  & $\mathbf{T}_{mf}$ is the pose of the fiducial marker with respect to the map's frame of reference. This pose should be known as the fiducial marker is placed by the user (A\ref{A_controlled})\\
+  & $\mathbf{T}_{fr}$ is the pose of the robot with respect to the fiducial marker.\\
   \hline
   Sources& \cite{Barfoot2017} \\
   \hline
@@ -845,9 +831,6 @@ provides an estimate of the confidence with which the physical quantities can be
 measured.  This information would be part of the input if one were performing an
 uncertainty quantification exercise. 
 
-% The specification parameters in Table~\ref{TblInputVar} are listed in
-% Table~\ref{TblSpecParams}.
-
 \begin{table}[!h]
   \caption{Input Variables} \label{TblInputVar}
   \renewcommand{\arraystretch}{1.2}
@@ -855,31 +838,18 @@ uncertainty quantification exercise.
   \toprule
   \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} &\textbf{Typical Value} & \textbf{Uncertainty}\\
   \midrule 
-  $\mathbf{a_j}$ & $ \mathbf{a_j}> [0~0]$ & - & [1.5, 2.6] \si[per-mode=symbol] {\metre} & -
+  $\mathbf{a_j}$ & $ \mathbf{a_j}> [0~0] \in map\_size$ & $\mathbb{R}^2 \in map\_size$ & [1.5, 2.6] \si[per-mode=symbol] {\metre} & -
   \\
-  $\tilde{d_j}$ & $ \tilde{d_j} > 0$ & - & 4.76 \si[per-mode=symbol] {\metre} & $\eta_j$
+  $\tilde{d_j}$ & $ \tilde{d_j} > 0$ & $\mathbb{R},  \tilde{d_j} > 0$ & 4.76 \si[per-mode=symbol] {\metre} & $\eta_j$
+  \\
+  $map\_size$ & $ [\mathrm{width},\ \mathrm{height}] > 0$ & - & [45, 60] \si[per-mode=symbol] {\metre} & -
+  \\
+  $\mathbf{f}_k$ & $\mathbf{f}_k > [0\ 0]\in map\_size$ &  $\mathbb{R}^2 \in map\_size$  & [3.0,\ 4.0] \si[per-mode=symbol] {\metre} & - 
   \\
   \bottomrule
   \multicolumn{5}{l}{\scriptsize * The user will set up a series to insert rows of inputs.}\\
 \end{longtable*}
 \end{table}
-
-% \noindent 
-% \begin{description}
-% \item[(*)] \plt{you might need to add some notes or clarifications}
-% \end{description}
-
-% \begin{table}[!h]
-% \caption{Specification Parameter Values} \label{TblSpecParams}
-% \renewcommand{\arraystretch}{1.2}
-% \noindent \begin{longtable*}{l l} 
-%   \toprule
-%   \textbf{Var} & \textbf{Value} \\
-%   \midrule 
-%   $L_\text{min}$ & 0.1 \si{\metre}\\
-%   \bottomrule
-% \end{longtable*}
-% \end{table}
 
 \subsubsection{Properties of a Correct Solution}\label{sec_CorrectSolution}
 
@@ -893,11 +863,13 @@ A correct solution must exhibit
   \toprule
   \textbf{Var} & \textbf{Physical Constraints} \\
   \midrule 
-  $\mathbf{\hat{x}}$ & $\mathbf{\hat{x}} > [0~0]$
+  $\mathbf{\hat{x}}$ & $\mathbf{\hat{x}} > [0~0],~\mathbf{\hat{x}} \in map\_size$
   \\
   \bottomrule
 \end{longtable*}
 \end{table}
+
+\noindent \textbf{Note}: All positional variables, including beacon ($\mathbf{a_j}$) and fiducial marker ($\mathbf{f}_k$) locations, must fall within the bounds of the imported 2D map ($map\_size$). These physical constraints ensure that all measurements and pose estimations are meaningful within the environment. Software constraints further enforce that inputs are in the correct format and lie within expected bounds. Fiducial markers are manually placed and must be positioned where they can be observed by the robot's vision system. Similarly, map dimensions restrict the region where the robot and sensors can operate.
 
 \section{Requirements}
 
@@ -936,10 +908,10 @@ This problem priorities the accuracy of the estimations along with its performan
 \noindent \begin{itemize}
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Accuracy}:]
-  \textbf{Accuracy}: The accuracy of the computed estimations should meet the threshold when comparing to the predicted measurements. 
+  \textbf{Accuracy}: The accuracy of the computed estimations should meet a threshold of approximately 0.05 m in position and 0.05 radians in orientation when compared to the predicted measurements. 
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Maintainability}:]
-  \textbf{Maintainability}: The software should be simple modify some components when needed.
+  \textbf{Maintainability}: The software should follow Python Enhancement Proposal 8 (PEP8) guidelines for Python code. Maintainability is supported through modular design for the code to be user-editable when needed. Automation tools such as \texttt{flake8} (for linting) and \texttt{black} (for formatting) are recommended.
 
 \item[NFR\refstepcounter{nfrnum}\thenfrnum \label{NFR_Reusability}:]
   \textbf{Usability}: The software should be able to run on Linux operating systems and macOS.
@@ -958,13 +930,6 @@ This program has rationale for the assumptions mentioned in~\ref{sec_assumpt}:
 \section{Likely Changes}    
 
 There are no likely changes to be made.
-
-% \noindent \begin{itemize}
-
-% \item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel1}:] \plt{Give
-%     the likely changes, with a reference to the related assumption (aref), as appropriate.}
-
-% \end{itemize}
 
 \section{Unlikely Changes}    
 
@@ -986,12 +951,6 @@ dependencies of instance models, requirements, and data constraints on each
 other. Table~\ref{Table:A_trace} shows the dependencies of theoretical models,
 general definitions, data definitions, instance models, and likely changes on
 the assumptions.
-
-\plt{Update tables after feedback implementation}
-
-% \begin{landscape}
-
-% \end{landscape}
 
 \begin{table}[h!]
 \centering
@@ -1015,17 +974,22 @@ the assumptions.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
-	& \iref{IM_like}& \iref{IM_MLE}& \rref{R_Inputs}& \rref{R_OutputInputs}& \rref{R_Calculate}& \rref{R_VerifyOutput}& \rref{R_Output} \\
+	& \iref{IM_like}& \iref{IM_MLE}& \iref{IM_EP}& \rref{R_In_map}& \rref{R_In_position}&\rref{R_In_measurement}& \rref{R_VerifyOutput}& \rref{R_Calculate}& \rref{R_Accuracy}& \rref{R_Out_Visual}& \rref{R_Out_Coordinates} & \rref{R_Out_Trajectory}\\
 \hline
-\iref{IM_like}          & & & & & & & \\ \hline
-\iref{IM_MLE}           & X& & & & & & \\ \hline
-\rref{R_Inputs}         & & & & & & & \\ \hline
-\rref{R_OutputInputs}   & & & X& & & & \\ \hline
-\rref{R_Calculate}      & & X& & & & & \\ \hline
-\rref{R_VerifyOutput}   & & & & & & & \\ \hline
-\rref{R_Output}         & & & & & & & \\
+\iref{IM_like}                & & X& & & & X& & X& & & &\\ \hline
+\iref{IM_MLE}                 & & & & & & & & X& X& & &\\ \hline
+\iref{IM_EP}                  & & & & & X& & & X& & X& X&X\\ \hline
+\rref{R_In_map}               & & & & & & & & X& & X& &\\ \hline
+\rref{R_In_position}          & & & & & & & & X& & & &\\ \hline
+\rref{R_In_measurement}       & & & & & & & & X& & & &\\ \hline
+\rref{R_VerifyOutput}         & & & & & & & & X& & & &\\ \hline
+\rref{R_Calculate}            & &X & & & & & & & & X& X&X\\ \hline
+\rref{R_Accuracy}             & &X & & & & & & & & & &\\ \hline
+\rref{R_Out_Visual}           & & & X& & & & & & & & &\\ \hline
+\rref{R_Out_Coordinates}      & & & & & & & & & & & &\\ \hline
+\rref{R_Out_Trajectory}       & & & X& & & & & & & & &\\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
@@ -1038,7 +1002,6 @@ the assumptions.
 \hline
 	& \aref{A_sensors}& \aref{A_controlled}& \aref{A_indep}& \aref{A_noise} \\
 \hline
-\tref{T_NRM}         &X & & &X  \\ \hline
 \tref{T_FIM}         & & &X &X  \\ \hline
 \tref{T_CRLB}        & & & &  \\ \hline
 \tref{T_SE}          &X &X & &  \\ \hline
@@ -1046,6 +1009,7 @@ the assumptions.
 \ddref{DD_distance}  & & & &X \\ \hline
 \iref{IM_like}       & & &X & \\ \hline
 \iref{IM_MLE}        & & & & \\ \hline
+\iref{IM_EP}        &X & &X & \\ \hline
 \ucref{UC_noise}     & & & &X\\
 \hline
 \end{tabular}
