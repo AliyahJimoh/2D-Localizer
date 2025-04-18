@@ -2,6 +2,7 @@
 platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0 -- /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/bin/python3.10
 cachedir: .pytest_cache
 rootdir: /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer
+plugins: cov-6.1.1
 collecting ... collected 3 items
 
 ../test/test_inputs.py::test_map_image PASSED                            [ 33%]
@@ -14,4 +15,4 @@ collecting ... collected 3 items
     from distutils.version import LooseVersion
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-========================= 3 passed, 1 warning in 0.15s =========================
+========================= 3 passed, 1 warning in 0.14s =========================
