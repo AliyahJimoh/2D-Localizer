@@ -37,16 +37,16 @@ jobs:
 
       - name: Run Flake8 (Check Code Without Fixing)
         continue-on-error: true
-        run: flake8 src --max-line-length=88 --statistics
+        run: flake8 src test --max-line-length=88 --statistics
 
       - name: Auto-Fix with Black (PEP8 Formatter)
-        run: black src
+        run: black src test
 
       - name: Auto-Fix with isort (Sort Imports)
-        run: isort src
+        run: isort src test
 
       - name: Auto-Fix with Autoflake (Remove Unused Imports & Variables)
-        run: autoflake --remove-all-unused-imports --remove-unused-variables --in-place --recursive src
+        run: autoflake --remove-all-unused-imports --remove-unused-variables --in-place --recursive src test
 
       - name: Check for changes
         id: check_changes

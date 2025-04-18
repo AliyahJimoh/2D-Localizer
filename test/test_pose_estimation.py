@@ -9,7 +9,7 @@ from src import simulation
     
 def test_range_only(monkeypatch):
     """
-    F-RO-01: Verifies pose estimation using only range measurements
+    F-RO-01: Verifies pose estimation using only range measurements 
     """
     
     def no_fms(*args, **kwargs):
