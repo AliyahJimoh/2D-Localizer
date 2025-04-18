@@ -2,7 +2,6 @@ import datetime
 import os
 import subprocess
 
-
 # Set up folders
 results_dir = "../test/results"
 os.makedirs(results_dir, exist_ok=True)
