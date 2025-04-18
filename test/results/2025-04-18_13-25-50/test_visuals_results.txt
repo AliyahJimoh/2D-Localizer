@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0 -- /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/bin/python3.10
+cachedir: .pytest_cache
+rootdir: /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer
+plugins: cov-6.1.1
+collecting ... collected 1 item
+
+../test/test_visuals.py::test_visualization PASSED                       [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.10/site-packages/matplotlib/__init__.py:88
+  /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/lib/python3.10/site-packages/matplotlib/__init__.py:88: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
+    from distutils.version import LooseVersion
+
+test/test_visuals.py::test_visualization
+  /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/plot.py:77: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    plt.pause(0.1)  # Keep UI responsive
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 1 passed, 2 warnings in 5.29s =========================
+/home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/lib/python3.10/site-packages/matplotlib/animation.py:973: UserWarning: Animation was deleted without rendering anything. This is most likely unintended. To prevent deletion, assign the Animation to a variable that exists for as long as you need the Animation.

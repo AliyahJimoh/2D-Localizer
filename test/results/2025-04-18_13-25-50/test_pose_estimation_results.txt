@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0 -- /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/bin/python3.10
+cachedir: .pytest_cache
+rootdir: /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer
+plugins: cov-6.1.1
+collecting ... collected 3 items
+
+../test/test_pose_estimation.py::test_range_only PASSED                  [ 33%]
+../test/test_pose_estimation.py::test_fiducials PASSED                   [ 66%]
+../test/test_pose_estimation.py::test_sensor_fusion PASSED               [100%]
+
+============================== 3 passed in 0.13s ===============================

@@ -22,14 +22,3 @@ def test_invalid_yaml(tmp_path):
     else:
         assert False, "Expected ValueError for invalid YAML"
 
-
-def test_nan_beacon_rejection():
-    """
-    F-IN-01: Checks rejection of malformed YAML input files.
-    """
-    from src.input_format import InputData
-
-    input = InputData(input_file="../test/test_input.yaml")
-    beacons = input.get_beacons()
-    beacons[0][0] = np.nan
-    assert not np.isfinite(beacons).all(), "NaN beacon not detected"

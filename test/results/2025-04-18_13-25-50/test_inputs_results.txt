@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.3.5, pluggy-1.5.0 -- /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/bin/python3.10
+cachedir: .pytest_cache
+rootdir: /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer
+plugins: cov-6.1.1
+collecting ... collected 3 items
+
+../test/test_inputs.py::test_map_image PASSED                            [ 33%]
+../test/test_inputs.py::test_coordinates PASSED                          [ 66%]
+../test/test_inputs.py::test_range_meausrement PASSED                    [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.10/site-packages/matplotlib/__init__.py:88
+  /home/arco3/Jimoh_Thesis/GitHub/2D-Localizer/src/.venv/lib/python3.10/site-packages/matplotlib/__init__.py:88: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
+    from distutils.version import LooseVersion
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+========================= 3 passed, 1 warning in 0.14s =========================
