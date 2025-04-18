@@ -295,4 +295,4 @@ src/.venv/*
 # Test files
 src/test.py
 .coverage
-test/results/*
+

@@ -17,7 +17,7 @@
 
 \begin{document}
 
-\title{Verification and Validation Report: 2D Localizer} 
+\title{Verification and Validation Report: \progname} 
 \author{Aliyah Jimoh}
 \date{\today}
 	
@@ -30,8 +30,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2024/04/18 & 1.0 & Initial Draft\\
+% Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
 
@@ -62,9 +62,24 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
+This document shows the results of the system and unit tests done on the \progname~software. More detailed information of the tests cases performed are documented in this system's \hyperlink{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan}.
 
 \section{Functional Requirements Evaluation}
+\subsection{Validate Inputs}
+\begin{itemize}
+  \item \textbf{Test Case(s): }\texttt{test\_map\_image}, \texttt{test\_coordinates}, \texttt{test\_range\_measurements}
+  \item \textbf{Requirement(s) Met: }
+  \begin{itemize}
+    \item R1 (Accept a map/image as an input)
+    \item R2 (Accept sensor and fiducial marker (FM) coordinates as an input)
+    \item R3 (Accept sensor measurements as an input)
+  \end{itemize}
+  \item \textbf{Type: }Automatic
+  \item \textbf{Testing Method: }\texttt{pytest}
+  \item \textbf{Result Summary: }All 3 successfully passed
+  \item \textbf{Result Location: }Can all be found in \texttt{test\_inputs\_results.txt} located in the timestamp folder of the \hyperlink{target name}{results} folder
+\end{itemize}
+
 
 \section{Nonfunctional Requirements Evaluation}
 

@@ -553,7 +553,7 @@ Test Case Derivation: The estimated pose $\hat{x}$ is computed using Maximum Lik
 \textbf{Requirements Addressed:} R6, NFR1\\
 \textbf{Type:} Nonfunctional, Dynamic, Automatic
 					
-Initial State: Final pose estimate has been computed
+Initial State: Final pose estimate has been computed.
 					
 Input/Condition: 
 \begin{itemize}
@@ -576,27 +576,73 @@ Output/Result:
 
 \end{enumerate}
 
+\subsubsection{Maintainability}
+\begin{enumerate}
+  \item \textbf{NF-MAINT-01}  \\
+  \textbf{Requirements Addressed:} NFR2 \\
+  \textbf{Control:} Manual
+  
+  \textbf{Initial State:} A tested and working version of the system is available.
+  
+  \textbf{Input:} A change is made to a single module (e.g., M2 - GTSAM) such as modifying the function or sensor input structure.
+  
+  \textbf{Output:} The system continues to operate correctly and all previously passing unit tests remain successful.
+  
+  \textbf{How test will be performed:}  
+  The tester will intentionally modify a component (e.g., replace a function in \texttt{gtsam\_wrapper.py}) and rerun the unit tests using \texttt{pytest}. The system passes if:  
+  \begin{itemize}
+      \item The modified component functions as intended 
+      \item No regressions occur in unrelated modules (e.g., test failures in M3, M8, M9).
+  \end{itemize}
+\end{enumerate}
+
+\subsubsection{Usability}
+\begin{enumerate}
+  \item \textbf{NF-USE-01}  \\
+  \textbf{Requirements Addressed:} NFR3 \\
+  \textbf{Control:} Manual
+
+  \textbf{Initial State:} A user with access to a clean Linux or macOS environment and Git is ready to install the system.
+
+  \textbf{Input:} The user clones the repository and runs the Makefile with the command \texttt{make install test}.
+
+  \textbf{Output:} The software environment is successfully set up and all unit tests pass.
+
+  \textbf{How test will be performed:}  
+  On both Linux and macOS machines, the tester will:  
+  \begin{enumerate}
+      \item Clone the repository from GitHub.  
+      \item Run \texttt{make install} to initialize the environment and install dependencies.  
+      \item Run \texttt{make test} to confirm functionality.  
+  \end{enumerate}
+  The test passes if all steps complete without error and the output logs show successful test execution.
+\end{enumerate}
+
 \newpage
 \subsection{Traceability Between Test Cases and Requirements}
 
 \begin{table}[h!]
   \centering
-  \begin{tabular}{|c|c|c|c|c|c|c|}
-  \hline
-    & F-RO-01 & F-SE2-01 & F-SF-01 & F-IN-01 & F-MO-01 & NF-ACC-01 \\
-  \hline
-  R1      & & & &X &X & \\ \hline
-  R2      & &X & &X & & \\ \hline
-  R3      &X & & &X & & \\ \hline
-  R4      & & & &X & & \\ \hline
-  R5      &X &X &X & & & \\ \hline
-  R6      & & &X & & &X \\ \hline
-  R7      & & & & &X & \\ \hline
-  R8      & & & & &X & \\ \hline
-  R9      & & & & &X & \\ \hline
-  NFR1      & & & & & &X \\ 
-  \hline
-  \end{tabular}
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+      \hline
+        & F-RO-01 & F-SE2-01 & F-SF-01 & F-IN-01 & F-MO-01 & F-RT-01 &NF-ACC-01 & NF-MAINT-01 & NF-USE-01\\
+      \hline
+      R1      & & & &X &X & & & & \\ \hline
+      R2      & &X & &X & & & & & \\ \hline
+      R3      &X & & &X & & & & & \\ \hline
+      R4      & & & &X & & & & & \\ \hline
+      R5      &X &X &X & & & & & & \\ \hline
+      R6      & & &X & & & &X & & \\ \hline
+      R7      & & & & &X & & & & \\ \hline
+      R8      & & & & &X &X & & & \\ \hline
+      R9      & & & & &X & & & & \\ \hline
+      NFR1      & & & & & & &X & & \\ \hline
+      NFR2      & & & & & & & &X & \\ \hline
+      NFR3      & & & & & & & & & X\\ 
+      \hline
+      \end{tabular}
+  }
   \caption{Traceability Matrix Showing the Connections Between Requirements and System Tests}
 \end{table}
 
