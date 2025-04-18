@@ -26,5 +26,11 @@ install: venv
 	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install -r $(REQUIREMENTS)
 
+
+.PHONY: test
+
+test: 
+	$(PYTHON) ../test/unit_tests.py
+
 clean:
 	rm -rf $(VENV_NAME) __pycache__ *.pyc

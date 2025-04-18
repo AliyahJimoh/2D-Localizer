@@ -15,7 +15,7 @@ def test_visualization():
     F-MO-01: Confirms the map and localization overlays render successfully without crashing.
     Includes beacons, FMs, robot heading and trajectory.
     """
-    ind = InputData(input_file="test/test_input.yaml")
+    ind = InputData(input_file="../test/test_input.yaml")
     beacons = ind.get_beacons()
     fm_map = ind.get_fmMap()
     map_size = ind.get_mapSize()

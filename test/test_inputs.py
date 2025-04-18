@@ -17,7 +17,7 @@ def test_map_image():
     """
     F-MO-01: Verifies existence of map image file. (R1)
     """
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
     
     map_path = input.get_map()
     assert os.path.exists(map_path), "Map image file not found"
@@ -27,7 +27,7 @@ def test_coordinates():
     """
     F-IN-01: Verifies coordinate shape, type, and validity. (R2)
     """
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
 
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
@@ -48,7 +48,7 @@ def test_range_meausrement():
     F-IN-01: Checks shape and format of range data relative to trajectory and beacon set. (R3)
     """
 
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
 
     range_m = input.get_ranges()
     trajectory = input.get_trajectory()

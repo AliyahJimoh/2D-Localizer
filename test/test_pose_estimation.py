@@ -17,7 +17,7 @@ def test_range_only(monkeypatch):
     
     monkeypatch.setattr(simulation, "visible_fms", no_fms)
     
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
     range_m = input.get_ranges()
@@ -32,7 +32,7 @@ def test_fiducials():
     F-SE2-01: Verifies pose estimation using only range measurements
     """
     
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
     range_m = input.get_ranges()
@@ -47,7 +47,7 @@ def test_sensor_fusion(monkeypatch):
     F-SF-01: Verifies that combining range and fiducial data results in a pose shift.
     Logs pose differences and fusion effectiveness.
     """
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
     range_m = input.get_ranges()

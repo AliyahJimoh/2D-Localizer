@@ -12,7 +12,7 @@ def test_accuracy():
     """
     NF-ACC-01: Validates estimation accuracy through RMSE and CRLB constraints.
     """
-    input = InputData(input_file="test/test_input.yaml")
+    input = InputData(input_file="../test/test_input.yaml")
     beacons = input.get_beacons()
     fm_map = input.get_fmMap()
     range_m = input.get_ranges()
