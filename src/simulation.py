@@ -53,7 +53,7 @@ def visible_fms(robot_pose, fm_map, max_range=10, fov_angle=np.radians(30)):
     visible_fms = []
 
     for i, fm in enumerate(fm_map):
-        x_rel, y_rel, phi = fm_robot(robot_pose, fm)
+        x_rel, y_rel, phi = fm_robot(robot_pose, fm)  # Calls fm_robot
         distance = np.hypot(x_rel, y_rel)
 
         if distance <= max_range and 0 <= phi <= fov_angle:

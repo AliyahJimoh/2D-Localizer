@@ -21,18 +21,17 @@ def localize(beacons, fm_map, range_m, init_guess):
         for j in range(len(beacons))
         if range_m[j] <= max_distance
     ]
-    # print(len(visible_beacons))
 
-    visible_beacon_indices = [symbol("a", j + 1) for j, _, _ in visible_beacons]
+    visible_beacon_indices = [symbol("a", j + 1)
+                              for j, _, _ in visible_beacons]
 
     # Fiducial Markers defined with 'f'
-    fms = visible_fms(init_guess, fm_map)
-    fm_noise = gtsam.noiseModel_Isotropic_Sigma(3, 0.2)  # Pose2 noise
+    fms = visible_fms(init_guess, fm_map)  # Getting FMs within robot's range
+    fm_noise = gtsam.noiseModel_Isotropic_Sigma(3, 0.2)  # FM noise
 
     graph = gtsam.NonlinearFactorGraph()
 
     # Add prior on robot's initial position (for stability)
-    # Basically the actual position of the robot
     prior_noise = gtsam.noiseModel_Isotropic_Sigma(3, 0.2)
     graph.add(
         gtsam.PriorFactorPose2(
@@ -47,11 +46,13 @@ def localize(beacons, fm_map, range_m, init_guess):
     for j, beacon_pos, measured_range in visible_beacons:
         beacon_symbol = symbol("a", j + 1)
         graph.add(
-            gtsam.RangeFactor2D(robot_id, beacon_symbol, measured_range, range_noise)
+            gtsam.RangeFactor2D(robot_id, beacon_symbol,
+                                measured_range, range_noise)
         )
 
     # Fix one beacon's position with a very small noise model
-    beacon_prior_noise = gtsam.noiseModel_Isotropic_Sigma(2, 0.1)  # Small uncertainty
+    beacon_prior_noise = gtsam.noiseModel_Isotropic_Sigma(
+        2, 0.1)  # Small uncertainty
     _, beacon_pos, _ = visible_beacons[0]
     graph.add(
         gtsam.PriorFactorPoint2(
@@ -83,8 +84,11 @@ def localize(beacons, fm_map, range_m, init_guess):
         # Add initial estimate for fiducial pose
         gtsam.insert(initial_estimates, fm_symbol, T_mf)
 
-    gtsam.insert(initial_estimates, robot_id, Pose2(init_x, init_y, init_guess[2]))
+    # Initial estimate for robot
+    gtsam.insert(initial_estimates, robot_id,
+                 Pose2(init_x, init_y, init_guess[2]))
 
+    # Static estimates for each beacon in range
     for j, (_, beacon_pos, _) in enumerate(visible_beacons):
         gtsam.insert(
             initial_estimates,

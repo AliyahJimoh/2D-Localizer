@@ -31,18 +31,20 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     fig, ax = plt.subplots(figsize=(10, 8))
 
     # Set axis limits based on your environment dimensions
-    ax.set_xlim(0, map_size[0])  # Adjust this based on real-world map scaling
+    ax.set_xlim(0, map_size[0])  # Add map size as limits
     ax.set_ylim(0, map_size[1])
     ax.set_title("Real-Time Robot Localization on Factory Layout")
     ax.set_xlabel("X Position")
     ax.set_ylabel("Y Position")
 
-    # Display the background image (Factory Layout)
-    ax.imshow(img, extent=[0, map_size[0], 0, map_size[1]], alpha=0.6, aspect="auto")
+    # Display the background image (map layout)
+    ax.imshow(img, extent=[0, map_size[0], 0,
+              map_size[1]], alpha=0.6, aspect="auto")
 
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
-    ax.scatter(beacons[:, 0], beacons[:, 1], c="blue", marker="o", label="Beacons")
+    ax.scatter(beacons[:, 0], beacons[:, 1],
+               c="blue", marker="o", label="Beacons")
     ax.scatter(
         fm_map[:, 0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker"
     )
@@ -53,7 +55,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     # Dynamic elements (robot trajectory and current position)
     global robot_trajectory, robot_dot, ani
     (robot_trajectory,) = ax.plot([], [], "r-", label="Trajectory")  # Line for path
-    triangle_patch = [
+    triangle_patch = [  # For Triangle shape (to see orientations better)
         ax.add_patch(
             Polygon(
                 [[0, 0], [0, 0], [0, 0]],
@@ -90,7 +92,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
             )
             return robot_trajectory, robot_dot  # Prevent out-of-bounds access
 
-        x, y, theta = trajectory[frame]  # Extract only x, y
+        x, y, theta = trajectory[frame]
 
         # Update the trajectory line
         (
@@ -115,7 +117,8 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
         )
 
         # Rotation matrix for theta
-        R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
+        R = np.array([[np.cos(theta), -np.sin(theta)],
+                     [np.sin(theta), np.cos(theta)]])
 
         # Rotate and shift
         rotated_points = points @ R.T + np.array([x, y])
@@ -152,4 +155,5 @@ def update_trajectory(estimated_pose):
     """
     Stores the latest estimated pose for visualization.
     """
-    trajectory.append((estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    trajectory.append(
+        (estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))

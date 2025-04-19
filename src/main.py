@@ -27,7 +27,7 @@ def main():
     variances = input.get_variances()
     path = input.get_trajectory()
 
-    data_queue = Queue()
+    data_queue = Queue()  # Queue responsible for holding all of pose estimates
 
     # Starting the live table
     process = Process(target=run_gui, args=(data_queue,))
@@ -35,7 +35,7 @@ def main():
 
     print("Starting Real-Time Localization...")
 
-    m = np.size(range_m, 0)
+    m = np.size(range_m, 0)  # Number of sets for range measurements
 
     # Allow at least one update before starting the plot
     estimated_pose = localize(beacons, fm_map, range_m[0, :], path[0, :])
@@ -45,7 +45,8 @@ def main():
     crlb = compute_crlb(fim)
     print(f"Position {1}: CRLB=\n{crlb}")
 
-    data_queue.put((1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    data_queue.put(
+        (1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))  # Update Queue
 
     # Simulating continuous localization updates
 
@@ -66,7 +67,8 @@ def main():
 
         time.sleep(0.1)  # Simulate delay between measurements
 
-    plot_localization_live(beacons, fm_map, map, path, map_size)
+    plot_localization_live(beacons, fm_map, map, path,
+                           map_size)  # Show on plot
 
 
 if __name__ == "__main__":

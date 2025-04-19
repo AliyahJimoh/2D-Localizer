@@ -37,7 +37,8 @@ class InputData:
                 f"Error: User input file '{self.input_file}' not found!"
             )
         except yaml.YAMLError:
-            raise ValueError(f"Error: Invalid YAML format in '{self.input_file}'.")
+            raise ValueError(
+                f"Error: Invalid YAML format in '{self.input_file}'.")
 
     def get_beacons(self):
         """
@@ -67,7 +68,7 @@ class InputData:
 
     def get_mapSize(self):
         """
-        Gives the name of the map's image
+        Gives the size of the map (length by width)
         """
         return np.array(self.data["map"]["size"])
 
@@ -92,6 +93,6 @@ class InputData:
 
     def get_variances(self):
         """
-        Gives a set noise variances (one for each beacon)
+        Gives noise variances (one for each beacon or a variance for all)
         """
         return np.array(self.data["sensor_data"]["variances"])
