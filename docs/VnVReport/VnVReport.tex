@@ -36,8 +36,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2024/04/18 & 1.0 & Initial Draft\\
-% Date 2 & 1.1 & Notes\\
+2024/04/18 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -50,7 +49,9 @@
   \toprule		
   \textbf{symbol} & \textbf{description}\\
   \midrule 
+  CRLB & Cram\'er-Rao Lower Bound\\
   FM & Fiducial Marker\\
+  FIM & Fisher Information Matrix\\
   T & Test\\
   SRS & Software Requirement Specification\\
   VnV & Verification and Validation\\
@@ -75,7 +76,7 @@ This document shows the results of the system and unit tests done on the \progna
 
 \subsection{Validate and Verify Inputs}
 \begin{itemize}
-  \item \textbf{Test Case(s): }\texttt{test\_map\_image}, \texttt{test\_coordinates}, \texttt{test\_range\_measurements}, \texttt{test\_invalid\_input}, \texttt{test\_nan\_beacon\_rejection}
+  \item \textbf{Test Case(s): }\texttt{test\_map\_image}, \texttt{test\_coordinates}, \texttt{test\_range\_measurements}, \texttt{test\_invalid\_input}
   \item \textbf{Requirement(s) Met: }
   \begin{itemize}
     \item R1: Accept a map/image as an input
@@ -113,7 +114,7 @@ This document shows the results of the system and unit tests done on the \progna
   \item \textbf{Type: }Automatic
   \item \textbf{Testing Method: }\texttt{pytest}
   \item \textbf{Result Summary: }Successfully passed
-  \item \textbf{Result Location: }Can all be found in \texttt{test\_accuracy\_results.txt} located in the timestamp folder of the \href{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test/results/}{results} folder.
+  \item \textbf{Result Location: }Can all be found in \texttt{test\_accuracy\_results.txt} located in the timestamp folder of the \href{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test/results/}{test/results} folder.
 \end{itemize}
 
 \subsection{Validate Visualization}
@@ -143,7 +144,7 @@ This document shows the results of the system and unit tests done on the \progna
   \item \textbf{Type: }Automatic
   \item \textbf{Testing Method: }\texttt{pytest}
   \item \textbf{Result Summary: }Successfully passed
-  \item \textbf{Result Location: }Can all be found in \texttt{test\_accuracy\_results.txt} located in the timestamp folder of the \href{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test/results/}{results} folder.
+  \item \textbf{Result Location: }Can all be found in \texttt{test\_accuracy\_results.txt} located in the timestamp folder of the \href{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test/results/}{test/results} folder.
 \end{itemize}
 		
 \subsection{Maintainability}
@@ -193,13 +194,8 @@ After all the tests finish running, the program generates a .txt summary file ea
 
 \section{Changes Due to Testing}
 
-% \wss{This section should highlight how feedback from the users and from 
-% the supervisor (when one exists) shaped the final product.  In particular 
-% the feedback from the Rev 0 demo to the supervisor (or to potential users) 
-% should be highlighted.}
-
 \begin{itemize}
-  \item \textbf{Improved Accuracy Validation:} The approach for evaluating pose accuracy was expanded. The final version includes explicit tests for Fisher Information Matrix (FIM) and Cramér-Rao Lower Bound (CRLB), validated in \texttt{test\_accuracy.py}.
+  \item \textbf{Improved Accuracy Validation:} The approach for evaluating pose accuracy was expanded. The final version includes explicit tests for Fisher Information Matrix (FIM) and Cram\'er-Rao Lower Bound (CRLB), validated in \texttt{test\_accuracy.py}.
 
   \item \textbf{Expanded Unit Testing and Coverage:} Initial versions of the VnV Plan lacked specific testing for key modules such as plotting and input validation. These were added in \texttt{test\_visuals.py} and \texttt{test\_inputs.py}, respectively.
 
@@ -302,26 +298,5 @@ From what is being prioritized, all modules have a with over 60\%. The rationale
 \newpage
 \bibliographystyle{plainnat}
 \bibliography{../../refs/References}
-
-\newpage{}
-
-The information in this section will be used to evaluate the team members on the
-graduate attribute of Reflection.
-
-\begin{enumerate}
-  \item What went well while writing this deliverable? 
-  \item What pain points did you experience during this deliverable, and how
-    did you resolve them?
-  \item Which parts of this document stemmed from speaking to your client(s) or
-  a proxy (e.g. your peers)? Which ones were not, and why?
-  \item In what ways was the Verification and Validation (VnV) Plan different
-  from the activities that were actually conducted for VnV?  If there were
-  differences, what changes required the modification in the plan?  Why did
-  these changes occur?  Would you be able to anticipate these changes in future
-  projects?  If there weren't any differences, how was your team able to clearly
-  predict a feasible amount of effort and the right tasks needed to build the
-  evidence that demonstrates the required quality?  (It is expected that most
-  teams will have had to deviate from their original VnV Plan.) \cite{Barfoot2017}
-\end{enumerate}
 
 \end{document}

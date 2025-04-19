@@ -106,53 +106,11 @@ This document examines the verification and validation plan of \progname. This s
 
 The objective of this plan is to validate the accuracy of this program to build confidence in the software's reliability and performance. This plan also aims to satisfy all the requirements from the System Requirements Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS}).  
 
-% \wss{State what is intended to be accomplished.  The objective will be around
-%   the qualities that are most important for your project.  You might have
-%   something like: ``build confidence in the software correctness,''
-%   ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-%   just those that are most important.}
-
-% \wss{You should also list the objectives that are out of scope.  You don't have 
-% the resources to do everything, so what will you be leaving out.  For instance, 
-% if you are not going to verify the quality of usability, state this.  It is also 
-% worthwhile to justify why the objectives are left out.}
-
-% \wss{The objectives are important because they highlight that you are aware of 
-% limitations in your resources for verification and validation.  You can't do everything, 
-% so what are you going to prioritize?  As an example, if your system depends on an 
-% external library, you can explicitly state that you will assume that external library 
-% has already been verified by its implementation team.}
-
 \subsection{Challenge Level and Extras}
 
 This system has an advanced research level which can be seen from the implementation and the topic. Setting up the robot’s movement, accurately displaying the trajectory, and coordinating sensor measurements each introduce their own level of complexity. Additionally, finding a way to animate the output adds further difficulty to the system. However, the topic is not niche meaning that there are papers and libraries available that can be used for guidance and inspiration.
 
-% \wss{State the challenge level (advanced, general, basic) for your project.
-% Your challenge level should exactly match what is included in your problem
-% statement.  This should be the challenge level agreed on between you and the
-% course instructor.  You can use a pull request to update your challenge level
-% (in TeamComposition.csv or Repos.csv) if your plan changes as a result of the
-% VnV planning exercise.}
-
-% \wss{Summarize the extras (if any) that were tackled by this project.  Extras
-% can include usability testing, code walkthroughs, user documentation, formal
-% proof, GenderMag personas, Design Thinking, etc.  Extras should have already
-% been approved by the course instructor as included in your problem statement.
-% You can use a pull request to update your extras (in TeamComposition.csv or
-% Repos.csv) if your plan changes as a result of the VnV planning exercise.}
-
 \subsection{Relevant Documentation}
-
-% \wss{Reference relevant documentation.  This will definitely include your SRS
-%   and your other project documents (design documents, like MG, MIS, etc).  You
-%   can include these even before they are written, since by the time the project
-%   is done, they will be written.  You can create BibTeX entries for your
-%   documents and within those entries include a hyperlink to the documents.}
-
-% \citet{SRS}
-
-% \wss{Don't just list the other documents.  You should explain why they are relevant and 
-% how they relate to your VnV efforts.}
 
 The documentation relevant to the \progname~includes the Problem Statement since it explains the proposed software, the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/SRS/SRS.pdf}{SRS} which talks about the requirements needed to properly use the system, the Verification and Validation (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVReport/VnVReport.pdf}{VnV}) report that goes through the tests and plans for the system, and the Module Guide (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftArchitecture/MG.pdf}{MG}) and Module Interface Specification (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Design/SoftDetailedDes/MIS.pdf}{MIS}) for the design.
 
@@ -199,30 +157,17 @@ The SRS document for \progname~will be verified through the following steps:
   \item The initial review will be performed by the assigned reviewers (Dr.~Spencer Smith and Kiran Singh) and will use the \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/SRS-Checklist.pdf}{SRS Checklist} as a guide.
   \item The reviewers will give feedback through creating issues in the GitHub repository.
   \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
-  \item The author will discuss with the supervisor (Dr.~Matthew Giamou) and ask for their input.
 \end{enumerate}
 
-% \wss{If you have a supervisor for the project, you shouldn't just say they will
-% read over the SRS.  You should explain your structured approach to the review.
-% Will you have a meeting?  What will you present?  What questions will you ask?
-% Will you give them instructions for a task-based inspection?  Will you use your
-% issue tracker?}
-
-% \wss{Maybe create an SRS checklist?}
 
 \subsection{Design Verification Plan}\label{plan_design}
 The design for \progname~will be verified through the following steps:
 \begin{enumerate}
-  \item The design documents, the MG and MIS, will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use both checklists (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MG-Checklist.pdf}{MG Checklist} and \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MIS-Checklist.pdf}{MIS Checklist}) as a guide.
+  \item The design documents, the MG and MIS, will be reviewed by the assigned reviewers (Kiran Singh and Dr.~Spencer Smith) and will use both checklists (\href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MG-Checklist.pdf}{MG Checklist} and \href{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/Checklists/MIS-Checklist.pdf}{MIS Checklist}) as a guide. No modifications were made to the checklists. The standard versions were used without alteration.
+
   \item The reviewers will give feedback through creating issues in the GitHub repository.
   \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
 \end{enumerate}
-
-% \wss{Plans for design verification}
-
-% \wss{The review will include reviews by your classmates}
-
-% \wss{Create a checklist?}
 
 \subsection{Verification and Validation Plan Verification Plan}\label{plan_verification}
 
@@ -232,13 +177,6 @@ The VnV plan for \progname~will be verified through the following steps:
   \item The reviewers will give feedback through creating issues in the GitHub repository.
   \item The author (Aliyah Jimoh) will apply the feedback to the document and address issues that may not be applied.
 \end{enumerate}
-
-% \wss{The verification and validation plan is an artifact that should also be
-% verified.  Techniques for this include review and mutation testing.}
-
-% \wss{The review will include reviews by your classmates}
-
-% \wss{Create a checklists?}
 
 \subsection{Implementation Verification Plan}\label{plan_implement}
 
@@ -253,17 +191,6 @@ The implementation of \progname~will be verified be the following techniques:
   The unit tests for \progname~are discussed in section \ref{unit-test} 
 
 \end{itemize}
-
-% \wss{You should at least point to the tests listed in this document and the unit
-%   testing plan.}
-
-% \wss{In this section you would also give any details of any plans for static
-%   verification of the implementation.  Potential techniques include code
-%   walkthroughs, code inspection, static analyzers, etc.}
-
-% \wss{The final class presentation in CAS 741 could be used as a code
-% walkthrough.  There is also a possibility of using the final presentation (in
-% CAS741) for a partial usability survey.}
 
 \subsection{Automated Testing and Verification Tools}\label{plan_auto}
 
@@ -284,25 +211,9 @@ Georgia Tech Smoothing and Mapping (\href{https://github.com/borglab/gtsam}{GTSA
 \subsubsection{Automated Testing}
 Unit testing for \progname~is implemented using the \texttt{pytest} framework. This tool enables automatic test discovery, detailed failure reporting, and integration with coverage tools. These tests verify functional and non-functional requirements dynamically and are executed regularly through continuous integration.
 
-
-% \wss{What tools are you using for automated testing.  Likely a unit testing
-%   framework and maybe a profiling tool, like ValGrind.  Other possible tools
-%   include a static analyzer, make, continuous integration tools, test coverage
-%   tools, etc.  Explain your plans for summarizing code coverage metrics.
-%   Linters are another important class of tools.  For the programming language
-%   you select, you should look at the available linters.  There may also be tools
-%   that verify that coding standards have been respected, like flake9 for
-%   Python.}
-
-% \wss{If you have already done this in the development plan, you can point to
-% that document.}
-
-% \wss{The details of this section will likely evolve as you get closer to the
-%   implementation.}
-
 \subsection{Software Validation Plan}\label{plan_software}
 
-To help validate the accuracy of the localization algorithm, \progname~will use predefined 2D trajectory data in CSV format. These files contain ground truth positions that are used to compare against estimated poses generated by the system. If suitable datasets are not available, alternate test cases and validation procedures will be discussed with the supervisor.
+To help validate the accuracy of the localization algorithm, \progname~will be evaluated using predefined 2D trajectory data in CSV format. The goal is to confirm that the system can reliably estimate poses based on sensor measurements in a way that would be useful for researchers studying localization strategies. The validation will consider whether the system produces interpretable results, integrates well with common input formats (e.g., CSV), and allows for meaningful evaluation of accuracy through visualization and output modules.
 
 \section{System Tests}\label{sec_sys-tests}
 
@@ -313,13 +224,6 @@ This section goes over the different system tests \progname~will go through to s
 This subsection looks at the system tests that will help satisfy the functional requirements outlined in the SRS (Section 5.1)
 
 \subsubsection{Sensor Estimation Tests}
-
-% \wss{It would be nice to have a blurb here to explain why the subsections below
-%   cover the requirements.  References to the SRS would be good here.  If a section
-%   covers tests for input constraints, you should reference the data constraints
-%   table in the SRS.}
-
-  % These tests cover the requirements R1 to R3
 		
 \paragraph{Range-Only Pose Estimation}
 
@@ -438,7 +342,6 @@ How test will be performed: The tester will provide input files with both fiduci
 \end{enumerate}
 
 \subsubsection{Visual Testing}
-% This test covers the requirement R5
 
 \paragraph{2D Map Overlay of Estimated Poses}
 \begin{enumerate}					
@@ -611,53 +514,24 @@ Output/Result:
 
 \section{Unit Test Description}\label{unit-test}
 
-% \wss{This section should not be filled in until after the MIS (detailed design
-%   document) has been completed.}
-
-% \wss{Reference your MIS (detailed design document) and explain your overall
-% philosophy for test case selection.}  
-
-% \wss{To save space and time, it may be an option to provide less detail in this section.  
-% For the unit tests you can potentially layout your testing strategy here.  That is, you 
-% can explain how tests will be selected for each module.  For instance, your test building 
-% approach could be test cases for each access program, including one test for normal behaviour 
-% and as many tests as needed for edge cases.  Rather than create the details of the input 
-% and output here, you could point to the unit testing code.  For this to work, you code 
-% needs to be well-documented, with meaningful names for all of the tests.}
-
 This section describes how the unit tests verify software components in \progname~as described in the MIS. Unit testing is conducted dynamically using the pytest framework and is focused on verifying that each function behaves correctly under normal and invalid conditions. Each test corresponds to one or more functional or nonfunctional requirements described in the SRS.
 
 All test cases can be found in the \href{https://github.com/AliyahJimoh/2D-Localizer/tree/main/test}{test} directory of the repository, with descriptive names and in-code docstrings referencing their Test IDs.
 
 \subsection{Unit Testing Scope}
-
-% \wss{What modules are outside of the scope.  If there are modules that are
-%   developed by someone else, then you would say here if you aren't planning on
-%   verifying them.  There may also be modules that are part of your software, but
-%   have a lower priority for verification than others.  If this is the case,
-%   explain your rationale for the ranking of module importance.}
-
 The focus of unit testing is on modules M3 (Input Format), M6 (Localization), M8 (Plotting), and M9 (Accuracy Evaluation).
 
 Modules like M2 (GTSAM) and M7 (Control Module) are not explicitly tested at the unit level since they act primarily as libraries or orchestration logic. M4 (Simulation) as its output's behaviour is indirectly validated through localization, accuracy and visualization tests M5 (Output Format) is not unit-tested because it primarily writes to a GUI table which is a side-effect operation better validated through manual inspection or system-level tests.
 
 \subsection{Tests for Functional Requirements}
 
-% \wss{Most of the verification will be through automated unit testing.  If
-%   appropriate specific modules can be verified by a non-testing based
-%   technique.  That can also be documented in this section.}
-
 \subsubsection{Module 3: Input Format}
 
-% \wss{Include a blurb here to explain why the subsections below cover the module.
-%   References to the MIS would be good.  You will want tests from a black box
-%   perspective and from a white box perspective.  Explain to the reader how the
-%   tests were selected.}
 Module 3 handles parsing and validation of user-provided inputs, including YAML files, sensor positions, and measurement arrays. Tests confirm input correctness, formatting, and rejection of invalid files using both black-box and white-box strategies.
 
 \begin{enumerate}
 
-\item{test\_invalid\_yaml (from \texttt{test\_input\_file.py})\\}
+\item{\texttt{test\_invalid\_yaml} (from \texttt{test\_input\_file.py})\\}
 
 Type: Functional, Dynamic, Automatic
 					
@@ -671,7 +545,7 @@ Test Case Derivation: From R4 - the system must reject malformed files
 
 How test will be performed: Automatic test using PyTest
 					
-\item{test\_map\_image (from \texttt{test\_inputs.py})\\}
+\item{\texttt{test\_map\_image} (from \texttt{test\_inputs.py})\\}
 
 Type: Functional, Dynamic, Automatic
 					
@@ -685,7 +559,7 @@ Test Case Derivation: From R4 - the system must reject malformed files
 
 How test will be performed: Automatic test using PyTest
 
-\item{test\_coordinates (from \texttt{test\_inputs.py})\\}
+\item{\texttt{test\_coordinates} (from \texttt{test\_inputs.py})\\}
 
 Type: Functional, Dynamic, Automatic
 					
@@ -699,7 +573,7 @@ Test Case Derivation: From R2
 
 How test will be performed: Automatic test using PyTest
 
-\item{test\_range\_measurements (from \texttt{test\_inputs.py})\\}
+\item{\texttt{test\_range\_measurements} (from \texttt{test\_inputs.py})\\}
 
 Type: Functional, Dynamic, Automatic
 					
@@ -720,7 +594,7 @@ How test will be performed: Automatic test using PyTest
 Module 6 implements the pose estimation logic using range and fiducial data. Tests validate localization output under different sensor configurations through both structural and behavioural checks.
 
 \begin{enumerate}
-  \item{test\_range\_only (from \texttt{test\_estimated\_position.py})}
+  \item{\texttt{test\_range\_only} (from \texttt{test\_estimated\_position.py})}
 
   Type: Functional, Dynamic, Automatic
             
@@ -738,7 +612,7 @@ Module 6 implements the pose estimation logic using range and fiducial data. Tes
   
   How test will be performed: Automatic test using PyTest
             
-  \item{test\_fiducials (from \texttt{test\_estimated\_position.py})}
+  \item{\texttt{test\_fiducials} (from \texttt{test\_estimated\_position.py})}
   
   Type: Functional, Dynamic, Automatic
             
@@ -752,7 +626,7 @@ Module 6 implements the pose estimation logic using range and fiducial data. Tes
   
   How test will be performed: Automatic test using PyTest
   
-  \item{test\_sensor\_fusion (from \texttt{test\_estimated\_position.py})}
+  \item{\texttt{test\_sensor\_fusion} (from \texttt{test\_estimated\_position.py})}
   
   Type: Functional, Dynamic, Automatic
             
@@ -781,7 +655,7 @@ Module 8 handles visual output of the localization process. The test checks that
             
   Output: RMSE scalar, FIM matrix, and CRLB matrix
   
-  Test Case Derivation: From R7 and R9 – visualization must reflect estimated results in real-time and overlay trajectories.
+  Test Case Derivation: From R7 and R9: visualization must reflect estimated results in real-time and overlay trajectories.
   
   How test will be performed: Automatic test using PyTest
 \end{enumerate}
@@ -789,13 +663,6 @@ Module 8 handles visual output of the localization process. The test checks that
 
 
 \subsection{Tests for Nonfunctional Requirements}
-
-% \wss{If there is a module that needs to be independently assessed for
-%   performance, those test cases can go here.  In some projects, planning for
-%   nonfunctional tests of units will not be that relevant.}
-
-% \wss{These tests may involve collecting performance data from previously
-%   mentioned functional tests.}
 
 \subsubsection{Module 9: Accuracy Evaluation}
 Module 9 evaluates estimation accuracy using FIM and CRLB metrics. Tests check numerical soundness and compliance with statistical requirements.
@@ -815,42 +682,6 @@ Module 9 evaluates estimation accuracy using FIM and CRLB metrics. Tests check n
   
   How test will be performed: Automatic test using PyTest
 \end{enumerate}
-
-
-% \subsubsection{Module ?}
-		
-% \begin{enumerate}
-
-% \item{test-id1\\}
-
-% Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-%   be automatic}
-					
-% Initial State: 
-					
-% Input/Condition: 
-					
-% Output/Result: 
-					
-% How test will be performed: 
-					
-% \item{test-id2\\}
-
-% Type: Functional, Dynamic, Manual, Static etc.
-					
-% Initial State: 
-					
-% Input: 
-					
-% Output: 
-					
-% How test will be performed: 
-
-% \end{enumerate}
-
-% \subsubsection{Module ?}
-
-% ...
 
 \subsection{Traceability Between Test Cases and Modules}
 
@@ -880,16 +711,15 @@ Module 9 evaluates estimation accuracy using FIM and CRLB metrics. Tests check n
 \newpage
 
 \section{Appendix}\label{sec_appendix}
- Not Applicable
+ Not applicable to this project
 
 \subsection{Symbolic Parameters}
 
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
+All symbolic parameters referenced in the test descriptions (e.g., $\hat{x}$, $T_{wr}$, CRLB, etc.) are defined in Section 1: Symbols, Abbreviations, and Acronyms. No additional constants are needed here.
+
 
 \subsection{Usability Survey Questions?}
-
-\wss{This is a section that would be appropriate for some projects.}
+Not applicable to this project.
 
 \newpage{}
 

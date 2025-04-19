@@ -176,10 +176,6 @@ change.
 
 \end{description}
 
-% \wss{Anticipated changes relate to changes that would be made in requirements,
-% design or implementation choices.  They are not related to changes that are made
-% at run-time, like the values of parameters.}
-
 \subsection{Unlikely Changes} \label{SecUchange}
 
 The module design should be as general as possible. However, a general system is
@@ -249,13 +245,6 @@ actually be implemented.
 The design of the system is intended to satisfy the requirements developed in
 the SRS. In this stage, the system is decomposed into modules. The connection
 between requirements and modules is listed in Table~\ref{TblRT}.
-
-% \wss{The intention of this section is to document decisions that are made
-%   ``between'' the requirements and the design.  To satisfy some requirements,
-%   design decisions need to be made.  Rather than make these decisions implicit,
-%   they are explicitly recorded here.  For instance, if a program has security
-%   requirements, a specific design decision may be made to satisfy those
-%   requirements with a password.}
 
 \section{Module Decomposition} \label{SecMD}
 
@@ -350,9 +339,6 @@ to be implemented.
 \item[Implemented By:] Matplotlib
 \item[Type of Module:] Abstract Object
 \end{description}
-
-
-% \subsubsection{Etc.}
 
 
 \subsection{Software Decision Module}
@@ -450,15 +436,6 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
-% \wss{The uses relation is not a data flow diagram.  In the code there will often
-% be an import statement in module A when it directly uses module B.  Module B
-% provides the services that module A needs.  The code for module A needs to be
-% able to see these services (hence the import statement).  Since the uses
-% relation is transitive, there is a use relation without an import, but the
-% arrows in the diagram typically correspond to the presence of import statement.}
-
-% \wss{If module A uses module B, the arrow is directed from A to B.}
-
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
@@ -466,7 +443,6 @@ because they use modules from the lower levels.
 \label{FigUH}
 \end{figure}
 
-%\section*{References}
 
 \section{User Interfaces}
 \subsection{Graphical User Interface (GUI)}
@@ -475,9 +451,6 @@ The users will have their results shown on a table with the Output Module (M\ref
 \subsection{Command-Line Interface (CLI)}
 \progname~provides a simple CLI for users to insert their variables in the system. This is done by having them modify user\_input.yaml which is a file that is set up to be read by the Input Format Module (M\ref{mInput}) in the Control Module (M\ref{mC}). To run the system, users type \lq./run.sh\rq~which executes M\ref{mC}.
 
-% \section{Design of Communication Protocols}
-
-% \wss{If appropriate}
 
 \section{Timeline}
 Table \ref{TblTimeline} shows the schedule of tasks needed to be completed by the Verification and Validation (VnV) team members referred to in Section 3.1 of the  \hyperlink{https://github.com/AliyahJimoh/2D-Localizer/blob/main/docs/VnVPlan/VnVPlan.pdf}{VnV Plan} document
@@ -485,7 +458,7 @@ Table \ref{TblTimeline} shows the schedule of tasks needed to be completed by th
 
 \begin{table}[H]
   \centering
-  \renewcommand{\arraystretch}{1.2} % Adjust row height for better appearance
+  \renewcommand{\arraystretch}{1.2} 
   \begin{tabular}{|l|c|l|}
       \hline
       \multicolumn{1}{|c|}{\textbf{Task}} & \multicolumn{1}{c|}{\textbf{Assigned Member}} & \multicolumn{1}{c|}{\textbf{Due By}} \\ 
