@@ -1,4 +1,4 @@
-# Project Name Source Code
+# 2D Localizer Source Code
 
 The folders and files for this project are as follows:
 ```
@@ -15,7 +15,7 @@ The folders and files for this project are as follows:
 │   ├── inputs/           # Sample inputs (CSV, images)
 │   │   └── ...           # e.g., trajectories, beacons, maps
 │   ├── Makefile          # Environment setup and automation tasks
-│   ├── README.md         # Developer-facing documentation
+│   ├── README.md         
 │   ├── requirements.txt  # Python dependencies
 │   ├── run.sh            # Shell script for quick execution
 │   ├── user_input.yaml   # Example YAML input configuration
