@@ -11,4 +11,7 @@ User of this program can install the software in the src folder on Linux/macOS
 5. `chmod +x ./run.sh` - to grant permission to execute the run.sh file
 6. `./run.sh` - to execute the program (make sure you are in the src folder)
 
+To test if the program is working:
+
+run `make test` while still in the src folder to run all unit tests
 
