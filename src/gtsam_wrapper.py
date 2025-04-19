@@ -108,6 +108,7 @@ def atPose2(result, key):
 
 # Wrapper for Pose2 methods
 
+
 def compose(pose1, pose2):
     """
     Compose two Pose2 objects.\\

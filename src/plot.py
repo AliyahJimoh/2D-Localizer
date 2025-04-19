@@ -38,13 +38,11 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
     ax.set_ylabel("Y Position")
 
     # Display the background image (map layout)
-    ax.imshow(img, extent=[0, map_size[0], 0,
-              map_size[1]], alpha=0.6, aspect="auto")
+    ax.imshow(img, extent=[0, map_size[0], 0, map_size[1]], alpha=0.6, aspect="auto")
 
     # Static landmarks (beacons and fiducial markers)
     beacons = np.array(beacons)
-    ax.scatter(beacons[:, 0], beacons[:, 1],
-               c="blue", marker="o", label="Beacons")
+    ax.scatter(beacons[:, 0], beacons[:, 1], c="blue", marker="o", label="Beacons")
     ax.scatter(
         fm_map[:, 0], fm_map[:, 1], c="purple", marker="s", label="Fiducial Marker"
     )
@@ -117,8 +115,7 @@ def plot_localization_live(beacons, fm_map, map, g_truth, map_size, show=True):
         )
 
         # Rotation matrix for theta
-        R = np.array([[np.cos(theta), -np.sin(theta)],
-                     [np.sin(theta), np.cos(theta)]])
+        R = np.array([[np.cos(theta), -np.sin(theta)], [np.sin(theta), np.cos(theta)]])
 
         # Rotate and shift
         rotated_points = points @ R.T + np.array([x, y])
@@ -155,5 +152,4 @@ def update_trajectory(estimated_pose):
     """
     Stores the latest estimated pose for visualization.
     """
-    trajectory.append(
-        (estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))
+    trajectory.append((estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))

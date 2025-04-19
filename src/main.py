@@ -46,7 +46,8 @@ def main():
     print(f"Position {1}: CRLB=\n{crlb}")
 
     data_queue.put(
-        (1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta()))  # Update Queue
+        (1, estimated_pose.x(), estimated_pose.y(), estimated_pose.theta())
+    )  # Update Queue
 
     # Simulating continuous localization updates
 
@@ -67,8 +68,7 @@ def main():
 
         time.sleep(0.1)  # Simulate delay between measurements
 
-    plot_localization_live(beacons, fm_map, map, path,
-                           map_size)  # Show on plot
+    plot_localization_live(beacons, fm_map, map, path, map_size)  # Show on plot
 
 
 if __name__ == "__main__":

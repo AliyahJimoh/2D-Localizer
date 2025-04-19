@@ -37,8 +37,7 @@ class InputData:
                 f"Error: User input file '{self.input_file}' not found!"
             )
         except yaml.YAMLError:
-            raise ValueError(
-                f"Error: Invalid YAML format in '{self.input_file}'.")
+            raise ValueError(f"Error: Invalid YAML format in '{self.input_file}'.")
 
     def get_beacons(self):
         """
