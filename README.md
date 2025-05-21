@@ -2,7 +2,7 @@
 
 Developer Names: Aliyah Jimoh
 
-Date of project start: Jan 17th 2024
+Date of project start: Jan 17th 2025
 
 This project is a 2-D localizer for mobile robots to help get a better perception of their coordinates.
 
